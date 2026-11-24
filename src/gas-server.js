@@ -27,7 +27,9 @@ function doPost(e) {
   var out;
   try {
     var q = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    var t0 = Date.now();
     out = { ok: true, data: apiCall(q.token || null, String(q.action || ''), q.args || {}) };
+    out.ms = Date.now() - t0; // เวลาที่โค้ดเราใช้ (ไม่รวมเวลาของ Google เอง) ไว้ดูว่าช้าตรงไหน
   } catch (err) {
     out = { ok: false, error: String((err && err.message) || err).replace(/^Error:\s*/, '') };
   }
@@ -119,8 +121,21 @@ function sheetStore_(opt) {
   function writing(t) {
     if (opt.lock && !lock) { lock = LockService.getScriptLock(); lock.waitLock(20000); cache = {}; }
     delete cache[t];
+    if (SMALL_[t] && typeof CacheService !== 'undefined') CacheService.getScriptCache().remove('tbl:' + t);
   }
+  // ตาราง Settings (ราคา เวลาเปิด) ถูกอ่านทุกคำขอ: จำไว้ใน CacheService 5 นาที ล้างเมื่อมีการแก้
+  var SMALL_ = { Settings: 1 };
   function rows(t) { // อ่านทั้งแท็บ: [หัวตาราง, ...แถว]
+    if (SMALL_[t] && typeof CacheService !== 'undefined') {
+      var sc = CacheService.getScriptCache(), hit = sc.get('tbl:' + t);
+      if (hit) return JSON.parse(hit);
+      var fresh = readRows(t);
+      try { sc.put('tbl:' + t, JSON.stringify(fresh), 300); } catch (e) {}
+      return fresh;
+    }
+    return readRows(t);
+  }
+  function readRows(t) {
     var v = sheet(t).getDataRange().getDisplayValues();
     return v.map(function (r) { return r.map(cellIn_); });
   }
@@ -170,7 +185,7 @@ function sheetStore_(opt) {
     },
     update: function (t, id, patch, ifMatch, key) {
       writing(t);
-      var sh = sheet(t), v = rows(t), head = v[0];
+      var sh = sheet(t), v = readRows(t), head = v[0]; // เขียน: อ่านจาก Sheet จริงเสมอ ไม่ใช้ที่จำไว้
       var kc = head.indexOf(key || SCHEMA[t][0]);
       for (var i = 1; i < v.length; i++) {
         if (v[i][kc] !== String(id)) continue;
@@ -184,7 +199,7 @@ function sheetStore_(opt) {
     },
     remove: function (t, id) {
       writing(t);
-      var sh = sheet(t), v = rows(t), kc = v[0].indexOf(SCHEMA[t][0]);
+      var sh = sheet(t), v = readRows(t), kc = v[0].indexOf(SCHEMA[t][0]);
       for (var i = v.length - 1; i >= 1; i--) if (v[i][kc] === String(id)) sh.deleteRow(i + 1);
     },
   };

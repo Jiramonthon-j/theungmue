@@ -1268,3 +1268,9 @@ body.role-none .wrap { position: relative; }
   .chtitle { white-space: normal; line-height: 1.25; }
   .chtitle small { display: block; font-size: 12px; }
 }
+
+/* แถบโหลดบางๆ ด้านบน (เวอร์ชันออนไลน์ ระหว่างรอเซิร์ฟเวอร์) */
+body::after { content: ""; position: fixed; left: 0; top: 0; height: 3px; width: 0; z-index: 9999; background: var(--y); box-shadow: 0 0 0 1px rgba(20, 33, 61, .08); opacity: 0; transition: opacity .2s; pointer-events: none; }
+body.netbusy::after { opacity: 1; animation: netbar 1.6s ease-out infinite; }
+@keyframes netbar { 0% { width: 0; left: 0; } 60% { width: 70%; left: 10%; } 100% { width: 10%; left: 100%; } }
+@media (prefers-reduced-motion: reduce) { body.netbusy::after { animation: none; width: 100%; } }

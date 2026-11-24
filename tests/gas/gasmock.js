@@ -87,5 +87,13 @@
   };
   function folderObj(id) { return { getId: function () { return id; }, createFile: function (blob) { var d = load(); var fid = 'P' + (++d.seq); d.files[fid] = { name: blob.name, b64: b64(blob.bytes), parent: id }; save(d); return { getId: function () { return fid; } }; } }; }
   G.HtmlService = { XFrameOptionsMode: { ALLOWALL: 'ALLOWALL' } };
+  // CacheService ของจริงใช้ร่วมกันทุกคำขอ: จำลองด้วย localStorage (ทุกหน้าเห็นตรงกัน)
+  var cacheMem = {};
+  function cload() { var s = ls(); if (!s) return cacheMem; try { return JSON.parse(s.getItem('gasmock-cache')) || {}; } catch (e) { return {}; } }
+  function csave(c) { var s = ls(); if (s) s.setItem('gasmock-cache', JSON.stringify(c)); else cacheMem = c; }
+  G.CacheService = { getScriptCache: function () { return {
+    get: function (k) { var c = cload(); return c.hasOwnProperty(k) ? c[k] : null; },
+    put: function (k, v) { if (String(v).length > 100000) throw new Error('cache value too large'); var c = cload(); c[k] = String(v); csave(c); },
+    remove: function (k) { var c = cload(); delete c[k]; csave(c); } }; } };
   G.ContentService = { MimeType: { JSON: 'application/json' }, createTextOutput: function (t) { var o = { text: t, mime: 'text/plain', setMimeType: function (m) { o.mime = m; return o; }, getContent: function () { return t; } }; return o; } };
 })(typeof window !== 'undefined' ? window : globalThis);

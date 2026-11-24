@@ -14,7 +14,8 @@ function start(port) {
         stats.posts++; if (q.headers.cookie) stats.credentialed++;
         const out = ctx.doPost({ postData: { contents: b, type: q.headers['content-type'] } });
         const id = 'R' + (++n); results[id] = out.getContent();
-        r.writeHead(302, { Location: 'http://localhost:' + port + '/echo?id=' + id, 'Access-Control-Allow-Origin': '*' }); r.end();
+        const D = +(process.env.DELAY || 0); setTimeout(() => {
+        r.writeHead(302, { Location: 'http://localhost:' + port + '/echo?id=' + id, 'Access-Control-Allow-Origin': '*' }); r.end(); }, D);
       }); return;
     }
     if (q.method === 'GET' && q.url.startsWith('/echo')) {

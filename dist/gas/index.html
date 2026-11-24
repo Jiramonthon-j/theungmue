@@ -1946,6 +1946,12 @@ body.role-none .wrap { position: relative; }
   .chtitle small { display: block; font-size: 12px; }
 }
 
+/* แถบโหลดบางๆ ด้านบน (เวอร์ชันออนไลน์ ระหว่างรอเซิร์ฟเวอร์) */
+body::after { content: ""; position: fixed; left: 0; top: 0; height: 3px; width: 0; z-index: 9999; background: var(--y); box-shadow: 0 0 0 1px rgba(20, 33, 61, .08); opacity: 0; transition: opacity .2s; pointer-events: none; }
+body.netbusy::after { opacity: 1; animation: netbar 1.6s ease-out infinite; }
+@keyframes netbar { 0% { width: 0; left: 0; } 60% { width: 70%; left: 10%; } 100% { width: 10%; left: 100%; } }
+@media (prefers-reduced-motion: reduce) { body.netbusy::after { animation: none; width: 100%; } }
+
 </style>
 </head>
 <body>
@@ -3901,11 +3907,43 @@ function createLocalStore() {
   function box() { try { return REMOTE ? localStorage : sessionStorage; } catch (e) { return null; } }
   function getToken() { try { return (box() && box().getItem('songtor-token')) || memToken; } catch (e) { return memToken; } }
   function setToken(v) {
-    memToken = v;
+    memToken = v; memo = {};
     try { if (box()) { v ? box().setItem('songtor-token', v) : box().removeItem('songtor-token'); } } catch (e) {}
   }
 
+  // ---- เวอร์ชันออนไลน์ (Apps Script ตอบช้า ~1.5–2 วินาทีต่อคำขอ) ----
+  // 1) หน้าที่เคยเปิดแล้วแสดงข้อมูลล่าสุดที่จำไว้ทันที แล้วดึงของใหม่ตามหลัง ถ้าเปลี่ยนจึงวาดใหม่
+  // 2) มีแถบโหลดบางๆ ด้านบนระหว่างรอ  3) กดคำสั่งที่เปลี่ยนข้อมูลแล้วล้างที่จำไว้ทั้งหมด
+  var SWR = { jobs: 1, job: 1, points: 1, profile: 1, chat_inbox: 1, messages: 1, photos: 1, admin_overview: 1, admin_badges: 1, bot_unread: 1,
+    bot_thread: 1, bot_queue: 1, bot_stats: 1, bot_history: 1, bot_admin_thread: 1, pricing: 1, recipients: 1, contact: 1 };
+  var NOCLEAR = { session: 1, lock_status: 1, check_name: 1, check_phone: 1, check_username: 1, quote: 1, demo: 1, rewards_unseen: 1 };
+  var memo = {}, staleTimer = null, busy = 0, busyTimer = null;
+  function busyOn() { busy++; if (!busyTimer) busyTimer = setTimeout(function () { document.body.classList.add('netbusy'); }, 250); }
+  function busyOff() { if (--busy > 0) return; busy = 0; clearTimeout(busyTimer); busyTimer = null; document.body.classList.remove('netbusy'); }
+  function onStale() { // ข้อมูลที่แสดงอยู่เก่าไป: เรียกตัวดึงข้อมูลของหน้านี้อีกรอบ
+    clearTimeout(staleTimer);
+    staleTimer = setTimeout(function () { if (typing()) return; timerFns.forEach(function (f) { try { f(); } catch (e) {} }); }, 60);
+  }
   function call(action, args) {
+    if (!REMOTE) return rawCall(action, args);
+    if (!SWR[action]) {
+      if (!NOCLEAR[action]) memo = {};
+      busyOn();
+      return rawCall(action, args).then(function (d) { busyOff(); return d; }, function (e) { busyOff(); throw e; });
+    }
+    var k = action + '|' + JSON.stringify(args || {}), hit = memo[k];
+    if (!hit) busyOn();
+    var net = rawCall(action, args).then(function (d) {
+      if (!hit) busyOff();
+      var s = JSON.stringify(d), old = memo[k];
+      memo[k] = s;
+      if (hit && old !== s) onStale();
+      return d;
+    }, function (e) { if (!hit) busyOff(); throw e; });
+    if (hit) { net.catch(function () {}); return Promise.resolve(JSON.parse(hit)); }
+    return net;
+  }
+  function rawCall(action, args) {
     var token = getToken();
     return new Promise(function (resolve, reject) {
       if (IS_GAS) {
@@ -3955,9 +3993,10 @@ function createLocalStore() {
   function fmtPhone(p) { return p && p.length === 10 ? p.slice(0, 3) + '-' + p.slice(3, 6) + '-' + p.slice(6) : (p || ''); }
   function closed(j) { return j.status === 'delivered' || j.status === 'cancelled'; }
   function active(j) { return j.status === 'accepted' || j.status === 'picked'; }
-  function clearTimers() { timers.forEach(clearInterval); timers = []; }
+  var timerFns = [];
+  function clearTimers() { timers.forEach(clearInterval); timers = []; timerFns = []; }
   // ดึงข้อมูลใหม่เป็นระยะ · ไม่ดึงตอนสลับไปแท็บอื่น · เวอร์ชัน Google ช้าลง 2.5 เท่า (8 วิ → 20 วิ) ลดภาระ Apps Script
-  function every(ms, fn) { timers.push(setInterval(function () { if (document.hidden) return; fn(); }, REMOTE ? ms * 2.5 : ms)); }
+  function every(ms, fn) { timerFns.push(fn); timers.push(setInterval(function () { if (document.hidden) return; fn(); }, REMOTE ? ms * 2.5 : ms)); }
   function typing() { var a = document.activeElement; return a && /INPUT|TEXTAREA|SELECT/.test(a.tagName); }
   function showError(id, msg) {
     var el = document.getElementById(id);
@@ -6217,7 +6256,7 @@ function createLocalStore() {
       if (ct) { var e = ct.querySelector('em'); if (d.todo) { if (!e) { e = document.createElement('em'); ct.appendChild(e); } e.textContent = d.todo; } else if (e) e.remove(); }
     }).catch(function () {});
   }
-  setInterval(refreshBotBadge, 8000);
+  setInterval(function () { if (!document.hidden) refreshBotBadge(); }, REMOTE ? 20000 : 8000);
 
   // ---- ข้อความในห้องผู้ช่วย (ใช้ทั้งฝั่งผู้ใช้และแอดมิน) ----
   function botCard(c) {
