@@ -1,0 +1,1270 @@
+/* ---------- ธีม: ผู้ใช้ = โทนสว่าง เขียวหัวเป็ด / คนส่ง = โทนเข้ม ส้มอำพัน ---------- */
+:root, body.role-none, body.role-user, body.role-admin {
+  /* ธีม v2.27 แบบ 3 เทปพัสดุ: ฟ้าคราม ตัดเหลือง (ผู้ใช้และแอดมินใช้ชุดเดียวกัน) */
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --ink: #14213d;
+  --muted: #5b6475;
+  --line: #e2e8f1;
+  --accent: #0a66d8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6efff;
+  --y: #ffcc00;
+  --y-soft: #fff4c2;
+  --y-ink: #5a4300;
+  --mascot: #2a5ea8;
+  --urgent: #b4442c;
+  --urgent-soft: #fbe4de;
+  --ok: #2f6b3a;
+  --ok-soft: #e1f1e4;
+  --warn: #7a5a12;
+  --warn-soft: #fbf0d4;
+  --muted-soft: #eceff4;
+  --bubble: #ffffff;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(20, 33, 61, .08);
+}
+body.role-courier {
+  --bg: #14171b;
+  --surface: #1d2126;
+  --ink: #eceff2;
+  --muted: #9aa4ae;
+  --line: #2e343b;
+  --accent: #f0a63a;
+  --accent-ink: #1b1305;
+  --accent-soft: #3a2e19;
+  --urgent: #ff8a70;
+  --urgent-soft: #3d2420;
+  --ok: #7fd08e;
+  --ok-soft: #1f3324;
+  --warn: #f3cf7a;
+  --warn-soft: #3a3220;
+  --muted-soft: #262b31;
+  --bubble: #2a3037;
+  --shadow: none;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Kanit', 'Leelawadee UI', Tahoma, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.wrap { max-width: 560px; margin: 0 auto; padding: 0 16px 96px; }
+
+/* ---------- แถบบน ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 0 12px; position: sticky; top: 0; background: var(--bg); z-index: 5;
+  border-bottom: 1px solid var(--line); margin-bottom: 16px;
+}
+.brand { font-weight: 700; font-size: 20px; letter-spacing: .2px; color: var(--accent); }
+.brand.big { font-size: 34px; }
+.crumb { color: var(--muted); font-size: 15px; }
+.rolechip {
+  font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent); white-space: nowrap;
+}
+.iconbtn { border: 0; background: transparent; padding: 4px; margin-left: -4px; cursor: pointer; display: inline-flex; color: var(--ink); }
+
+h1 { font-size: 22px; margin: 4px 0 4px; }
+h2 { font-size: 17px; margin: 24px 0 10px; display: flex; align-items: center; gap: 8px; }
+h2 .count { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--muted-soft); border-radius: 999px; padding: 1px 8px; }
+.sub { color: var(--muted); margin: 0 0 16px; font-size: 14px; }
+
+/* ---------- แถบเมนูล่าง ---------- */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+  display: flex; justify-content: center; gap: 0;
+  background: var(--surface); border-top: 1px solid var(--line);
+  padding: 6px max(8px, calc((100vw - 560px) / 2)) calc(6px + env(safe-area-inset-bottom));
+}
+.tabbar button {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  border: 0; background: transparent; color: var(--muted); font-size: 12px; padding: 6px 2px; cursor: pointer; border-radius: 10px;
+}
+.tabbar button svg { width: 22px; height: 22px; }
+.tabbar button.on { color: var(--accent); font-weight: 600; }
+.tabbar button.on svg { stroke-width: 2.1; }
+
+/* ---------- เลย์เอาต์ ---------- */
+.row { display: flex; align-items: center; }
+.between { justify-content: space-between; }
+.gap { gap: 8px; }
+.stack > * + * { margin-top: 10px; }
+
+.card {
+  display: block; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow);
+}
+a.card:hover { border-color: var(--muted); }
+.job .route { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; font-weight: 500; }
+.arrow { color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); font-size: 13px; }
+
+/* ---------- ป้าย ---------- */
+.badge, .mode { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.st-open { background: var(--warn-soft); color: var(--warn); }
+.st-accepted, .st-picked { background: var(--accent-soft); color: var(--accent); }
+.st-delivered { background: var(--ok-soft); color: var(--ok); }
+.st-cancelled { background: var(--muted-soft); color: var(--muted); }
+.mode { border: 1px solid currentColor; }
+.m-urgent { color: var(--urgent); }
+.m-normal { color: var(--muted); }
+
+/* ---------- แท็บ ---------- */
+.tabs { display: flex; gap: 4px; background: var(--muted-soft); padding: 4px; border-radius: 10px; margin: 8px 0 14px; }
+.tabs button { flex: 1; border: 0; background: transparent; padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--muted); }
+.tabs button.on { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+
+/* ---------- ปุ่ม ---------- */
+.btn {
+  display: inline-flex; justify-content: center; align-items: center; gap: 8px;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+  border-radius: 10px; padding: 11px 16px; font-weight: 600; cursor: pointer; width: 100%;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.ghost { background: var(--surface); color: var(--accent); }
+.btn.danger { background: transparent; color: var(--urgent); border-color: var(--urgent); }
+.btn.small { width: auto; padding: 7px 12px; font-size: 14px; }
+.linkbtn { display: block; margin: 18px auto 0; border: 0; background: none; color: var(--muted); font-size: 13px; text-decoration: underline; cursor: pointer; }
+
+/* ---------- ฟอร์ม ---------- */
+label.field, div.field { display: block; margin-bottom: 14px; }
+label.field > span, .lbl { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+label.field > span em { font-style: normal; color: var(--muted); font-weight: 400; }
+input[type=text], input[type=password], input[type=tel], input[type=datetime-local], input[type=time], select, textarea, input[inputmode=numeric] {
+  width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px;
+}
+textarea { min-height: 76px; resize: vertical; }
+input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.choice label { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 12px; cursor: pointer; position: relative; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+.choice label.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.choice b { display: block; }
+.choice small { color: var(--muted); font-size: 12px; }
+
+/* ---------- ข้อความ ---------- */
+.error { display: none; background: var(--urgent-soft); color: var(--urgent); border-radius: 10px; padding: 10px 12px; margin: 10px 0; font-size: 14px; }
+.note { background: var(--accent-soft); color: var(--accent); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+.empty { color: var(--muted); text-align: center; padding: 22px 12px; font-size: 14px; border: 1px dashed var(--line); border-radius: var(--radius); margin: 0; }
+.footer-note { color: var(--muted); font-size: 12px; text-align: center; margin-top: 18px; line-height: 1.8; }
+code { background: var(--muted-soft); padding: 1px 6px; border-radius: 5px; font-size: 12px; }
+
+/* ---------- ตัวเลขสรุป ---------- */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; }
+.stat b { display: block; font-size: 26px; line-height: 1.2; }
+.stat b small { font-size: 15px; color: var(--muted); font-weight: 500; }
+.stat span { color: var(--muted); font-size: 13px; }
+.bar { height: 6px; background: var(--muted-soft); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); }
+
+/* ---------- หน้าเข้าสู่ระบบ ---------- */
+.auth { padding-top: 48px; }
+.brandblock { text-align: center; margin-bottom: 18px; }
+.brandblock .sub { margin: 4px 0 0; }
+
+/* ---------- โปรไฟล์ ---------- */
+.profile { display: flex; align-items: center; gap: 14px; }
+.avatar {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 22px; flex: none;
+}
+.loglist { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.loglist li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 14px; font-size: 14px; border-bottom: 1px solid var(--line); }
+.loglist li:last-child { border-bottom: 0; }
+.loglist time { color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+/* ---------- รายละเอียดงาน ---------- */
+dl.info { display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; margin: 0; font-size: 15px; }
+dl.info dt { color: var(--muted); }
+dl.info dd { margin: 0; }
+.phones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.phone { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; padding: 6px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.phone svg { width: 16px; height: 16px; }
+.steps { list-style: none; padding: 0; margin: 0; }
+.steps li { position: relative; padding: 0 0 14px 22px; font-size: 14px; color: var(--muted); }
+.steps li::before { content: ''; position: absolute; left: 4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); }
+.steps li::after { content: ''; position: absolute; left: 9px; top: 18px; bottom: 0; width: 1px; background: var(--line); }
+.steps li:last-child::after { display: none; }
+.steps li.done { color: var(--ink); }
+.steps li.done::before { background: var(--accent); border-color: var(--accent); }
+.steps time { display: block; font-size: 12px; color: var(--muted); }
+.codecard { margin-top: 12px; border-color: var(--accent); }
+.code { font-size: 34px; font-weight: 700; letter-spacing: 10px; text-align: center; padding: 10px 0 2px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.code-input { font-size: 22px !important; letter-spacing: 8px; text-align: center; }
+
+/* ---------- แชท ---------- */
+.chat { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; padding: 4px 0 8px; }
+.msg { max-width: 80%; padding: 7px 11px; border-radius: 12px; font-size: 14px; background: var(--bubble); align-self: flex-start; }
+.msg.me { background: var(--accent); color: var(--accent-ink); align-self: flex-end; }
+.msg b { display: block; font-size: 12px; }
+.msg time { display: block; font-size: 11px; opacity: .7; }
+.presets { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; }
+.presets button { white-space: nowrap; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; }
+.send { display: flex; gap: 8px; }
+.send input { flex: 1; }
+
+@media (max-width: 380px) {
+  .two, .choice { grid-template-columns: 1fr; }
+  dl.info { grid-template-columns: 90px 1fr; }
+}
+.brand-th { font-size: 18px; font-weight: 600; color: var(--ink); letter-spacing: 1px; margin-top: -2px; }
+.fieldwarn { display: none; margin-top: 6px; font-size: 12px; color: var(--urgent); }
+.fieldwarn.show { display: block; }
+.fielderr { display: none; margin-top: 6px; font-size: 12px; color: var(--urgent); }
+input.invalid, select.invalid, textarea.invalid { border-color: var(--urgent); }
+.formnote { display: flex; align-items: center; gap: 8px; margin: -2px 0 16px; padding: 10px 12px; border-radius: 10px; background: var(--ok-soft); color: var(--ok); font-size: 14px; font-weight: 500; }
+.formnote svg { width: 18px; height: 18px; }
+
+/* แอดมินใช้ชุดสีเดียวกับผู้ใช้ (ตั้งใน :root ด้านบน) */
+
+/* ---------- ดาว ---------- */
+.stars { display: inline-flex; gap: 1px; vertical-align: middle; color: #d3a11a; }
+.stars svg { width: 16px; height: 16px; stroke-width: 1.4; }
+.stars svg.on { fill: currentColor; }
+.stars.sm svg { width: 13px; height: 13px; }
+.stars.lg svg { width: 24px; height: 24px; }
+.stat .stars { display: flex; margin: 2px 0 1px; }
+.ratecard { margin-top: 12px; }
+.ratecard > strong { display: block; margin-bottom: 8px; }
+.starpick { display: flex; gap: 6px; margin-bottom: 14px; }
+.starpick button { border: 0; background: none; padding: 2px; cursor: pointer; color: #c9c2b2; }
+.starpick button svg { width: 34px; height: 34px; stroke-width: 1.3; }
+.starpick button.on { color: #d3a11a; }
+.starpick button.on svg { fill: currentColor; }
+.review { margin: 8px 0 0; font-size: 14px; color: var(--ink); }
+.review-item time { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+/* ---------- การ์ดคนส่ง (แอดมิน) ---------- */
+.courier.off { opacity: .65; }
+.courierstats { display: grid; grid-template-columns: 1fr 1.2fr; gap: 14px; margin: 12px 0 4px; align-items: center; }
+.courierstats b { font-size: 26px; display: block; line-height: 1.1; }
+.courierstats span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.distrow { display: grid; grid-template-columns: 10px 1fr 18px; gap: 6px; align-items: center; font-size: 11px; color: var(--muted); }
+.distrow i { height: 6px; background: var(--muted-soft); border-radius: 9px; overflow: hidden; }
+.distrow i b { display: block; height: 100%; background: #d3a11a; }
+.distrow em { font-style: normal; text-align: right; }
+.courier .btn.small { margin-top: 12px; }
+.infobox { display: flex; gap: 10px; align-items: flex-start; margin: -2px 0 18px; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); }
+.infobox svg { width: 18px; height: 18px; margin-top: 2px; }
+.infobox b { display: block; font-size: 13px; font-weight: 600; line-height: 1.4; }
+.infobox span { display: block; font-size: 12px; line-height: 1.5; opacity: .85; }
+.pwwrap { position: relative; display: block; }
+.pwwrap input { padding-right: 46px !important; }
+.eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: 0; background: none; padding: 7px; color: var(--muted); cursor: pointer; display: inline-flex; border-radius: 8px; }
+.eye:hover { color: var(--ink); }
+input::placeholder, textarea::placeholder { font-weight: 400; color: var(--muted); opacity: .8; }
+
+/* ---------- กล่องเงื่อนไขการตั้งค่า ---------- */
+label.field, div.field { position: relative; }
+.rules {
+  display: none; position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 20;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px 8px;
+  box-shadow: 0 10px 28px rgba(20, 30, 40, .14); font-size: 13px;
+}
+.rules.show { display: block; }
+.rules::before {
+  content: ''; position: absolute; top: -7px; left: 28px; width: 12px; height: 12px; transform: rotate(45deg);
+  background: var(--surface); border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+}
+.rules b { display: block; font-size: 13px; margin-bottom: 6px; }
+.rules ul { list-style: none; margin: 0; padding: 0; }
+.rules li { display: flex; align-items: center; gap: 8px; color: var(--muted); padding: 2px 0; }
+.rules li svg { width: 16px; height: 16px; }
+.rules li.ok { color: var(--ok); }
+.formnote.bad { background: var(--urgent-soft); color: var(--urgent); }
+.linkbtn.pwlink { margin: 12px auto 0; color: var(--accent, var(--brand)); font-size: 14px; }
+.cardhead { display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px; }
+.cardhead b { font-size: 16px; }
+.cardhead span { color: var(--muted); font-size: 13px; }
+#rf { align-items: flex-start; }
+#rf input { flex: 1; min-width: 0; }
+#rf .btn { flex: none; }
+#rf .fieldwarn { display: none; }
+.howto { list-style: none; counter-reset: s; margin: 0 0 14px; padding: 0; display: grid; gap: 10px; }
+.howto li { counter-increment: s; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
+.howto li::before { content: counter(s); flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+#rf .btn { align-self: stretch; }
+.loglist .times { font-style: normal; font-size: 12px; color: var(--muted); margin-left: 4px; }
+/* แนบรูปของ */
+.field .hint { margin: 2px 0 8px; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.photogrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ph { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); padding: 0; max-width: 100%; }
+.ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ph [data-rm] { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: rgba(20, 24, 28, .62); color: #fff; display: grid; place-items: center; padding: 0; cursor: pointer; }
+.ph [data-rm] svg { width: 14px; height: 14px; }
+.ph.add { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 1.5px dashed var(--line); color: var(--accent); font: inherit; font-size: 12.5px; cursor: pointer; }
+.ph.add svg { width: 26px; height: 26px; }
+.photogrid + .fielderr { margin-top: 8px; }
+.photorow { display: flex; gap: 8px; overflow-x: auto; margin: 0 0 12px; padding-bottom: 2px; }
+.photorow .ph { flex: none; width: 76px; cursor: zoom-in; }
+.viewer { position: fixed; inset: 0; z-index: 50; background: rgba(10, 12, 14, .92); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) 16px; }
+.viewer img { max-width: 100%; max-height: 82vh; border-radius: 8px; object-fit: contain; }
+.viewer .vbar { position: absolute; top: max(12px, env(safe-area-inset-top, 0px)); left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: center; color: #fff; font-size: 14px; }
+.viewer .vbar button, .viewer .vnav { width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .14); color: #fff; display: grid; place-items: center; cursor: pointer; padding: 0; }
+.viewer svg { width: 20px; height: 20px; }
+.viewer .vnav { position: absolute; top: 50%; transform: translateY(-50%); }
+.viewer .vnav.prev { left: 10px; }
+.viewer .vnav.next { right: 10px; }
+.viewer .vnav.next svg { transform: scaleX(-1); }
+p.hint { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+p.hint svg { width: 16px; height: 16px; flex: none; }
+.req { color: var(--urgent); font-weight: 700; margin-left: 2px; }
+.field[hidden] { display: none; }
+small.hint { display: block; margin: 6px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.photorow.small { margin: 6px 0 0; }
+.photorow.small .ph { width: 56px; }
+#pickupf .field, #deliver .field { margin-bottom: 12px; }
+/* แชทงานด่วน: แท็บเลือกห้องของคนส่ง */
+.chattabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--bg); padding: 4px; border-radius: 12px; margin-bottom: 12px; }
+.chattabs button { position: relative; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 14px; font-weight: 600; padding: 8px 6px; border-radius: 9px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 0; }
+.chattabs button small { font-size: 11.5px; font-weight: 400; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chattabs button.on { background: var(--surface); color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.chattabs button i { position: absolute; top: 8px; right: 10px; width: 8px; height: 8px; border-radius: 50%; }
+.chattabs button i.new { background: var(--urgent); }
+.chatwith { margin: 0 0 10px; font-size: 13.5px; color: var(--muted); }
+.chatwith b { color: var(--ink); }
+
+.returncard { border-color: var(--urgent); background: var(--urgent-soft); }
+.returncard strong { display: block; color: var(--urgent); margin-bottom: 4px; }
+.returncard p { margin: 0 0 10px; font-size: 14px; line-height: 1.5; }
+.returncard.done { border-color: var(--line); background: var(--surface); }
+.returncard.done strong { color: var(--ink); }
+.returncard.done p { margin: 0; }
+.nfcard { border-color: var(--urgent); }
+.nfcard > strong { display: block; color: var(--urgent); margin-bottom: 4px; }
+.nfcard .field { margin-bottom: 12px; }
+.btn.danger.solid { background: var(--urgent); color: #fff; }
+.nfnote { font-size: 14px; }
+[hidden] { display: none !important; }
+
+/* แชทแบบแอปแชททั่วไป: เวลาและสถานะอยู่ข้างกรอบ ชิดล่าง */
+.mrow { display: flex; align-items: flex-end; gap: 6px; max-width: 100%; }
+.mrow.me { justify-content: flex-end; }
+.mrow .msg { max-width: 72%; align-self: auto; word-break: break-word; }
+.mmeta { display: flex; flex-direction: column; gap: 1px; font-size: 10.5px; color: var(--muted); line-height: 1.3; padding-bottom: 2px; flex: none; }
+.mrow.me .mmeta { align-items: flex-end; text-align: right; }
+.mmeta .rd { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.mmeta .rd svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
+.mmeta .rd.read { color: var(--accent); font-weight: 600; }
+.daysep { display: flex; justify-content: center; margin: 4px 0; }
+.daysep span { font-size: 11px; color: var(--muted); background: var(--bg); padding: 2px 10px; border-radius: 999px; }
+/* การใช้งานล่าสุด (แบบ B) */
+.logday { font-size: 12.5px; font-weight: 600; color: var(--muted); margin: 14px 0 8px; letter-spacing: .02em; }
+.logday:first-of-type { margin-top: 0; }
+.loglist2 { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.logrow { display: flex; gap: 12px; align-items: center; padding: 11px 14px; color: inherit; text-decoration: none; }
+.loglist2 > .logrow:not([hidden]) ~ .logrow { border-top: 1px solid var(--line); }
+.logic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--bg); color: var(--muted); }
+.logic svg { width: 18px; height: 18px; }
+.logic.job { background: var(--accent-soft); color: var(--accent); }
+.logic.warn { background: var(--urgent-soft); color: var(--urgent); }
+.logic.ok { background: var(--ok-soft, var(--accent-soft)); color: var(--ok, var(--accent)); }
+.logt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.logt b { font-weight: 500; font-size: 14.5px; }
+.logt small { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.logrow time { font-size: 12.5px; color: var(--muted); flex: none; }
+.logt .pill { font-style: normal; display: inline-block; font-size: 11.5px; font-weight: 600; padding: 0 7px; border-radius: 999px; background: var(--urgent-soft); color: var(--urgent); margin-left: 6px; }
+a.logrow:active { background: var(--bg); }
+.logt .pill.muted { background: var(--bg); color: var(--muted); }
+/* ---------- แชท: ไอคอนมุมขวาบน ---------- */
+.chaticon { position: relative; margin: 0 2px 0 0; color: var(--accent); padding: 4px; }
+.chaticon svg { width: 23px; height: 23px; }
+.cbadge { position: absolute; top: -3px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--urgent); color: #fff; font-size: 11px; font-weight: 700; display: grid; place-items: center; line-height: 1; }
+/* หน้ารวมแชท */
+.segtabs { display: flex; gap: 6px; margin: 6px 0 12px; }
+.segtabs button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 6px 14px; font-size: 13.5px; cursor: pointer; }
+.segtabs button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.convlist { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.conv { display: flex; gap: 11px; padding: 12px 13px; align-items: flex-start; }
+.conv + .conv { border-top: 1px solid var(--line); }
+.conv.closed { opacity: .62; }
+.cav { width: 40px; height: 40px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; font-size: 14px; flex: none; }
+.cvb { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.cva { display: flex; align-items: center; gap: 6px; font-size: 14.5px; }
+.cva b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cva time { margin-left: auto; font-size: 11.5px; color: var(--muted); flex: none; }
+.cvs { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cvl { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--muted); min-width: 0; }
+.cvl span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cvl.unread { color: var(--ink); font-weight: 500; }
+.cvl em { margin-left: auto; font-style: normal; background: var(--urgent); color: #fff; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 0 7px; flex: none; }
+/* ปุ่มแชทในหน้างาน */
+.chatbtn { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-bottom: 8px; }
+.chatico { width: 38px; height: 38px; border-radius: 11px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.cbt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.cbt b { font-size: 14.5px; font-weight: 600; }
+.cbt small { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chatbtn > svg { color: var(--muted); }
+.newpill { background: var(--urgent); color: #fff; font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 1px 8px; flex: none; }
+/* หน้าแชทเต็มจอ */
+.chatscreen { padding-bottom: 150px; }
+.chathead { position: sticky; top: 0; z-index: 6; background: var(--bg); padding: 12px 0 10px; border-bottom: 1px solid var(--line); }
+.chtitle { font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chtitle small { font-weight: 400; color: var(--muted); font-size: 13px; }
+.jobstrip { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; }
+.jobstrip > span:not(.mode):not(.badge) { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jobstrip a { margin-left: auto; color: var(--accent); font-weight: 600; text-decoration: underline; flex: none; }
+.chathead .chattabs { margin: 10px 0 0; }
+.chat.chatfull { max-height: none; overflow: visible; padding: 14px 0; }
+.composer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line);
+  padding: 8px max(16px, calc((100vw - 560px) / 2 + 16px)) calc(10px + env(safe-area-inset-bottom)); }
+.composer .presets { margin-bottom: 6px; }
+.composer .error { margin: 6px 0 0; }
+.closedbar { text-align: center; font-size: 13.5px; color: var(--muted); padding-top: 14px; padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+
+/* ---------- ประวัติ: ดูทั้งหมด / ค้นหา / กรอง / ซ่อน ---------- */
+h2 .h2link { margin-left: auto; border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.btn.seeall { margin-top: 10px; border: 1px solid var(--line); }
+.hsearch { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0 12px; margin-top: 6px; }
+.hsearch svg { width: 18px; height: 18px; color: var(--muted); flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.hsearch input { flex: 1; border: 0; background: none; padding: 11px 0; font: inherit; font-size: 14px; color: var(--ink); outline: none; min-width: 0; }
+.hchips { display: flex; gap: 8px; margin: 10px 0 4px; flex-wrap: wrap; }
+.hchips button { border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13px; cursor: pointer; }
+.hchips button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.hidbar { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+.hidbar button { border: 0; background: none; color: var(--accent); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 0; }
+.hmonth { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin: 16px 0 8px; }
+.hmonth span:first-child { font-weight: 600; color: var(--ink); }
+.hitem { position: relative; }
+.hitem .card.job { padding-bottom: 40px; }
+.hitem.ishid .card.job { opacity: .55; border-style: dashed; }
+.hidebtn { position: absolute; right: 12px; bottom: 10px; display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); border-radius: 999px; padding: 2px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+.hidebtn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.hitem.ishid .hidebtn { color: var(--accent); border-color: var(--accent); font-weight: 600; }
+.hnote { margin-top: 14px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 84px; width: min(440px, calc(100% - 32px)); background: #14213d; color: #fff; border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; z-index: 50; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.toast button { border: 0; background: none; color: #8fd3d0; font: inherit; font-weight: 700; cursor: pointer; }
+.logday { display: flex; justify-content: space-between; align-items: baseline; }
+.logday span { font-weight: 400; font-size: 12px; }
+/* ---------- รีวิว ---------- */
+a.review-item { display: block; color: inherit; text-decoration: none; }
+.review-item .row time { margin: 0; }
+.review.none { color: var(--muted); font-style: italic; }
+.rjob { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+.rsum { display: flex; gap: 18px; align-items: center; margin-top: 6px; }
+.rsum > div:first-child { text-align: center; min-width: 80px; }
+.rsum b { display: block; font-size: 32px; line-height: 1.1; }
+.rsum span { color: var(--muted); font-size: 12px; }
+.rbars { flex: 1; display: grid; gap: 4px; }
+.rbar { display: grid; grid-template-columns: 14px 1fr 24px; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); }
+.rbar .bar { height: 6px; background: var(--muted-soft); border-radius: 999px; overflow: hidden; margin: 0; }
+.rbar .bar i { display: block; height: 100%; background: var(--accent); }
+.rsum span { display: block; margin-top: 2px; }
+.rsum .stars { justify-content: center; }
+#rvbody .hchips { margin-bottom: 12px; }
+
+/* ---------- ระยะทาง แผนที่ และเครดิต ---------- */
+.leaflet-container { font-family: inherit; }
+.leaflet-container svg { width: auto; height: auto; fill: initial; stroke: initial; flex: initial; }
+.leaflet-control-zoom a { color: #14213d; }
+.mk-o { width: 16px; height: 16px; background: #ffcc00; border: 2.5px solid #fff; transform: rotate(45deg); border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,.35); }
+.mk-d { width: 16px; height: 16px; background: #b4442c; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.35); }
+.mlab { background: #fff; color: #14213d; border: 0; border-radius: 6px; padding: 1px 6px; font-size: 11px; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.mlab:before { display: none; }
+.routebox { margin: 8px 0 14px; }
+.distrow { display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.routebox.open .distrow { border-radius: 10px 10px 0 0; }
+.distrow.solo { margin: 8px 0 14px; }
+.distrow > svg { width: 18px; height: 18px; color: var(--muted); }
+.distrow > span:first-of-type { white-space: nowrap; }
+.tier { font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 1px 8px; font-style: normal; white-space: nowrap; }
+.tier.t1 { background: var(--ok-soft); color: var(--ok); }
+.tier.t2 { background: var(--warn-soft); color: var(--warn); }
+.tier.t3 { background: var(--urgent-soft); color: var(--urgent); }
+.maptoggle { margin-left: auto; display: flex; align-items: center; gap: 2px; border: 0; background: none; color: var(--accent); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; padding: 0; white-space: nowrap; }
+.maptoggle svg { width: 15px; height: 15px; }
+.mapwrap { border: 1px solid var(--line); border-top: 0; border-radius: 0 0 10px 10px; overflow: hidden; background: var(--surface); }
+.rmap { height: 210px; background: #e8e4da; }
+.mapfoot { display: flex; justify-content: space-between; gap: 8px; font-size: 11.5px; color: var(--muted); padding: 6px 10px; }
+.mapfoot .offline { color: var(--urgent); }
+.navbtn { margin-top: 8px; }
+.jobroute { margin-top: 12px; }
+.jobroute .routebox { margin-bottom: 0; }
+.crline { display: flex; align-items: baseline; gap: 6px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.crline b { font-size: 19px; color: var(--accent); }
+.crline span { font-size: 13px; }
+.crline small { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.creditcard { display: flex; align-items: center; gap: 12px; margin-top: 10px; color: inherit; text-decoration: none; }
+.creditcard .cic { width: 38px; height: 38px; border-radius: 11px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.creditcard b { font-size: 20px; color: var(--accent); }
+.creditcard small { display: block; color: var(--muted); font-size: 12px; }
+.creditcard > svg:last-child { margin-left: auto; color: var(--muted); }
+.rate { width: 100%; border-collapse: collapse; font-size: 13px; }
+.rate td { padding: 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.rate td small { display: block; color: var(--muted); font-size: 11.5px; }
+.rate td:last-child { text-align: right; font-weight: 600; white-space: nowrap; padding-left: 10px; }
+.rate tr:last-child td { border: 0; }
+.crlist { padding: 2px 14px; }
+.crlist .lr { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; padding: 10px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
+.crlist .lr:last-child { border: 0; }
+.crlist .lr b { font-size: 16px; color: var(--accent); }
+.crlist .lr small { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+.rmap { position: relative; z-index: 0; isolation: isolate; }
+
+/* ---------- Point ผู้ฝากส่ง + popup รางวัล ---------- */
+.pointhint { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; background: var(--accent-soft); color: var(--ink); border-radius: 10px; padding: 9px 11px; margin: 4px 0 10px; text-align: left; }
+.pointhint svg { width: 18px; height: 18px; color: var(--accent); flex: none; margin-top: 1px; }
+.pointhint b { color: var(--accent); }
+.pointhint.got { margin: 10px 0 0; }
+.ratenote { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+.crlist .lr b.pend { font-size: 13px; color: var(--warn); white-space: nowrap; }
+.rwpop { position: fixed; inset: 0; z-index: 100; background: rgba(15, 20, 24, .55); display: grid; place-items: center; padding: 24px; animation: rwfade .2s ease-out; }
+.rwcard { width: min(340px, 100%); background: var(--surface); color: var(--ink); border-radius: 20px; padding: 26px 22px 16px; text-align: center; box-shadow: 0 18px 50px rgba(0,0,0,.3); animation: rwpop .38s cubic-bezier(.2, 1.4, .4, 1); }
+.rwic { width: 72px; height: 72px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); position: relative; }
+.rwic::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; animation: rwring 1.4s ease-out .2s 2; }
+.rwic svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.rwamt { font-size: 40px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.rwamt span { font-size: 18px; font-weight: 600; }
+.rwcard strong { display: block; font-size: 16px; margin: 6px 0 4px; }
+.rwcard p { font-size: 13px; color: var(--muted); margin: 0; }
+.rwcard small { display: block; font-size: 12px; color: var(--muted); margin: 4px 0 16px; }
+.rwcard .btn { width: 100%; }
+.rwcard .linkbtn { margin: 10px auto 2px; }
+@keyframes rwfade { from { opacity: 0; } }
+@keyframes rwpop { from { opacity: 0; transform: scale(.7) translateY(12px); } }
+@keyframes rwring { from { opacity: .7; transform: scale(.9); } to { opacity: 0; transform: scale(1.35); } }
+@media (prefers-reduced-motion: reduce) { .rwpop, .rwcard, .rwic::after { animation: none; } }
+
+/* ---------- หน้าให้คะแนน ---------- */
+.ratetimer { display: flex; align-items: center; gap: 6px; width: max-content; font-size: 12.5px; color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 3px 10px; margin: 0 0 10px; }
+.ratetimer svg { width: 15px; height: 15px; }
+.ratelbl { display: block; font-size: 13.5px; font-weight: 600; margin: 4px 0 6px; }
+.ratelbl em { font-weight: 400; color: var(--muted); font-style: normal; }
+.ratelbl .req { color: var(--urgent); font-style: normal; }
+.ratelbl.left { margin-top: 2px; }
+#ratef .starpick { margin-bottom: 2px; }
+.slabel { font-size: 13px; font-weight: 600; color: var(--accent); margin: 0 0 12px; min-height: 18px; }
+.ratecard .slabel { margin: 4px 0 6px; }
+.tagpick { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tagpick button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 11px; font: inherit; font-size: 13px; cursor: pointer; }
+.tagpick button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.tagrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 4px; }
+.tagrow.center { justify-content: flex-start; }
+.tagrow span { font-size: 12px; background: var(--muted-soft); border-radius: 999px; padding: 2px 9px; }
+.field .cnt { display: block; text-align: right; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+.ratenote.center { text-align: center; }
+.locknote { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-top: 10px; }
+.locknote svg { width: 14px; height: 14px; }
+.remind { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); border: 1px solid var(--warn-soft); border-radius: 14px; padding: 11px 12px; margin: 4px 0 12px; color: inherit; text-decoration: none; }
+.remind .ri { width: 36px; height: 36px; border-radius: 10px; background: var(--surface); color: var(--warn); display: grid; place-items: center; flex: none; }
+.remind .ri svg { width: 20px; height: 20px; }
+.remind b { display: block; font-size: 14px; }
+.remind small { font-size: 12px; color: var(--warn); }
+.remind > svg:last-child { margin-left: auto; width: 18px; height: 18px; color: var(--warn); }
+.morenote { font-size: 12.5px; color: var(--muted); margin: 8px 2px 0; }
+
+/* ---------- โปรไฟล์ (จัดหมวด) ---------- */
+.psec { font-size: 12.5px; font-weight: 700; color: var(--muted); letter-spacing: .02em; margin: 18px 2px 8px; }
+.psec:first-child { margin-top: 4px; }
+.profile { display: flex; gap: 12px; align-items: center; }
+.pedit { margin-left: auto; display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); color: var(--accent); border-radius: 999px; padding: 4px 11px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.pedit svg { width: 14px; height: 14px; }
+dl.info.pinfo { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); } /* dl.info ตั้ง margin 0 ไว้ ต้องระบุให้เจาะจงกว่า ไม่งั้นเส้นชนรูปโปรไฟล์ */
+.menu { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.mrow { display: flex; width: 100%; gap: 10px; align-items: center; padding: 13px 14px; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--ink); font: inherit; font-size: 14.5px; text-align: left; cursor: pointer; }
+.mrow:last-child { border-bottom: 0; }
+.mrow svg { width: 19px; height: 19px; color: var(--muted); flex: none; }
+.mrow svg + span + svg { margin-left: auto; width: 16px; height: 16px; }
+.mrow.red, .mrow.red svg { color: var(--urgent); }
+.lockinp { display: flex; justify-content: space-between; align-items: center; background: var(--muted-soft); color: var(--muted); border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 12px; }
+.lockinp svg { width: 16px; height: 16px; }
+.fhint { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+.morenote.center { text-align: center; }
+.inlink { border: 0; background: none; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; padding: 0; }
+.warnbox { background: var(--urgent-soft); border: 1px solid var(--urgent-soft); border-radius: 12px; padding: 12px 13px; font-size: 13.5px; margin-bottom: 14px; }
+.warnbox > b { display: flex; gap: 6px; align-items: center; color: var(--urgent); margin-bottom: 6px; }
+.warnbox > b svg { width: 18px; height: 18px; }
+.warnbox ul { margin: 0; padding-left: 18px; }
+.warnbox li { margin: 4px 0; }
+.warnbox li b { color: var(--urgent); }
+.sheetwrap { position: fixed; inset: 0; z-index: 90; background: rgba(15, 20, 24, .5); display: flex; align-items: flex-end; justify-content: center; animation: rwfade .2s ease-out; }
+.sheet { width: min(480px, 100%); background: var(--surface); color: var(--ink); border-radius: 20px 20px 0 0; padding: 14px 18px 22px; animation: sheetup .25s ease-out; }
+.sheet > strong { display: block; font-size: 16px; }
+.grab { width: 40px; height: 4px; border-radius: 9px; background: var(--line); margin: 0 auto 12px; }
+.lineid { display: flex; justify-content: space-between; align-items: center; background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; margin: 12px 0; }
+.lineid small { display: block; font-size: 12px; color: var(--muted); }
+.lineid b { font-size: 20px; }
+.lineid button { border: 1px solid var(--accent); background: none; color: var(--accent); border-radius: 999px; padding: 3px 12px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+@keyframes sheetup { from { transform: translateY(40px); opacity: 0; } }
+.plogs .logday { display: none; } .lockinp span { display: inline; margin: 0; font-weight: 400; }
+
+/* ---------- AI จัดคิว · ETA · ล็อกรหัส · โปรไฟล์คนส่ง ---------- */
+.aibox { display: flex; gap: 10px; background: var(--accent-soft); border-radius: 12px; padding: 11px 13px; margin: 0 0 12px; }
+.aibox > svg { width: 19px; height: 19px; color: var(--accent); flex: none; margin-top: 2px; }
+.aibox b { display: block; font-size: 13px; color: var(--accent); }
+.aibox b em { font-style: normal; font-weight: 600; font-size: 10.5px; border: 1px solid currentColor; border-radius: 999px; padding: 0 6px; margin-left: 6px; opacity: .8; }
+.aibox p { margin: 2px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+.aibox.sm { margin: 10px 0 0; text-align: left; }
+.aibox.sm p { font-size: 12.5px; }
+.rsum { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.rsum > div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; }
+.rsum b { display: block; font-size: 18px; }
+.rsum span { font-size: 12px; color: var(--muted); }
+.rstop { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.rstop:last-child { border-bottom: 0; }
+.rstop .rn { width: 25px; height: 25px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 12.5px; font-weight: 700; display: grid; place-items: center; flex: none; }
+.rstop .rz { flex: 1; min-width: 0; }
+.rstop .rz b { display: block; font-size: 14.5px; font-weight: 600; }
+.rstop .rz small { color: var(--muted); font-size: 12px; }
+.rstop time { font-weight: 700; font-size: 14px; }
+.rstop .rmove { display: flex; gap: 2px; }
+.rstop .rmove .iconbtn { width: 30px; height: 30px; }
+.rstop .rmove .iconbtn:disabled { opacity: .3; }
+.rwarn { color: var(--warn); font-style: normal; font-weight: 600; }
+.btnrow { display: flex; gap: 8px; }
+.btnrow .btn { flex: 1; }
+.warnnote { display: flex; gap: 8px; align-items: flex-start; background: var(--warn-soft); color: var(--warn); margin-bottom: 12px; font-size: 13px; }
+.warnnote svg, .note > svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.note:has(> svg) { display: flex; gap: 8px; align-items: flex-start; }
+.routecard { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-color: var(--accent); }
+.routecard .cic { width: 38px; height: 38px; border-radius: 11px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.routecard b { display: block; }
+.routecard small { color: var(--muted); font-size: 12.5px; }
+.routecard > svg:last-child { margin-left: auto; color: var(--muted); }
+.etacard { text-align: center; margin-top: 12px; }
+.etacard > small { display: block; color: var(--muted); font-size: 12.5px; }
+.etacard > b { display: block; font-size: 34px; line-height: 1.2; color: var(--accent); }
+.etacard .etanote { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.etacard.wait { display: flex; gap: 8px; align-items: center; text-align: left; font-size: 13.5px; color: var(--muted); }
+.etacard.wait svg { flex: none; }
+.alertcard { display: flex; gap: 9px; align-items: flex-start; background: var(--urgent-soft); border-color: transparent; color: var(--urgent); font-size: 13.5px; margin-top: 12px; }
+.alertcard svg { flex: none; margin-top: 1px; }
+.lockbox { display: flex; gap: 9px; background: var(--urgent-soft); color: var(--urgent); border-radius: 12px; padding: 11px 12px; margin: 4px 0 10px; font-size: 13px; }
+.lockbox svg { flex: none; }
+.lockbox b { display: block; }
+.codeleft { display: block; margin-top: 5px; font-size: 12.5px; color: var(--urgent); font-weight: 600; }
+.codeleft.muted { color: var(--muted); font-weight: 400; }
+.cphead { display: flex; align-items: center; gap: 12px; margin: 4px 0 12px; }
+.cphead .avatar { width: 52px; height: 52px; border-radius: 50%; background: #f0a63a; color: #1b1305; display: grid; place-items: center; font-weight: 700; font-size: 19px; flex: none; }
+.cphead b { display: block; font-size: 17px; }
+.cphead small { color: var(--muted); font-size: 12.5px; }
+.stats.three { grid-template-columns: repeat(3, 1fr); margin-bottom: 12px; }
+.stats.three .stat b { font-size: 19px; }
+.tagrow.counted em { font-style: normal; color: var(--muted); }
+.review-item.static { cursor: default; }
+
+/* ---------- งานเลยกำหนด ---------- */
+.latepill { background: var(--urgent-soft); color: var(--urgent) !important; font-weight: 700; border-radius: 999px; padding: 0 8px; font-size: 12px; }
+.lateban { display: flex; gap: 9px; align-items: flex-start; border-color: transparent; font-size: 13.5px; line-height: 1.5; margin-top: 12px; }
+.lateban > svg { width: 19px; height: 19px; flex: none; margin-top: 1px; }
+.lateban b { display: block; font-size: 14px; }
+.lateban.warn { background: var(--warn-soft); color: var(--warn); }
+.lateban.red { background: var(--urgent-soft); color: var(--urgent); }
+.lateban.info { background: var(--accent-soft); color: var(--accent); }
+.acceptcard .lateban { margin: 8px 0 0; padding: 9px 11px; border-radius: 10px; }
+.acceptcard .mini, .mini { display: flex; justify-content: space-between; font-size: 13.5px; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.acceptcard .mini:last-of-type { border-bottom: 0; }
+.mini span { color: var(--muted); }
+.mini b.bad { color: var(--urgent); }
+.optlist { display: grid; gap: 7px; margin-top: 8px; }
+.opt { display: flex; align-items: center; gap: 10px; text-align: left; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; cursor: pointer; }
+.opt b { display: block; font-size: 14.5px; }
+.opt small { color: var(--muted); font-size: 12px; }
+.opt > svg { margin-left: auto; width: 16px; height: 16px; color: var(--muted); flex: none; }
+.opt.danger b { color: var(--urgent); }
+.opt[data-armed] { border-color: var(--accent); }
+.lateopt .btn + .btn { margin-top: 8px; }
+.crline small s { opacity: .7; }
+
+/* ===================== v2: หน้าร้าน + หลังร้าน ===================== */
+.st-pending { background: var(--warn-soft); color: var(--warn); }
+.st-confirmed, .st-picked, .st-delivering { background: var(--accent-soft); color: var(--accent); }
+.hero { position: relative; overflow: hidden; background: linear-gradient(135deg, #1d5c63, #2b7a72); color: #fff; border-radius: 16px; padding: 16px 16px 14px; margin: 4px 0 16px; }
+.hero::after { content: ""; position: absolute; right: -36px; top: -36px; width: 130px; height: 130px; border-radius: 50%; background: rgba(255, 255, 255, .08); }
+.hero b { display: block; font-size: 18px; line-height: 1.35; }
+.hero span { display: block; font-size: 13px; opacity: .92; margin-top: 4px; }
+.hero em { display: inline-block; font-style: normal; margin-top: 10px; background: #fff; color: #1d5c63; font-weight: 700; font-size: 12.5px; border-radius: 999px; padding: 3px 11px; }
+.svcgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.svc { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; }
+.svc:hover { border-color: var(--accent); }
+.svc i { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 6px; }
+.svc b { font-size: 15px; }
+.svc small { color: var(--muted); font-size: 12px; line-height: 1.4; }
+.svc em { font-style: normal; color: var(--urgent); font-weight: 700; font-size: 14px; margin-top: 4px; }
+.ptbar { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 6px; }
+.ptbar > svg:first-child { color: var(--accent); flex: none; }
+.ptbar b { color: var(--accent); }
+.ptbar > svg:last-child { margin-left: auto; color: var(--muted); width: 16px; height: 16px; }
+.otabs { display: flex; gap: 2px; overflow-x: auto; border-bottom: 1px solid var(--line); margin: 0 0 12px; scrollbar-width: none; }
+.otabs button { flex: 1 0 auto; background: none; border: 0; border-bottom: 2.5px solid transparent; padding: 9px 8px; font-size: 14px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.otabs button.on { color: var(--accent); font-weight: 700; border-bottom-color: var(--accent); }
+.otabs em { font-style: normal; font-size: 11px; background: var(--urgent-soft); color: var(--urgent); border-radius: 9px; padding: 0 6px; margin-left: 4px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.kpis div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 4px; text-align: center; }
+.kpis b { display: block; font-size: 20px; }
+.kpis span { font-size: 11.5px; color: var(--muted); }
+.kpis .hot b { color: var(--urgent); }
+.meta .price { margin-left: auto; color: var(--ink); font-size: 14.5px; }
+.sum3 > div { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+.sum3 > div > span { color: var(--muted); }
+.sum3 .tot { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 9px; font-weight: 700; }
+.sum3 .tot span { color: var(--ink); }
+.sum3 .tot b { color: var(--urgent); font-size: 19px; }
+.paynote { display: flex; gap: 6px; align-items: center; margin: 6px 0 0; font-size: 12.5px; color: var(--muted); }
+.paynote svg { width: 15px; height: 15px; color: var(--ok); }
+.ptuse { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--accent-soft); border-radius: 10px; padding: 9px 11px; margin: 8px 0; font-size: 13.5px; cursor: pointer; }
+.ptuse small { display: block; color: var(--muted); font-size: 11.5px; }
+.ptuse.off { opacity: .7; cursor: default; }
+.ptuse input { position: absolute; opacity: 0; pointer-events: none; }
+.tog { width: 40px; height: 23px; border-radius: 12px; background: var(--line); position: relative; flex: none; transition: background .15s; }
+.tog::after { content: ""; position: absolute; left: 3px; top: 3px; width: 17px; height: 17px; border-radius: 50%; background: #fff; transition: left .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.ptuse input:checked + .tog { background: var(--accent); }
+.ptuse input:checked + .tog::after { left: 20px; }
+.tl { list-style: none; margin: 0; padding: 0 0 0 4px; }
+.tl li { position: relative; padding: 0 0 14px 22px; font-size: 14px; }
+.tl li::before { content: ""; position: absolute; left: 0; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.tl li::after { content: ""; position: absolute; left: 4.5px; top: 18px; bottom: 0; width: 1px; background: var(--line); }
+.tl li:last-child::after { display: none; }
+.tl li.done::before { background: var(--accent); }
+.tl li.on::before { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.tl li:not(.done):not(.on) b { color: var(--muted); font-weight: 500; }
+.tl small { display: block; color: var(--muted); font-size: 12px; }
+.astep > b { display: block; font-size: 15px; }
+.astep .sub { margin: 4px 0 10px; }
+.rejf { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.acancel { margin-top: 4px; font-size: 14px; }
+.acancel summary { color: var(--urgent); cursor: pointer; padding: 6px 2px; }
+.acancel form { margin-top: 8px; }
+.aord .abtns { display: flex; gap: 6px; margin-top: 10px; }
+.aord .abtns .btn { flex: 1; width: auto; }
+.dangertext { color: var(--urgent) !important; }
+.crlist b.minus { color: var(--urgent); }
+.latepill { background: var(--urgent-soft); color: var(--urgent) !important; font-weight: 700; border-radius: 999px; padding: 0 8px; font-size: 12px; }
+.lockbox { display: flex; gap: 9px; background: var(--urgent-soft); color: var(--urgent); border-radius: 12px; padding: 11px 12px; margin: 4px 0 10px; font-size: 13px; }
+.lockbox svg { flex: none; }
+.lockbox b { display: block; }
+.codeleft { display: block; margin-top: 5px; font-size: 12.5px; color: var(--urgent); font-weight: 600; }
+
+/* ---------- v2: ระยะห่างระหว่างการ์ดและปุ่ม ---------- */
+#main > .card + .card, #main > .card + .pointhint, #main > .pointhint + .card { margin-top: 12px; }
+#main > .pointhint.got { margin-top: 12px; }
+#f > #submit { margin-top: 16px; }
+#f > #quote + .error:empty + #submit, #quote { margin-bottom: 0; }
+.job .route .price { margin-left: auto; font-size: 15px; color: var(--ink); }
+.otabs button { padding: 9px 6px; font-size: 13.5px; }
+.otabs em { margin-left: 3px; padding: 0 5px; }
+.astep .btn + .rejf, .astep .rejf { margin-top: 14px; }
+.astep .field { margin-top: 8px; }
+.aord .abtns { margin-top: 12px; }
+.hidtoggle { margin-top: 14px; }
+#olist { margin-top: 2px; }
+.ptbar { margin-bottom: 4px; }
+.svcgrid + .ptbar { margin-top: 2px; }
+.footer-note .demohead { display: block; margin-bottom: 6px; }
+.footer-note .demolist { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; }
+.footer-note .demoacc { display: inline-flex; align-items: center; gap: 5px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px 2px 3px; white-space: nowrap; }
+.footer-note .demoacc small { font-size: 11.5px; color: var(--muted); }
+.phones { gap: 8px; }
+.hsearch { margin-bottom: 12px; }
+.hsearch + .otabs { margin-top: 0; }
+
+/* ===================== v2: เก็บเงินปลายทาง · ส่งไม่สำเร็จ · ส่งช้า ===================== */
+.codtag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.latepill.warn { background: var(--warn-soft); color: var(--warn) !important; }
+.paypick { display: grid; gap: 8px; }
+.paypick label { display: flex; gap: 10px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 11px 12px; cursor: pointer; }
+.paypick label.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.paypick input, .rsn input, .verdict input, .codchk input { position: absolute; opacity: 0; pointer-events: none; }
+.paypick i, .rsn i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); flex: none; margin-top: 3px; }
+.paypick label.on i, .rsn input:checked + i { border: 5px solid var(--accent); }
+.paypick b { display: block; font-size: 14.5px; }
+.paypick small { color: var(--muted); font-size: 12px; }
+#payerr { margin-top: 6px; }
+.paycard { text-align: center; border: 1.5px solid var(--accent); margin-top: 12px; }
+.paycard > p { margin: 8px 0 0; font-size: 14px; }
+.paycard .amt { font-size: 32px; font-weight: 700; color: var(--urgent); line-height: 1.2; margin: 4px 0; }
+.paycard .btn { margin-top: 10px; }
+.paycard .btn + .btn { margin-top: 8px; }
+.payline { display: flex; gap: 10px; align-items: center; margin-top: 12px; border-color: var(--accent); }
+.payline > svg { color: var(--accent); flex: none; }
+.payline b { display: block; }
+.payline span { font-size: 13px; color: var(--muted); }
+.payline .linkbtn { margin: 0 0 0 auto; white-space: nowrap; color: var(--urgent); }
+.minib { display: flex; gap: 7px; align-items: center; border-radius: 9px; padding: 7px 10px; font-size: 12.5px; margin-top: 10px; }
+.minib svg { width: 16px; height: 16px; flex: none; }
+.minib.warn { background: var(--warn-soft); color: var(--warn); }
+.minib.info { background: var(--accent-soft); color: var(--accent); }
+.minib.bad { background: var(--urgent-soft); color: var(--urgent); }
+.aord.slow { border-color: var(--urgent); }
+.failcard { margin-top: 12px; border-color: var(--urgent); }
+.failcard .info { margin-top: 8px; }
+.appealcard { margin-top: 12px; border-color: var(--warn); }
+.appealcard p { margin: 6px 0; }
+#appealf { margin-top: 12px; }
+.clog { margin: 8px 0; border-top: 1px solid var(--line); }
+.clog > div { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.astep .btnrow .btn { font-size: 13px; }
+.codchk { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); border-radius: 10px; padding: 10px 12px; margin: 4px 0 10px; font-size: 14px; cursor: pointer; position: relative; }
+.codchk span::before { content: ""; display: inline-block; vertical-align: -3px; width: 17px; height: 17px; border: 2px solid var(--warn); border-radius: 5px; margin-right: 8px; background: var(--surface); }
+.codchk input:checked + span::before { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 3px var(--surface); }
+details.refuse > summary { list-style: none; text-align: center; cursor: pointer; }
+details.refuse > summary::-webkit-details-marker, .failbox > summary::-webkit-details-marker { display: none; }
+details.refuse[open] > summary { display: none; }
+details.refuse form, .failbox form { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+.rsn { display: flex; gap: 9px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; font-size: 13.5px; margin-bottom: 6px; cursor: pointer; position: relative; background: var(--surface); }
+.rsn i { margin-top: 0; }
+.rsn:has(input:checked) { border-color: var(--accent); }
+.rsn small { margin-left: auto; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.rsn small.bad { color: var(--urgent); font-weight: 600; }
+.rsn small.ok { color: var(--ok); }
+.grp { font-size: 12px; font-weight: 700; color: var(--muted); margin: 12px 2px 6px; display: flex; gap: 6px; align-items: center; }
+.grp em { font-style: normal; border-radius: 999px; padding: 0 8px; font-size: 11px; }
+.g-bad { background: var(--urgent-soft); color: var(--urgent); }
+.g-ok { background: var(--ok-soft); color: var(--ok); }
+.g-snd { background: var(--warn-soft); color: var(--warn); }
+.g-shop { background: var(--accent-soft); color: var(--accent); }
+.cmp3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.cmp3 > div { text-align: center; }
+.cmp3 img, .cmp3 .ph0 { display: block; width: 100%; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+.cmp3 .ph0 { display: grid; place-items: center; font-size: 11px; color: var(--muted); border-style: dashed; }
+.cmp3 small { font-size: 11px; color: var(--muted); }
+.verdict { display: flex; gap: 6px; }
+.verdict label { flex: 1; position: relative; cursor: pointer; }
+.verdict span { display: block; text-align: center; border: 1px solid var(--line); border-radius: 10px; padding: 8px; font-size: 13px; }
+.verdict input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.failbox { margin-top: 4px; }
+.failbox > summary { color: var(--urgent); font-weight: 600; }
+.rwic.bad { background: var(--urgent-soft); color: var(--urgent); }
+.rwamt.bad { color: var(--urgent); }
+.rwcard p.small { font-size: 12.5px; color: var(--muted); }
+
+/* ---------- ผู้ช่วย AI: ปุ่มมาสคอตลอย (น้องถึง) ---------- */
+.botfab { position: fixed; z-index: 40; width: 58px; height: 58px; border-radius: 50%; padding: 0; border: 3px solid #fff; background: var(--mascot);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .22); display: grid; place-items: center; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; transition: opacity .4s; }
+.botfab .bird { width: 46px; height: 46px; pointer-events: none; }
+svg.bird { stroke: none; }
+.botfab.anim { transition: left .25s ease, top .25s ease, opacity .4s; }
+.botfab.drag { cursor: grabbing; transform: scale(1.08); box-shadow: 0 8px 22px rgba(0, 0, 0, .28); opacity: 1; }
+.botfab.idle { opacity: .55; }
+.botfab.typing, .botfab[hidden] { display: none; }
+.fabdot { position: absolute; top: -2px; right: -2px; width: 15px; height: 15px; border-radius: 50%; background: var(--urgent); border: 2px solid #fff; }
+.fabdot[hidden] { display: none; }
+.fabtip { position: fixed; z-index: 41; width: 190px; background: #14213d; color: #fff; font-size: 12.5px; line-height: 1.45; border-radius: 10px; padding: 8px 11px; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.fabtip b { display: block; font-size: 13px; }
+.fabtip:after { content: ""; position: absolute; top: 18px; right: -6px; border: 6px solid transparent; border-left-color: #14213d; border-right: 0; }
+.fabtip.left:after { right: auto; left: -6px; border: 6px solid transparent; border-right-color: #14213d; border-left: 0; }
+/* ห้องผู้ช่วย */
+.bav { width: 34px; height: 34px; border-radius: 50%; background: var(--mascot); display: grid; place-items: center; flex: none; }
+.bav .bird { width: 28px; height: 28px; }
+.btag { margin-left: auto; flex: none; font-size: 11.5px; font-weight: 700; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 2px 9px; }
+.btag.hand { background: var(--warn-soft); color: var(--warn); }
+.bsub { margin: 4px 0 0 44px; font-size: 12.5px; color: var(--muted); }
+.botscreen { padding-bottom: 190px; }
+.bchat { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; }
+.brow { display: flex; align-items: flex-end; gap: 6px; }
+.brow.me { flex-direction: row-reverse; }
+.brow time { font-size: 10.5px; color: var(--muted); flex: none; }
+.bmsg { max-width: 80%; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; border-bottom-left-radius: 4px; padding: 8px 11px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+.bmsg.me { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); border-radius: 14px; border-bottom-right-radius: 4px; }
+.bmsg.admin:not(.me) { background: var(--warn-soft); border-color: #e6d6ad; }
+.bwho { display: block; font-size: 11px; color: var(--accent); margin-bottom: 1px; }
+.bwho.adm { color: var(--warn); }
+.bsys { align-self: center; text-align: center; max-width: 92%; font-size: 12px; color: var(--warn); background: var(--warn-soft); border: 1px solid #e6d6ad; border-radius: 10px; padding: 5px 10px; line-height: 1.45; }
+.bcard { margin-top: 7px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; background: var(--bg); color: var(--ink); font-size: 12.5px; }
+.bch { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.bcard ul { list-style: none; margin: 0; padding: 0; }
+.bcard li { display: flex; align-items: center; gap: 7px; color: var(--muted); padding: 1px 0; }
+.bcard li i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+.bcard li.next i { background: var(--surface); border: 1.5px solid var(--accent); }
+.bcard li b { margin-left: auto; color: var(--ink); font-weight: 600; }
+.bcard a { display: block; text-align: center; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); color: var(--accent); font-weight: 600; text-decoration: none; }
+.bopts { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.bopts button { text-align: left; border: 1px solid var(--accent); color: var(--accent); background: var(--surface); border-radius: 9px; padding: 6px 10px; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.bopts button.toadm { border-color: #d9c48f; color: var(--warn); }
+.bopts button:disabled { opacity: .5; cursor: default; }
+.bmeta { margin: -4px 0 2px; display: flex; justify-content: flex-start; }
+.bmeta span { font-size: 11px; color: var(--muted); border: 1px dashed var(--line); background: var(--surface); border-radius: 6px; padding: 0 6px; }
+.bmeta.low span { color: var(--urgent); border-color: var(--urgent); }
+.bcomp .presets { margin-bottom: 6px; }
+.toadmin { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; border: 1px solid #e6d6ad; background: var(--warn-soft); color: var(--warn); border-radius: 9px; padding: 6px; font: inherit; font-size: 13px; font-weight: 600; margin-bottom: 7px; cursor: pointer; }
+.toadmin svg { width: 16px; height: 16px; }
+.bsum { margin-top: 8px; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 6px 9px; font-size: 13px; line-height: 1.5; }
+.bsum em { display: block; font-style: normal; font-size: 11px; font-weight: 700; color: var(--accent); }
+.borders { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+.borders a { font-size: 12px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 2px 9px; color: var(--accent); text-decoration: none; font-weight: 600; }
+.btn.small.closebtn { width: 100%; margin-bottom: 7px; }
+.bnote { font-size: 12px; color: var(--muted); margin: 6px 2px 8px; line-height: 1.5; }
+/* คิวแชทแอดมิน */
+.segtabs.scroll { overflow-x: auto; }
+.segtabs button { white-space: nowrap; }
+.segtabs em { font-style: normal; font-size: 11px; font-weight: 700; background: var(--urgent); color: #fff; border-radius: 9px; padding: 0 6px; margin-left: 2px; }
+.bq { padding: 11px 13px; }
+.bqh { display: flex; align-items: center; gap: 7px; }
+.bqh small { margin-left: auto; color: var(--urgent); font-weight: 600; font-size: 12px; }
+.rtag { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 8px; border: 1px solid #d9c48f; color: var(--warn); background: var(--warn-soft); white-space: nowrap; }
+.rtag.red { border-color: var(--urgent); color: var(--urgent); background: var(--urgent-soft); }
+.cva .rtag { margin-left: 4px; }
+.bqb { display: flex; gap: 8px; margin-top: 9px; }
+.bqb .btn { flex: 1; }
+.cav.bird-av { background: var(--mascot); padding: 0; }
+.cav.bird-av .bird { width: 30px; height: 30px; }
+.tabbar button { position: relative; }
+.navbadge { position: absolute; top: 2px; left: 50%; margin-left: 6px; font-style: normal; min-width: 17px; height: 17px; border-radius: 9px; background: var(--urgent); color: #fff; font-size: 10.5px; font-weight: 700; display: grid; place-items: center; padding: 0 4px; }
+.navbadge[hidden] { display: none; }
+/* ภาพรวมผู้ช่วย */
+.bbars, .bteach { margin-top: 10px; }
+.bt { font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.bt small { font-weight: 500; color: var(--muted); font-size: 12px; }
+.br { display: grid; grid-template-columns: 118px 1fr 28px; gap: 8px; align-items: center; font-size: 13px; margin-bottom: 6px; }
+.br i { height: 8px; border-radius: 4px; background: var(--muted-soft); overflow: hidden; }
+.br i b { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.br i b.g { background: #c9a86a; }
+.br em { font-style: normal; text-align: right; font-weight: 600; }
+.tq { border-top: 1px dashed var(--line); padding: 8px 0 4px; }
+.tq:first-of-type { border-top: 0; padding-top: 0; }
+.tq p { margin: 0 0 6px; font-size: 13.5px; }
+.tq small { display: block; color: var(--muted); font-size: 12px; }
+.tq select { flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+.tq select.invalid { border-color: var(--urgent); }
+.bacc { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; background: var(--accent-soft); border-color: transparent; }
+.bacc > svg { width: 22px; height: 22px; color: var(--accent); flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.bacc b { display: block; font-size: 14px; }
+.bacc span { font-size: 12.5px; color: var(--muted); }
+.bacc details { margin-top: 6px; font-size: 12.5px; }
+.bacc summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.bacc ol { margin: 6px 0 0; padding-left: 20px; max-height: 260px; overflow: auto; }
+.bacc li small { color: var(--muted); }
+.bacc li.bad { color: var(--urgent); }
+/* ---------- ให้ขนนกน้องถึง / ตอบตรงไหม ---------- */
+.bfb { display: flex; align-items: center; gap: 6px; margin: -3px 0 2px 2px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.bfb button { display: inline-flex; align-items: center; gap: 4px; font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.bfb button svg, .bfbad svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.bfb button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.bfb button.no.on { background: var(--urgent); border-color: var(--urgent); }
+.bwhy { margin: 0 0 2px 2px; max-width: 88%; background: var(--surface); border: 1px solid var(--line); border-radius: 11px; padding: 8px 10px; font-size: 12.5px; }
+.bwhy p { margin: 0 0 6px; font-weight: 600; }
+.bwhy p small { font-weight: 400; color: var(--muted); }
+.bwhy div { display: flex; flex-wrap: wrap; gap: 5px; }
+.bwhy button { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.bwhy button.on { background: var(--urgent); border-color: var(--urgent); color: #fff; font-weight: 600; }
+.bthx { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--accent); margin: 0 0 2px 2px; }
+.bthx svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.bthx.warn { color: var(--warn); }
+.bthx.rated { align-self: center; flex-direction: column; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; }
+.bfbad { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; font-size: 11px; border-radius: 6px; padding: 0 6px; margin: -3px 0 2px 2px; }
+.bfbad.up { color: var(--ok); background: var(--ok-soft); }
+.bfbad.down { color: var(--urgent); background: var(--urgent-soft); }
+.feas { display: flex; justify-content: center; gap: 4px; }
+.feas button { border: 0; background: none; padding: 2px; cursor: pointer; line-height: 0; }
+.feas button:disabled { cursor: default; }
+.feas .fea { width: 34px; height: 34px; opacity: .22; filter: grayscale(1); transition: opacity .15s, transform .15s; }
+.feas button.on .fea { opacity: 1; filter: none; }
+.feas button:not(:disabled):active .fea { transform: scale(1.15); }
+.bthx.rated .fea, .cmt .fea { width: 16px; height: 16px; }
+.cmt .feas { justify-content: flex-start; gap: 0; flex: none; }
+.cmt .feas button { padding: 0 1px; }
+.rcard { align-self: stretch; background: var(--surface); border: 1px solid #cfe0e0; border-radius: 14px; padding: 12px 13px; text-align: center; margin-top: 4px; }
+.rtt { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 15px; }
+.bav.sm { width: 30px; height: 30px; }
+.bav.sm .bird { width: 24px; height: 24px; }
+.rcard > small { display: block; color: var(--muted); font-size: 12.5px; margin: 3px 0 8px; }
+.rlv { font-size: 13px; font-weight: 700; color: #c47d12; margin: 4px 0 8px; }
+.rcard input { width: 100%; border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; font: inherit; font-size: 13.5px; background: var(--surface); color: var(--ink); margin-bottom: 8px; }
+.rbtn { display: flex; gap: 8px; }
+.rbtn .btn { flex: 1; }
+.rnote { font-size: 11.5px; color: var(--muted); margin: 8px 0 0; }
+/* สมุดพก (แอดมิน) */
+.rhero { display: flex; align-items: center; gap: 12px; background: var(--accent); color: var(--accent-ink); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+.bav.lg { width: 46px; height: 46px; background: #fff; }
+.bav.lg .bird { width: 40px; height: 40px; }
+.rhero b { display: block; font-size: 16px; }
+.rhero small { font-size: 12px; opacity: .9; }
+.rhero .grade { margin-left: auto; text-align: center; background: rgba(255, 255, 255, .16); border-radius: 12px; padding: 5px 11px; }
+.rhero .grade b { font-size: 22px; }
+.rhero .grade small { display: block; font-size: 10.5px; }
+.br i b.w { background: var(--urgent); }
+.br em.w { color: var(--urgent); }
+.tq .rtag { margin-left: 4px; }
+.tq small.ans { font-style: italic; }
+.tq .row.gap { flex-wrap: wrap; }
+.tq .row.gap select { flex: 1 1 100%; }
+.tq .row.gap .btn { flex: 1; }
+.cmt { display: flex; gap: 8px; align-items: flex-start; border-top: 1px dashed var(--line); padding: 7px 0 3px; font-size: 13px; }
+.cmt:first-of-type { border-top: 0; padding-top: 0; }
+.cmt p { margin: 0; }
+.cmt small { color: var(--muted); font-size: 11.5px; }
+.report { margin-bottom: 10px; }
+/* ---------- แชทน้องถึงวันต่อวัน ---------- */
+.btools { display: flex; gap: 6px; margin: 7px 0 0 44px; flex-wrap: wrap; }
+.ib { display: inline-flex; align-items: center; gap: 4px; font: inherit; font-size: 12px; font-weight: 600; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; background: var(--surface); color: var(--accent); cursor: pointer; }
+.ib svg.clk { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.ib .fea { width: 14px; height: 14px; }
+.ib.fe { color: #a8650d; border-color: #ecd3a8; background: #fdf6ea; }
+.ib.done { color: var(--muted); background: var(--muted-soft); border-color: var(--line); cursor: default; }
+.bday { align-self: center; font-size: 11.5px; font-weight: 700; color: var(--muted); background: var(--muted-soft); border-radius: 999px; padding: 2px 11px; margin: 4px 0; }
+.bcarry { align-self: stretch; background: var(--surface); border: 1px dashed #c9a86a; border-radius: 11px; padding: 8px 11px; font-size: 13px; line-height: 1.5; }
+.bcarry b { display: block; color: var(--warn); }
+.bdl { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; padding: 11px 13px; margin-bottom: 8px; }
+.bdl .dd { width: 46px; flex: none; text-align: center; border-right: 1px solid var(--line); padding-right: 10px; }
+.bdl .dd b { display: block; font-size: 20px; line-height: 1.1; }
+.bdl .dd small { font-size: 11px; color: var(--muted); }
+.bdl .dt { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.bdl .fq { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 13px; }
+.tg3 { display: flex; gap: 4px; flex-wrap: wrap; }
+.tg3 em { font-style: normal; font-size: 11px; border-radius: 999px; padding: 0 8px; background: var(--accent-soft); color: var(--accent); }
+.tg3 em.a { background: var(--warn-soft); color: var(--warn); }
+.tg3 em.f { background: #fdf1e0; color: #a8650d; }
+.bdl .ar { color: var(--muted); font-size: 18px; }
+.botscreen.ro { padding-bottom: 130px; }
+.bro { text-align: center; }
+.bro p { margin: 0 0 8px; font-size: 12.5px; color: var(--muted); }
+.bro .btn { width: 100%; }
+.bflt { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.bflt button { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.bflt button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+/* ---------- เวลาให้บริการ ---------- */
+.svcban { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0 0; background: var(--warn-soft); border-color: #e6d6ad; }
+.svcban svg { width: 20px; height: 20px; flex: none; color: var(--warn); fill: none; stroke: currentColor; stroke-width: 1.8; margin-top: 2px; }
+.svcban b { display: block; color: var(--warn); }
+.svcban span { font-size: 13.5px; line-height: 1.5; }
+.svcban.off { background: var(--urgent-soft); border-color: #eec7bd; }
+.svcban.off svg, .svcban.off b { color: var(--urgent); }
+.svcban.test { background: var(--accent-soft); border-color: transparent; }
+.svcban.test svg, .svcban.test b { color: var(--accent); }
+.svcgrid.off .svc { opacity: .45; cursor: not-allowed; }
+.choice label.dis { opacity: .5; cursor: not-allowed; }
+.svcov { display: flex; gap: 12px; align-items: center; margin-top: 10px; cursor: pointer; }
+.svcov input { position: absolute; opacity: 0; pointer-events: none; }
+.svcov input:checked + .tog { background: var(--accent); }
+.svcov input:checked + .tog::after { left: 20px; }
+.svcov b { display: block; font-size: 14px; }
+.svcov small { display: block; color: var(--muted); font-size: 12px; line-height: 1.45; }
+/* ---------- ของที่จะได้รับ ---------- */
+.icard { display: block; text-decoration: none; color: inherit; padding: 11px 13px; }
+.ir1 { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ir1 b { font-size: 15px; }
+.ir1 > .badge, .ir1 > .ist { margin-left: auto; }
+.ist { font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 1px 9px; }
+.ist.me { background: var(--urgent); color: #fff; }
+.ist.ok { background: var(--ok-soft); color: var(--ok); }
+.ist.x { background: var(--muted-soft); color: var(--muted); }
+.ir2 { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; margin-top: 6px; font-size: 14px; }
+.ir2 > span:first-child { min-width: 0; }
+.ipay { color: var(--urgent); font-weight: 700; white-space: nowrap; }
+.ipaid { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.ir3 { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.icode { display: flex; align-items: center; gap: 10px; margin-top: 9px; background: var(--accent-soft); border-radius: 10px; padding: 7px 11px; color: var(--accent); }
+.icode span { font-size: 12.5px; font-weight: 600; }
+.icode small { display: block; font-weight: 400; font-size: 11.5px; }
+.icode b { margin-left: auto; font-size: 21px; letter-spacing: 6px; }
+.icard.todo { border: 2px solid var(--urgent); background: var(--urgent-soft); }
+.idue { color: var(--urgent); font-size: 12.5px; margin-top: 4px; }
+.ibtns { display: flex; gap: 8px; margin-top: 9px; }
+.ibtns .btn { flex: 1; }
+.incempty { background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; padding: 20px 18px; text-align: center; margin-top: 8px; }
+.incempty > svg { width: 42px; height: 42px; color: var(--accent); fill: none; stroke: currentColor; stroke-width: 1.6; }
+.incempty b { display: block; font-size: 16px; margin: 4px 0; }
+.incempty span { color: var(--muted); font-size: 13.5px; }
+.incempty ol { text-align: left; margin: 12px 0 0; padding-left: 22px; font-size: 13.5px; line-height: 1.9; }
+
+/* คำสั่งของฉัน (ผู้สั่ง) */
+.owait { color: #8a6a2c; font-size: 12.5px; margin-top: 4px; }
+.icard .price { font-size: 15px; white-space: nowrap; }
+.incempty .oempty { margin-top: 14px; }
+
+/* ฝั่งผู้ใช้: ขั้นต่อไป / นำของมาฝาก / คืนเงิน */
+.nextcard { background: var(--accent-soft); border-color: transparent; }
+.nextcard strong, .dropcard strong { display: block; font-size: 15px; margin-bottom: 2px; }
+.nextcard p, .dropcard p { margin: 2px 0; font-size: 13.5px; }
+.nextcard ol { margin: 6px 0 0; padding-left: 20px; font-size: 13.5px; line-height: 1.7; }
+.dropcard { border: 2px solid var(--accent); }
+.dropcard .sub { color: var(--muted); font-size: 12.5px; }
+.dropcard .btnrow { display: flex; gap: 8px; margin-top: 10px; }
+.dropcard .btnrow .btn { flex: 1; margin: 0; }
+.coddue { color: var(--urgent); font-size: 12.5px; margin: 6px 0 0; }
+.refund b { display: block; color: var(--accent); }
+.refund span { color: var(--muted); font-size: 12.5px; }
+.idrop { color: var(--accent); font-weight: 600; }
+
+/* เว้นที่ท้ายหน้าให้ปุ่มนก (ผู้ใช้) ไม่บังเนื้อหาส่วนท้าย */
+body.hasfab main.wrap { padding-bottom: 150px; } /* เมนูล่าง + ปุ่มนก */
+#delf.off .field { opacity: .55; }
+
+/* popup รวม Point · ตัวบอกลำดับเรื่อง */
+.rwstep { font-size: 12px; color: var(--muted); margin: -8px 0 8px; }
+.rwlist { margin: 12px 0 4px; border-top: 1px solid var(--line); text-align: left; }
+.rwlist > div { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 2px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.rwlist b { color: var(--accent); }
+.rwlist small { display: block; color: var(--muted); font-size: 11.5px; margin: 0; }
+.rwmore { font-size: 12px !important; margin: 6px 0 0 !important; }
+.rwcard .rwlist + .btn, .rwcard .rwmore + .btn { margin-top: 14px; }
+
+/* แอดมิน: ป้ายงานค้าง · ต้องจัดการ · เงินสด · ดาวน์โหลด · ตั้งค่า */
+.flags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.flag { font-size: 11.5px; font-weight: 700; border-radius: 6px; padding: 1px 7px; }
+.flag.r { background: var(--urgent-soft); color: var(--urgent); } .flag.y { background: var(--warn-soft); color: var(--warn); } .flag.b { background: var(--accent-soft); color: var(--accent); }
+.todobox { padding: 4px 14px; }
+.trow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); color: inherit; text-decoration: none; font-size: 13.5px; }
+.trow:first-child { border-top: 0; }
+.trow small { display: block; color: var(--muted); font-size: 12px; }
+.trow.bad b { color: var(--urgent); }
+.mini { font-style: normal; font-size: 12px; font-weight: 700; border: 1px solid var(--accent); color: var(--accent); border-radius: 8px; padding: 2px 9px; white-space: nowrap; }
+.mini.d { border-color: var(--urgent); color: var(--urgent); }
+.cashgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cashgrid > div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.cashgrid b { display: block; font-size: 20px; } .cashgrid span { font-size: 12px; color: var(--muted); }
+.cashgrid > div:nth-child(4) { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); } .cashgrid > div:nth-child(4) span { color: inherit; opacity: .85; }
+.cashgrid .sub { grid-column: 1 / 3; margin: 0; font-size: 12.5px; }
+.dlrow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+.dlrow > svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+.setrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.setrow:first-of-type { border-top: 0; margin-top: 6px; }
+.setrow small { display: block; color: var(--muted); font-size: 12px; }
+.setrow input { width: 84px; text-align: center; font-weight: 700; }
+.badtext { color: var(--urgent); }
+.returncard .overdue { color: var(--urgent); font-weight: 600; }
+.returncard .btnrow { display: flex; gap: 8px; margin: 8px 0; } .returncard .btnrow .btn { flex: 1; margin: 0; }
+.dispose summary { color: var(--urgent); font-size: 13px; cursor: pointer; margin: 4px 0 8px; }
+
+.dlcard { margin-top: 16px; } .dlcard .sub { margin: 2px 0 10px; font-size: 12.5px; }
+.dlcard .btnrow { display: flex; gap: 8px; } .dlcard .btnrow .btn { flex: 1; margin: 0; }
+
+/* แผนภูมิวงกลม: คำสั่งวันนี้แยกตามผล (สีตรวจคนตาบอดสีแล้ว: แดงไม่ติดเขียว) */
+.mixcard { margin: 2px 0 4px; }
+.mixin { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+svg.mix { width: 124px; height: 124px; flex: none; }
+svg.mix circle { fill: none; stroke-width: 16; }
+svg.mix .track { stroke: var(--line); }
+svg.mix .arc { cursor: pointer; transition: opacity .15s; }
+.arc.ok, .mixlg i.ok { stroke: #3d8a4c; background: #3d8a4c; } .arc.go, .mixlg i.go { stroke: #34479a; background: #34479a; }
+.arc.bad, .mixlg i.bad { stroke: #c4553b; background: #c4553b; } .arc.off, .mixlg i.off { stroke: #8d93a3; background: #8d93a3; }
+svg.mix .arc.dim { opacity: .35; }
+.mixn { font-size: 26px; font-weight: 700; text-anchor: middle; fill: var(--ink); }
+.mixl { font-size: 10px; text-anchor: middle; fill: var(--muted); }
+.mixlg { flex: 1; min-width: 0; }
+.mixlg button { display: flex; align-items: center; gap: 8px; width: 100%; background: none; border: 0; border-top: 1px solid var(--line); padding: 7px 2px; font: inherit; font-size: 13.5px; color: var(--ink); cursor: pointer; text-align: left; }
+.mixlg button:first-child { border-top: 0; }
+.mixlg button.on { font-weight: 700; } .mixlg button.dim { opacity: .55; }
+.mixlg i { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.mixlg span { flex: 1; white-space: nowrap; } .mixlg b { min-width: 18px; text-align: right; } .mixlg em { font-style: normal; color: var(--muted); width: 36px; text-align: right; font-size: 12.5px; }
+.mixempty { color: var(--muted); font-size: 13.5px; margin: 0; }
+.mixd { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); min-height: 18px; }
+.mixd b { color: var(--ink); }
+svg.mix circle { stroke-linecap: butt; }
+svg.mix text { stroke: none; }
+.mixl { font-weight: 400; }
+
+.refundbox { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
+.refundbox b { display: block; } .refundbox span { color: var(--muted); font-size: 12.5px; display: block; margin-bottom: 8px; }
+.warnbox2 { background: var(--urgent-soft); color: var(--urgent); border-radius: 10px; padding: 9px 11px; font-size: 12.5px; line-height: 1.6; margin: 6px 0 8px; }
+.warnbox2 b { display: block; margin-bottom: 3px; } .warnbox2 a { color: inherit; font-weight: 700; }
+
+/* การ์ดคำสั่งแอดมิน: หัวการ์ดตัดบรรทัดได้ เลขคำสั่งไม่ขาดกลางคำ */
+.card.job .row.between, .card.job .row.gap { flex-wrap: wrap; row-gap: 4px; }
+.card.job strong { white-space: nowrap; }
+/* จอเล็ก (320–380) */
+@media (max-width: 380px) {
+  .distrow { flex-wrap: wrap; row-gap: 4px; }
+  .abtns .btn { font-size: 12.5px; white-space: nowrap; padding-left: 6px; padding-right: 6px; }
+  svg.mix { width: 100px; height: 100px; }
+  .mixin { gap: 10px; }
+  .mixlg button { font-size: 12.5px; gap: 6px; }
+  .mixlg em { width: 30px; font-size: 11.5px; }
+}
+
+
+/* ================= ธีม v2.27 แบบ 3 เทปพัสดุ ================= */
+/* ลายเทป: ใช้ 5 จุด (หัวหน้าแรก หน้าเข้าสู่ระบบ แถบกำลังนำส่ง หัว popup กล่องเงินสด) */
+.tape { display: block; background: repeating-linear-gradient(-45deg, var(--y) 0 9px, #14213d 9px 18px); }
+.card { border-color: #e6ebf2; }
+a.card:hover { border-color: #c5d3e8; }
+h1 { font-weight: 600; }
+h2 { font-weight: 600; }
+strong, b { font-weight: 600; }
+.brand { font-weight: 600; letter-spacing: 0; }
+.rolechip { background: var(--y); color: #14213d; }
+.topbar { border-bottom-color: var(--line); }
+/* เมนูล่าง: ขีดเหลืองเหนือเมนูที่เลือก */
+.tabbar button.on::before { content: ""; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 26px; height: 4px; border-radius: 0 0 4px 4px; background: var(--y); }
+/* ปุ่ม */
+.btn { border-radius: 12px; }
+.btn.ghost { border-color: #d7dfeb; color: var(--ink); }
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+input[type=text], input[type=password], input[type=tel], input[type=datetime-local], input[type=time], select, textarea, input[inputmode=numeric] { border-radius: 11px; }
+/* หน้าแรก */
+.hero { background: var(--accent); padding: 16px 112px 30px 16px; min-height: 140px; }
+.hero::after { display: none; }
+.hero em { background: var(--y); color: #14213d; font-weight: 600; }
+.hero .heropg { margin: 0; opacity: 1; position: absolute; right: 10px; bottom: 12px; width: 96px; height: 96px; }
+.hero .heropg svg { width: 96px; height: 96px; display: block; }
+.hero .tape { position: absolute; left: 0; right: 0; bottom: 0; height: 12px; }
+.svc { border-color: #e6ebf2; box-shadow: var(--shadow); }
+.svc i { background: var(--y); color: #14213d; }
+.svc em { color: var(--accent); font-weight: 600; }
+.ptbar > svg:first-child { color: var(--accent); }
+/* การ์ดคำสั่ง: แถบเหลืองซ้าย · จบแล้วแถบเทา */
+.card.job, .icard { border-left: 5px solid var(--y); }
+.icard:has(.ist.ok), .icard:has(.ist.x), .icard:has(.badge.st-delivered), .icard:has(.badge.st-cancelled), .card.job:has(.badge.st-delivered), .card.job:has(.badge.st-cancelled) { border-left-color: #c9d3e2; }
+.icard.todo { border: 2px solid var(--y); border-left-width: 5px; background: var(--surface); }
+.ist.me { background: var(--y); color: #14213d; }
+.ipay { color: var(--accent); }
+.price { color: var(--accent); }
+.icode { background: #fff8d6; border: 1.5px dashed #d9ad00; color: #14213d; }
+.icode small { color: var(--y-ink); }
+/* แท็บสถานะ: ปุ่มเม็ด */
+.otabs { border-bottom: 0; gap: 6px; padding-bottom: 2px; }
+.otabs button { flex: 0 0 auto; border: 0; border-radius: 999px; background: var(--surface); box-shadow: 0 1px 2px rgba(20, 33, 61, .1); padding: 6px 13px; font-size: 13.5px; }
+.otabs button.on { background: var(--accent); color: #fff; font-weight: 600; }
+.otabs em, .segtabs em { background: var(--y); color: #14213d; }
+.segtabs button { border-color: transparent; box-shadow: 0 1px 2px rgba(20, 33, 61, .1); }
+/* ป้ายสถานะ */
+.st-pending { background: #eceff4; color: #4c5566; }
+.st-confirmed { background: #fff1b8; color: var(--y-ink); }
+.st-picked, .st-delivering { background: var(--accent-soft); color: #0a52b0; }
+.st-delivered { background: var(--ok-soft); color: var(--ok); }
+.st-cancelled { background: var(--urgent-soft); color: var(--urgent); }
+.codtag { background: #fff1b8; color: var(--y-ink); }
+/* ตัวเลขสรุป */
+.kpis div { border-color: #e6ebf2; border-bottom: 3px solid var(--y); box-shadow: var(--shadow); }
+.kpis b { color: var(--accent); }
+.kpis .hot b { color: var(--urgent); }
+.stat { border-color: #e6ebf2; border-top: 3px solid var(--y); box-shadow: var(--shadow); }
+.stat b { color: var(--accent); font-weight: 600; }
+/* ราคา */
+.sum3 .tot { border-top: 1.5px dashed #cfd8e6; }
+.sum3 .tot b { color: var(--accent); }
+.paycard { border-color: var(--y); border-width: 2px; }
+.paycard .amt { color: var(--accent); }
+.codecard { border: 1.5px dashed #d9ad00; background: #fff8d6; }
+.code { color: #14213d; }
+/* แถบกำลังนำส่ง (หน้ารายละเอียดคำสั่ง) */
+.dlvban { position: relative; overflow: hidden; background: var(--accent); color: #fff; border-radius: 14px; padding: 17px 14px 12px; margin-bottom: 12px; }
+.dlvban .tape { position: absolute; left: 0; right: 0; top: 0; height: 7px; }
+.dlvban b { display: block; font-size: 17px; }
+.dlvban span { font-size: 13.5px; opacity: .95; }
+/* popup: หัวมีเทป */
+.rwcard { position: relative; overflow: hidden; padding-top: 32px; }
+.rwcard::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px; background: repeating-linear-gradient(-45deg, var(--y) 0 9px, #14213d 9px 18px); }
+/* เงินสดวันนี้ (แอดมิน): กล่องเดียวมีเทปซ้าย */
+.cashgrid { position: relative; overflow: hidden; background: var(--surface); border: 1px solid #e6ebf2; border-radius: 14px; padding: 12px 12px 12px 21px; box-shadow: var(--shadow); }
+.cashgrid::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: repeating-linear-gradient(-45deg, var(--y) 0 7px, #14213d 7px 14px); }
+.cashgrid > div { background: #f6f8fb; border: 0; }
+.cashgrid > div:nth-child(4) { background: var(--accent-soft); color: var(--accent); }
+.cashgrid > div:nth-child(4) span { color: var(--muted); opacity: 1; }
+/* หน้าเข้าสู่ระบบ */
+body.role-none .wrap { position: relative; }
+.auth { padding-top: 0; }
+.authtape { height: 14px; margin: 0 -16px 28px; }
+.authpg { display: block; width: 92px; height: 92px; margin: 0 auto 2px; }
+.authpg svg { width: 92px; height: 92px; display: block; }
+.tabs { background: #e6ebf2; }
+/* แชท */
+.msg { box-shadow: 0 1px 2px rgba(20, 33, 61, .08); }
+.msg.me { box-shadow: none; }
+@media (max-width: 380px) {
+  .chtitle { white-space: normal; line-height: 1.25; }
+  .chtitle small { display: block; font-size: 12px; }
+}

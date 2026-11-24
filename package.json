@@ -1,0 +1,15 @@
+{
+  "name": "theungmue",
+  "version": "2.28.0",
+  "private": true,
+  "description": "TheungMue (ถึงมือ) — บริการรับส่งของภายในมหาวิทยาลัย พร้อมผู้ช่วย AI น้องถึง",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node build.js && node tests/run-all.js",
+    "test:gas": "node build.js && node tests/run-all.js --gas",
+    "push:gas": "node build.js && cp dist/gas/Code.gs dist/gas/index.html gas/ && cd gas && clasp push"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  }
+}

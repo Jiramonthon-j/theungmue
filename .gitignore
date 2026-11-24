@@ -1,0 +1,10 @@
+node_modules/
+tests/shots/
+tests/gas/TheungMue-gas.html
+tests/gas/server.html
+tests/gas/prod.html
+tests/gas/*.png
+gas/.clasp.json
+.clasp.json
+.clasprc.json
+*.log
