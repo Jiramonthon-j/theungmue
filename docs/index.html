@@ -3823,6 +3823,15 @@ function botTrain(examples) { // examples: [[text, intent]]
 }
 
 
+
+
+// ---- ใช้จริง (Google Apps Script) ----
+CONFIG.PRODUCTION = true;
+CONFIG.SEED_USERS = CONFIG.SEED_USERS.filter(function (u) { return u.role === 'admin'; });
+BOT.PURGE = true;
+CONFIG.API_URL = "https://script.google.com/macros/s/AKfycbyupxszB4h93ljxqLoWt5uNP5J51wXERnxsNmcDewh9MJBZC6TAHJTA27o60UKWeIko9g/exec";
+
+
 // ที่เก็บข้อมูลแบบไฟล์ HTML: เก็บใน localStorage ของเบราว์เซอร์เครื่องนี้เท่านั้น
 function createLocalStore() {
   var KEY = 'theungmue-v2-db-2';
