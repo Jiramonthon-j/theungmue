@@ -6,9 +6,9 @@ const WEB = process.env.WEB_HTML || path.resolve(__dirname, '../../dist/web/inde
 const page = http.createServer((q, r) => { r.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); fs.createReadStream(WEB).pipe(r); }).listen(8791);
 const out = {}; const ok = (k, v) => { out[k] = v; };
 (async () => {
-  api.ctx.setAdminPassword('Admin#2026x');
-  const reg = api.ctx.apiCall(null, 'register', { username: 'mint01', name: 'มิ้นท์', phone: '0812345678', password: 'secret12' });
-  api.ctx.apiCall(null, 'register', { username: 'beam02', name: 'บีม', phone: '0898765432', password: 'secret34' });
+  api.ctx.setAdminPassword('Admin#2026x'); api.ctx.sheetStore_({}).insert('Settings', { id: 'service_override', value: 'on' });
+  const reg = api.ctx.apiCall(null, 'register', { username: 'mint01', name: 'มิ้นท์', phone: '0812345678', password: 'secret12', pdpa_ok: 1 });
+  api.ctx.apiCall(null, 'register', { username: 'beam02', name: 'บีม', phone: '0898765432', password: 'secret34', pdpa_ok: 1 });
   const b = await chromium.launch(); const c = await b.newContext({ viewport: { width: 390, height: 844 } });
   await c.addCookies([{ name: 'SID', value: 'other-google-account', domain: 'localhost', path: '/' }]); // จำลองว่ามีคุกกี้บัญชี Google อยู่
   const p = await c.newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));

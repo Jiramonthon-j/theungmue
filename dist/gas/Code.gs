@@ -2033,6 +2033,7 @@ function doGet(e) {
 
 // หน้าเว็บเรียกฟังก์ชันนี้ผ่าน google.script.run
 function apiCall(token, action, args) {
+  ensureSchema_();
   var store = sheetStore_({ cache: true, lock: true });
   try {
     var result = createLogic(store).handle(token, action, args || {});
@@ -2054,6 +2055,23 @@ function doPost(e) {
     out = { ok: false, error: String((err && err.message) || err).replace(/^Error:\s*/, '') };
   }
   return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// อัปเดตโค้ดแล้ว SCHEMA มีคอลัมน์ใหม่: เพิ่มคอลัมน์ใน Sheet ให้เองครั้งแรกที่มีคำขอ (หน้าเว็บบน GitHub Pages เรียก doPost ไม่ผ่าน doGet)
+// จำลายเซ็นของ SCHEMA ไว้ใน Script Properties จึงตรวจแค่ครั้งเดียวต่อเวอร์ชัน ไม่ทำให้ทุกคำขอช้า
+function schemaSig_() {
+  var s = JSON.stringify(SCHEMA), h = 0;
+  for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return s.length + '-' + (h >>> 0).toString(36);
+}
+function ensureSchema_() {
+  var sig = schemaSig_(), P = PropertiesService.getScriptProperties();
+  if (P.getProperty('schema_sig') === sig) return;
+  var lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    if (P.getProperty('schema_sig') !== sig) { ensureSetup_(); P.setProperty('schema_sig', sig); }
+  } finally { lock.releaseLock(); }
 }
 
 /** ติดตั้งครั้งแรก: เลือกฟังก์ชัน setup แล้วกด Run (สร้างแท็บทุกตาราง + บัญชีแอดมิน) */
