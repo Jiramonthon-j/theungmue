@@ -290,6 +290,7 @@
 
   function handleAuthError(e) {
     if (/ตั้งรหัสผ่านใหม่ก่อน/.test(e.message) && me) { me.must_change = true; go('force-pw'); return true; }
+    if (/ยอมรับประกาศความเป็นส่วนตัวก่อนใช้งาน/.test(e.message) && me) { me.pdpa_ok = false; go('force-pdpa'); return true; }
     if (/ถูกระงับ|อุปกรณ์อื่น/.test(e.message)) {
       setToken(null); me = null; state.authNotice = { text: e.message, kind: 'bad' }; state.view = 'auth'; render('login'); return true;
     }
@@ -363,7 +364,9 @@
           '<label class="field"><span>เบอร์โทรศัพท์<b class="req" aria-hidden="true">*</b></span><input type="tel" name="phone" inputmode="numeric" required maxlength="10" data-phone placeholder="08xxxxxxxx"></label>' +
           '<label class="field"><span>รหัสผ่าน<b class="req" aria-hidden="true">*</b></span><input type="password" name="password" autocomplete="new-password" required minlength="6"></label>' +
           '<label class="field"><span>ยืนยันรหัสผ่าน<b class="req" aria-hidden="true">*</b></span><input type="password" name="password2" autocomplete="new-password" required minlength="6"></label>' +
-          '<div id="err" class="error"></div><button class="btn" id="submit">สมัครสมาชิก</button></form>') +
+          '<label class="check pdcheck"><input type="checkbox" name="pdpa_ok" id="pdpaok"><span>ฉันอ่านและยอมรับ <button type="button" class="inlink" id="pdpalink">ประกาศความเป็นส่วนตัว</button> ของ ' + esc(CONFIG.APP_NAME) + '</span></label>' +
+          '<p class="hint pdhint">เก็บชื่อ เบอร์ และข้อมูลการส่งของ เพื่อให้บริการเท่านั้น ลบบัญชีได้ทุกเมื่อ</p>' +
+          '<div id="err" class="error"></div><button class="btn" id="submit" disabled>สมัครสมาชิก</button></form>') +
       (local ? '<button class="linkbtn" data-act="reset">ล้างข้อมูลทดสอบทั้งหมด (โหมดไฟล์ HTML)</button>' : '') +
       '</div>';
 
@@ -415,12 +418,16 @@
       attachRules($('regf').password, 'password');
       var p2 = $('regf').password2;
       bindConfirm($('regf').password, p2);
+      var pdSync = function () { $('submit').disabled = !$('pdpaok').checked; };
+      $('pdpaok').addEventListener('change', pdSync);
+      $('pdpalink').addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPdpa(function () { $('pdpaok').checked = true; pdSync(); }); });
       $('regf').addEventListener('submit', function (e) {
         e.preventDefault();
+        if (!$('pdpaok').checked) return showError('err', 'กรุณาอ่านและยอมรับประกาศความเป็นส่วนตัวก่อนสมัคร');
         if (this.password.value !== this.password2.value) { fieldError(p2, 'รหัสผ่านไม่ตรงกัน'); return p2.focus(); }
         submitAuth('register', {
           username: this.username.value,
-          name: this.name.value, phone: this.phone.value, password: this.password.value,
+          name: this.name.value, phone: this.phone.value, password: this.password.value, pdpa_ok: 1,
         });
       });
     }
@@ -577,6 +584,7 @@
   function home() {
     if (!me) return 'auth';
     if (me.must_change) return 'force-pw';
+    if (me.pdpa_ok === false) return 'force-pdpa';
     return me.role === 'admin' ? 'a-orders' : 'u-home';
   }
 
@@ -898,7 +906,7 @@
   // ---------- Popup เมื่อได้รับ Point / เครดิต ----------
   var rewardQueue = [], rewardOpen = false, rewardSeen = {}, rewardStep = 0, rewardStepN = 0;
   function checkRewards() {
-    if (!me || me.role === 'admin' || me.must_change) return;
+    if (!me || me.role === 'admin' || me.must_change || me.pdpa_ok === false) return;
     call('rewards_unseen').then(function (d) {
       d.items.forEach(function (r) { if (!rewardSeen[r.id]) { rewardSeen[r.id] = 1; rewardQueue.push(r); } });
       showNextReward();
@@ -987,7 +995,7 @@
 
   // ---------- โปรไฟล์ ----------
   var LOG_LABEL = {
-    register: 'สมัครสมาชิก', login: 'เข้าสู่ระบบ', login_failed: 'ล็อกอินไม่สำเร็จ', logout: 'ออกจากระบบ',
+    register: 'สมัครสมาชิก', pdpa_accept: 'ยอมรับประกาศความเป็นส่วนตัว', login: 'เข้าสู่ระบบ', login_failed: 'ล็อกอินไม่สำเร็จ', logout: 'ออกจากระบบ',
     job_create: 'สั่งบริการ', job_confirm: 'ยืนยันคำสั่ง', job_reject: 'ปฏิเสธคำสั่ง', job_pickup: 'รับของที่จุดรับฝาก', job_start: 'ออกนำส่ง', job_deliver: 'ส่งถึงมือผู้รับ',
     job_code_locked: 'ใส่รหัสรับของผิดครบกำหนด', cod_accept: 'ยอมรับชำระปลายทาง', cod_decline: 'ปฏิเสธชำระปลายทาง', cod_withdraw: 'ถอนการยอมรับชำระ',
     job_arrive: 'ถึงจุดส่ง', job_contact: 'บันทึกการติดต่อผู้รับ', job_fail: 'ส่งไม่สำเร็จ', job_refuse: 'ไม่รับของ', appeal: 'ยื่นโต้แย้ง', appeal_decide: 'ตรวจคำโต้แย้ง', job_cancel: 'ยกเลิกคำสั่ง', job_returned: 'รับของคืน', chat_send: 'ส่งข้อความ', profile_update: 'แก้ไขข้อมูลส่วนตัว',
@@ -1957,7 +1965,7 @@
         '<h2>การใช้งานวันนี้' + (grouped.length ? '<button class="h2link" data-page="activity">ดูทั้งหมด</button>' : '') + '</h2><div class="plogs">' + logs + '</div>' +
         adminTools + '<div class="psec">ตั้งค่าบัญชี</div><div id="pwnote"></div><div class="menu">' +
         item('data-page="editprofile"', 'edit', 'แก้ไขข้อมูลส่วนตัว') + item('data-page="changepw"', 'lock', 'เปลี่ยนรหัสผ่าน') +
-        (isU ? item('data-act="contact"', 'help', 'ติดต่อแอดมิน') : '') + item('data-act="logout"', 'out', 'ออกจากระบบ') +
+        (isU ? item('data-act="contact"', 'help', 'ติดต่อแอดมิน') + item('data-act="privacy"', 'info', 'ประกาศความเป็นส่วนตัว') : '') + item('data-act="logout"', 'out', 'ออกจากระบบ') +
         (isU ? item('data-page="deleteacc"', 'trash', 'ลบบัญชี', true) : '') + '</div>' +
         '');
       if ($('svcov')) $('svcov').addEventListener('change', function () { var c = this; call('set_service_override', { on: c.checked }).catch(function () { c.checked = !c.checked; }); });
@@ -2025,6 +2033,49 @@
     }).catch(function (e) { handleAuthError(e); });
   }
   // ติดต่อแอดมิน: แผ่นเลื่อนขึ้นจากด้านล่าง
+  // ---------- ประกาศความเป็นส่วนตัว (PDPA) ----------
+  function pdpaBody() {
+    var lineId = (String(CONFIG.ADMIN_CONTACT).match(/LINE ID:\s*(\S+)/) || [])[1] || '';
+    var v = CONFIG.PDPA_VERSION.split('-'), TH = ['', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    return '<p class="pdv">ฉบับวันที่ ' + Number(v[2]) + ' ' + TH[Number(v[1])] + ' ' + v[0] + '</p>' +
+      '<h3>ใครเก็บข้อมูล</h3><p>กลุ่มผู้จัดทำโครงงาน ' + esc(CONFIG.APP_NAME) + ' รายวิชา BV401 มหาวิทยาลัยหอการค้าไทย</p>' +
+      '<h3>เก็บอะไร</h3><ul><li>บัญชี: ชื่อผู้ใช้ ชื่อโปรไฟล์ เบอร์โทร รหัสผ่าน (เข้ารหัส อ่านย้อนไม่ได้)</li><li>คำสั่ง: รายละเอียดและรูปของ จุดส่ง รูปตอนรับและส่งของ</li>' +
+      '<li>ชื่อและเบอร์ผู้รับที่คุณกรอก</li><li>แชทกับแอดมินและน้องถึง ประวัติการใช้งาน</li></ul>' +
+      '<h3>ใช้ทำอะไร</h3><p>รับส่งของ ติดต่อเรื่องการส่ง ตรวจสอบเมื่อมีปัญหา และปรับปรุงบริการ ไม่ขายหรือส่งต่อให้ผู้อื่น</p>' +
+      '<h3>ใครเห็น</h3><p>แอดมินและไรเดอร์ของ ' + esc(CONFIG.APP_NAME) + ' · ผู้รับเห็นชื่อผู้สั่งและสถานะผ่านลิงก์ติดตาม · ข้อมูลเก็บใน Google Sheet และ Google Drive ของโครงงาน</p>' +
+      '<h3>เก็บนานเท่าไร</h3><ul><li>เบอร์ผู้รับ: ลบเมื่อจบงานครบ ' + CONFIG.PHONE_KEEP_DAYS + ' วัน</li><li>ลิงก์ติดตาม: ใช้ได้ถึง ' + CONFIG.TRACK_DAYS + ' วันหลังจบงาน</li>' +
+      '<li>แชทกับน้องถึง: ' + BOT.KEEP_DAYS + ' วัน</li><li>บัญชีและข้อมูลอื่น: จนกว่าคุณลบบัญชี และลบทั้งหมดเมื่อจบรายวิชา BV401</li></ul>' +
+      '<h3>เมื่อลบบัญชี</h3><p>ระบบลบเบอร์ แชทกับน้องถึง และออกจากระบบทุกเครื่อง ส่วนประวัติคำสั่งเก็บไว้เป็นหลักฐานการให้บริการโดยไม่มีเบอร์ของคุณ</p>' +
+      '<h3>เบอร์ของผู้รับ</h3><p>ก่อนกรอกเบอร์ผู้รับ คุณต้องได้รับความยินยอมจากผู้รับแล้ว ไรเดอร์ใช้เบอร์นี้โทรเรื่องการส่งของเท่านั้น</p>' +
+      '<h3>สิทธิ์ของคุณ</h3><p>ขอดู แก้ไข หรือลบข้อมูล และถอนความยินยอมได้ แก้ชื่อและเบอร์ได้เองในหน้าโปรไฟล์ เรื่องอื่นติดต่อแอดมิน' + (lineId ? ' LINE ID: ' + esc(lineId) : '') + '</p>';
+  }
+  function openPdpa(onAccept) {
+    var el = document.createElement('div');
+    el.className = 'sheetwrap';
+    el.innerHTML = '<div class="sheet pdpasheet" role="dialog" aria-modal="true" aria-labelledby="pdh"><i class="tape"></i><div class="pdhead"><strong id="pdh">ประกาศความเป็นส่วนตัว</strong>' +
+      '<button type="button" class="iconbtn" data-close aria-label="ปิด">' + icon('x') + '</button></div>' +
+      '<div class="pdbody">' + pdpaBody() + '</div><div class="pdfoot"><button type="button" class="btn" data-close data-ok>' + (onAccept ? 'อ่านแล้ว ยอมรับ' : 'ปิด') + '</button></div></div>';
+    document.body.appendChild(el);
+    el.addEventListener('click', function (e) {
+      if (e.target !== el && !e.target.closest('[data-close]')) return;
+      var ok = !!e.target.closest('[data-ok]');
+      el.remove();
+      if (ok && onAccept) onAccept();
+    });
+    el.querySelector('.pdfoot .btn').focus();
+  }
+  function viewForcePdpa() {
+    if (fab) fab.hidden = true;
+    app.innerHTML = '<header class="topbar"><span class="brand">' + esc(CONFIG.APP_NAME) + '</span><span class="rolechip">' + esc(me.name) + '</span></header>' +
+      '<h1>ประกาศความเป็นส่วนตัว</h1><div class="card"><div class="infobox">' + icon('info') + '<div><b>กรุณาอ่านและกดยอมรับครั้งเดียวก่อนใช้งานต่อ</b>' +
+      '<span>เราเพิ่มประกาศนี้หลังคุณสมัคร บอกว่าเก็บข้อมูลอะไร ใช้ทำอะไร และเก็บนานเท่าไร</span></div></div>' +
+      '<div class="pdbody inline">' + pdpaBody() + '</div><div id="err" class="error"></div><button type="button" class="btn" id="pdok">อ่านแล้ว ยอมรับ</button></div>' +
+      '<button class="linkbtn" data-act="logout">ออกจากระบบ</button>';
+    $('pdok').addEventListener('click', function () {
+      var b = this; b.disabled = true;
+      call('pdpa_accept').then(function (r) { me = r.me; go(home()); }).catch(function (e) { b.disabled = false; if (!handleAuthError(e)) showError('err', e.message); });
+    });
+  }
   function openContact() {
     var lineId = (String(CONFIG.ADMIN_CONTACT).match(/LINE ID:\s*(\S+)/) || [])[1] || '';
     var el = document.createElement('div');
@@ -2072,7 +2123,7 @@
   // ---------- แชท: หน้ารวม + หน้าแชทเต็มจอ ----------
   var chatUnread = 0;
   function refreshChatBadge() {
-    if (!me || me.role === 'admin' || me.must_change) return;
+    if (!me || me.role === 'admin' || me.must_change || me.pdpa_ok === false) return;
     checkRewards();
     call('chat_inbox').then(function (d) {
       chatUnread = d.unread;
@@ -2406,7 +2457,7 @@
     document.addEventListener('focusout', function () { if (fab) fab.classList.remove('typing'); });
   }
   function updateFab() {
-    var show = !!(me && me.role === 'user' && !me.must_change && state.view !== 'auth' && state.view !== 'bot' && state.view !== 'bot-history' && state.view !== 'bot-day' && state.view !== 'chat' && state.view !== 'force-pw');
+    var show = !!(me && me.role === 'user' && !me.must_change && state.view !== 'auth' && state.view !== 'bot' && state.view !== 'bot-history' && state.view !== 'bot-day' && state.view !== 'chat' && state.view !== 'force-pw' && state.view !== 'force-pdpa');
     document.body.classList.toggle('hasfab', show);
     if (!show) { if (fab) fab.hidden = true; fabHideTipSoft(); return; }
     if (!fab) makeFab();
@@ -2435,7 +2486,7 @@
     e.textContent = n > 99 ? '99+' : n; e.hidden = !n;
   }
   function refreshBotBadge() {
-    if (!me || me.must_change) return;
+    if (!me || me.must_change || me.pdpa_ok === false) return;
     call('bot_unread').then(function (d) {
       if (me.role === 'user') setFabDot(d.unread);
     }).catch(function () {});
@@ -2795,7 +2846,7 @@
     'u-home': viewUserHome, 'u-new': viewNew, 'u-orders': viewOrders, 'u-incoming': viewUserIncoming,
     'a-orders': viewAdminOrders, 'a-home': viewAdminHome, resetpw: viewResetPw, pricing: viewPricing,
     profile: viewProfile, job: viewJob, history: viewHistory, activity: viewActivity, points: viewPoints, 'points-all': viewPointsAll,
-    editprofile: viewEditProfile, changepw: viewChangePw, deleteacc: viewDeleteAcc, 'force-pw': viewForcePw, chats: viewChats, chat: viewChat, bot: viewBot, 'a-bot': viewAdminBot, 'bot-history': viewBotHistory, 'bot-day': viewBotDay,
+    editprofile: viewEditProfile, changepw: viewChangePw, deleteacc: viewDeleteAcc, 'force-pw': viewForcePw, 'force-pdpa': viewForcePdpa, chats: viewChats, chat: viewChat, bot: viewBot, 'a-bot': viewAdminBot, 'bot-history': viewBotHistory, 'bot-day': viewBotDay,
   };
   var ALLOWED = {
     user: ['u-home', 'u-new', 'u-orders', 'u-incoming', 'profile', 'job', 'chats', 'chat', 'history', 'activity', 'points', 'points-all', 'editprofile', 'changepw', 'deleteacc', 'bot', 'bot-history', 'bot-day'],
@@ -2806,6 +2857,7 @@
     state.doAct = null; state.histAct = null;
     if (!me || state.view === 'auth') { if (fab) fab.hidden = true; fabHideTipSoft(); return viewAuth(authMode); }
     if (me.must_change) state.view = 'force-pw';
+    else if (me.pdpa_ok === false) state.view = 'force-pdpa';
     else if (ALLOWED[me.role].indexOf(state.view) < 0) state.view = home();
     document.body.className = 'role-' + me.role;
     VIEWS[state.view]();
@@ -2858,6 +2910,7 @@
     if (a === 'chattab') { state.chatTab = t.getAttribute('data-tab'); render(); return; }
     if (a === 'more-logs') { app.querySelectorAll('.logday.more, .loglist2.more, .logrow.more').forEach(function (el) { el.hidden = false; }); t.remove(); }
     if (a === 'contact') return openContact();
+    if (a === 'privacy') return openPdpa(null);
     if (a === 'show-pw') { $('pwbox').style.display = 'block'; t.style.display = 'none'; $('pwnote').innerHTML = ''; $('cpf').old_password.focus(); }
     if (a === 'show-delete') { $('delf').style.display = 'block'; t.style.display = 'none'; }
     if (a === 'reset' && local && confirmReset(t)) { createLocalStore().reset(); setToken(null); me = null; go('auth'); }

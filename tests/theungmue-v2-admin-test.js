@@ -136,8 +136,8 @@ async function goNav(p, go) { if (!(await p.locator('.tabbar').isVisible().catch
     const sj = H.mk({}); H.to(sj, 'delivering'); H.act(sj, 'arrive'); L.handle(A, 'act', { id: sj, action: 'fail', code: 'item_damaged', note: 'x', photos: { list: H.ph, verdict: 'shop' } });
     L.handle(A, 'act', { id: sj, action: 'dispose', note: 'ส่งคืนคณะ' });
     const c = H.mk({ sender: 'u03', f: { recipient_id: 'U04' } }); L.handle(H.tok('u03'), 'send', { id: c, text: 'ของถึงแล้ว ขอบคุณครับ' }); H.to(c, 'delivered');
-    L.handle(null, 'register', { username: 'evil9', name: '=HYPERLINK("x","y")', phone: '0897777777', password: 'abcd1234' });
-    const tk = L.handle(null, 'login', { username: 'evil9', password: 'abcd1234' }).token; L.handle(tk, 'create', { item_type: 'เอกสาร / ชีท', item_detail: 'x', dropoff_zone: 'อาคาร 3', recipient_id: 'U04', mode: 'normal', photos: H.ph });
+    L.handle(null, 'register', { username: 'evil9', name: '=HYPERLINK("x","y")', phone: '0897777777', password: 'abcd1234', pdpa_ok: 1 });
+    const tk = L.handle(null, 'login', { username: 'evil9', password: 'abcd1234', pdpa_ok: 1 }).token; L.handle(tk, 'create', { item_type: 'เอกสาร / ชีท', item_detail: 'x', dropoff_zone: 'อาคาร 3', recipient_id: 'U04', mode: 'normal', photos: H.ph });
     return { sj, noForce: H.err(() => L.handle(A, 'admin_set_user_status', { username: 'u02', status: 'disabled', note: 'x' })), adminMsg: H.err(() => L.handle(A, 'admin_set_user_status', { username: 'admin', status: 'disabled', note: 'x' })) }; });
   await openJob(a, r2.sj); const before = await a.locator('[data-do=refunded]').count();
   await a.click('[data-do=refunded]'); await W(a, 300); await a.click('[data-do=refunded]'); await W(a, 900);
@@ -156,7 +156,7 @@ async function goNav(p, go) { if (!(await p.locator('.tabbar').isVisible().catch
   await goNav(a, 'profile'); await a.click('[data-page=activity]'); await W(a, 800); const act = await txt(a, '#app');
   await T('AD-20', 'ประวัติ', 'รายการใหม่เป็นภาษาไทย', 'เปิดการใช้งานทั้งหมดของแอดมิน', 'ไม่มีรหัสอังกฤษ · มี "จัดการของที่ไม่มีคนรับคืน" "คืนเงินผู้สั่ง" "แก้ไขราคาและ Point"',
     async () => [!/return_|admin_disable|admin_enable|pricing_update|refund_paid/.test(act) && act.includes('จัดการของที่ไม่มีคนรับคืน') && act.includes('คืนเงินผู้สั่ง') && act.includes('แก้ไขราคาและ Point'), (act.match(/[a-z]+_[a-z_]+/g) || []).slice(0, 4).join() || 'ไม่มีรหัสอังกฤษ']);
-  const dz = await E(() => { const L = H.L, A = H.tok('admin'); L.handle(null, 'register', { username: 'own1', name: 'Own One', phone: '0866666666', password: 'demo1234' }); const d = H.mk({ sender: 'own1', f: { recipient_id: 'U04' } }); H.to(d, 'picked'); L.handle(A, 'act', { id: d, action: 'cancel', note: 'ไรเดอร์ทำของหาย' });
+  const dz = await E(() => { const L = H.L, A = H.tok('admin'); L.handle(null, 'register', { username: 'own1', name: 'Own One', phone: '0866666666', password: 'demo1234', pdpa_ok: 1 }); const d = H.mk({ sender: 'own1', f: { recipient_id: 'U04' } }); H.to(d, 'picked'); L.handle(A, 'act', { id: d, action: 'cancel', note: 'ไรเดอร์ทำของหาย' });
     const del = H.err(() => L.handle(L.handle(null, 'login', { username: 'own1', password: 'demo1234' }).token, 'delete_account', { password: 'demo1234', confirm: 'ลบบัญชี' })); L.handle(A, 'act', { id: d, action: 'dispose', note: 'ส่งคืนคณะ' }); return { d, del }; });
   let u3 = await ctx.newPage(); await u3.goto(URL); await u3.fill('#loginf [name=username]', 'own1'); await u3.fill('#loginf [name=password]', 'demo1234'); await u3.click('#loginf #submit'); await W(u3, 900); for (let i = 0; i < 6 && await u3.locator('.rwpop').count(); i++) { await u3.locator('.rwpop [data-rw=ok]').click(); await W(u3, 400); }
   await openJob(u3, dz.d); const rt3 = await txt(u3, '.returncard');

@@ -57,6 +57,7 @@ var CONFIG = {
   REFUSE: { PENALTY: 5, LIMIT: 2, WINDOW_DAYS: 30, BAN_DAYS: 30, WAIT_MIN: 10, CALLS: 2, CALL_GAP_MIN: 5, HOLD_DAYS: 3 },
   REVIEW_TAGS: ['ส่งตรงเวลา', 'ไรเดอร์สุภาพ', 'ของอยู่ในสภาพดี', 'ติดต่อง่าย'], // ผู้รับให้คะแนนผ่านลิงก์ติดตาม (ไม่ได้ Point)
   TRACK_DAYS: 7, // ลิงก์ติดตามใช้ได้ถึงกี่วันหลังจบงาน
+  PDPA_VERSION: '2569-11-24', // ประกาศความเป็นส่วนตัว: บัญชีที่ยังไม่ยอมรับฉบับนี้ต้องกดยอมรับครั้งเดียว
   PHONE_KEEP_DAYS: 30, // ลบเบอร์ผู้รับออกจากคำสั่งหลังจบงานกี่วัน (PDPA)
   // ส่งช้า: ไม่เกิน GRACE_MIN บันทึกอย่างเดียว / เกิน ชดเชย Point ให้คนที่จ่าย / เกิน COD_FREE_MIN ผู้รับปลายทางปฏิเสธได้โดยไม่ถูกหัก
   LATE: { GRACE_MIN: 10, COMP_POINTS: 2, COD_FREE_MIN: 30, PENDING_WARN_MIN: 10, NEAR_DUE_MIN: 15 },
@@ -141,7 +142,7 @@ var CONFIG = {
 CONFIG.ZONES = CONFIG.ZONE_GROUPS.reduce(function (a, g) { return a.concat(g.items); }, []);
 
 var SCHEMA = {
-  Users: ['id', 'username', 'name', 'phone', 'role', 'pass_hash', 'salt', 'status', 'created_at', 'failed_count', 'locked_until', 'must_change', 'bonus_points', 'status_note'],
+  Users: ['id', 'username', 'name', 'phone', 'role', 'pass_hash', 'salt', 'status', 'created_at', 'failed_count', 'locked_until', 'must_change', 'bonus_points', 'status_note', 'pdpa_at', 'pdpa_ver'],
   Sessions: ['token', 'user_id', 'created_at', 'expires_at', 'revoked'],
   Jobs: ['id', 'created_at', 'sender_id', 'recipient_id', 'service', 'item_type', 'item_detail', 'pickup_zone', 'pickup_detail',
     'dropoff_zone', 'dropoff_detail', 'mode', 'due_at', 'note', 'status', 'confirmed_at', 'picked_at', 'paid_at', 'delivering_at',
@@ -250,7 +251,8 @@ function createLogic(store) {
   }
   function publicUser(u) {
     if (!u) return null;
-    return { id: u.id, username: u.username, name: u.name, phone: u.phone, role: u.role, status: u.status, created_at: u.created_at, must_change: u.must_change === 'yes' };
+    return { id: u.id, username: u.username, name: u.name, phone: u.phone, role: u.role, status: u.status, created_at: u.created_at, must_change: u.must_change === 'yes',
+      pdpa_ok: u.role === 'admin' || u.pdpa_ver === CONFIG.PDPA_VERSION, pdpa_at: u.pdpa_at || '' };
   }
   function userById(id) { return allUsers().filter(function (u) { return u.id === id; })[0] || null; }
   function nameOf(id, users) {
@@ -324,15 +326,16 @@ function createLogic(store) {
   }
 
   function register(a) {
+    if (!a.pdpa_ok) fail('กรุณาอ่านและยอมรับประกาศความเป็นส่วนตัวก่อนสมัคร');
     var c = checkNewAccount(a);
     var username = c.username, name = c.name, phone = c.phone, password = c.password;
     var salt = rid('', 16);
     var u = {
       id: rid('U', 6), username: username, name: name, phone: phone, role: 'user',
-      pass_hash: hashPassword(password, salt), salt: salt, status: 'active', created_at: nowIso(),
+      pass_hash: hashPassword(password, salt), salt: salt, status: 'active', created_at: nowIso(), pdpa_at: nowIso(), pdpa_ver: CONFIG.PDPA_VERSION,
     };
     store.insert('Users', u);
-    log(u, 'register', u.id, 'สมัครสมาชิก');
+    log(u, 'register', u.id, 'สมัครสมาชิก · ยอมรับประกาศความเป็นส่วนตัว ฉบับ ' + CONFIG.PDPA_VERSION);
     return { registered: true, username: u.username };
   }
 
@@ -1529,6 +1532,12 @@ function createLogic(store) {
     expireCod();
     purgePhones();
     if (me.must_change === 'yes' && ['session', 'logout', 'change_password'].indexOf(action) < 0) fail('กรุณาตั้งรหัสผ่านใหม่ก่อนใช้งาน');
+    if (action === 'pdpa_accept') { // บัญชีที่สมัครก่อนมีประกาศ: กดยอมรับครั้งเดียว
+      me = store.update('Users', me.id, { pdpa_at: nowIso(), pdpa_ver: CONFIG.PDPA_VERSION });
+      log(me, 'pdpa_accept', me.id, 'ยอมรับประกาศความเป็นส่วนตัว ฉบับ ' + CONFIG.PDPA_VERSION);
+      return { me: publicUser(me) };
+    }
+    if (!publicUser(me).pdpa_ok && ['session', 'logout', 'contact'].indexOf(action) < 0) fail('กรุณาอ่านและยอมรับประกาศความเป็นส่วนตัวก่อนใช้งาน');
     var users = allUsers();
     var v = function (j) { return viewJob(j, me, users); };
 
@@ -1844,7 +1853,7 @@ function seedUserRows() {
     return {
       id: u.id, username: u.username, name: u.name, phone: u.phone, role: u.role,
       pass_hash: hashPassword(CONFIG.DEMO_PASSWORD, salt), salt: salt, status: 'active', created_at: '2026-11-21T00:00:00.000Z',
-      bonus_points: u.points ? String(u.points) : '',
+      bonus_points: u.points ? String(u.points) : '', pdpa_at: '2026-11-21T00:00:00.000Z', pdpa_ver: CONFIG.PDPA_VERSION, // บัญชีทดลองยอมรับไว้แล้ว
     };
   });
 }
