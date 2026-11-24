@@ -3,12 +3,18 @@
 // v2.27: ทุกช่องเป็นข้อความ (กันเลข 0 หน้าเบอร์หาย/วันที่ถูกแปลง) · กันข้อความที่ขึ้นต้นด้วย = + - @ ถูกอ่านเป็นสูตร
 //        ล็อกเฉพาะตอนเขียน (อ่านพร้อมกันได้) · จำข้อมูลที่อ่านแล้วภายในคำขอเดียว · ลบแถวได้ (ลบบัญชี/ลบแชทเก่า)
 
-function doGet() {
+function doGet(e) {
   ensureSetup_();
-  return HtmlService.createHtmlOutputFromFile('index')
+  var out = HtmlService.createHtmlOutputFromFile('index')
     .setTitle(CONFIG.APP_NAME + ' ' + CONFIG.APP_NAME_TH + ' — ' + CONFIG.TAGLINE)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL); // ฝังในหน้า GitHub Pages ได้
+  // ลิงก์ติดตามของผู้รับ (?t=) และที่อยู่หน้าเว็บสำหรับสร้างลิงก์ ต้องตั้งก่อนสคริปต์หลักทำงาน
+  var t = String((e && e.parameter && e.parameter.t) || '').replace(/[^A-Za-z0-9]/g, '').slice(0, 40), url = '';
+  try { url = ScriptApp.getService().getUrl() || ''; } catch (er) {}
+  var pre = '<script>' + (url ? 'window.TM_PAGE_URL=' + JSON.stringify(url) + ';' : '') + (t ? 'window.TM_TRACK=' + JSON.stringify(t) + ';' : '') + '<\/script>';
+  if (pre !== '<script><\/script>') out.setContent(pre + out.getContent());
+  return out;
 }
 
 // หน้าเว็บเรียกฟังก์ชันนี้ผ่าน google.script.run

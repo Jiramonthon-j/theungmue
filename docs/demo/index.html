@@ -1952,6 +1952,64 @@ body.netbusy::after { opacity: 1; animation: netbar 1.6s ease-out infinite; }
 @keyframes netbar { 0% { width: 0; left: 0; } 60% { width: 70%; left: 10%; } 100% { width: 10%; left: 100%; } }
 @media (prefers-reduced-motion: reduce) { body.netbusy::after { animation: none; width: 100%; } }
 
+/* ===================== v2.29: ผู้รับไม่ต้องสมัคร ===================== */
+.rcpbox { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; margin-bottom: 12px; }
+.rcphead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+.rcphead span { font-size: 12px; color: var(--muted); }
+.rchips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 2px 0 10px; }
+.rchips small { color: var(--muted); font-size: 12px; margin-right: 2px; }
+.rchip { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 4px 11px; font: inherit; font-size: 13px; cursor: pointer; }
+.rchip:hover, .rchip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.check { display: flex; gap: 9px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; cursor: pointer; position: relative; margin: 6px 0 4px; }
+.check input { position: absolute; opacity: 0; pointer-events: none; }
+.check span::before { content: ""; display: inline-block; vertical-align: -3px; width: 17px; height: 17px; border: 2px solid var(--muted); border-radius: 5px; margin-right: 8px; background: var(--surface); }
+.check input:checked + span::before { background: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 3px var(--surface); }
+.check input:focus-visible + span::before { outline: 2px solid var(--accent); outline-offset: 2px; }
+.check[hidden] { display: none; }
+.codagree { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 10px 12px; margin-top: 8px; font-size: 13px; }
+.codagree .check { color: var(--ink); }
+.codagree[hidden] { display: none; }
+.paypick label.off { opacity: .55; cursor: not-allowed; }
+.sharecard { margin-top: 12px; border-color: var(--accent); }
+.sharecard .code { margin: 4px 0; }
+.sharemsg { background: var(--bg); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.55; margin-bottom: 10px; word-break: break-word; }
+.owedcard { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; background: var(--urgent-soft); border-color: transparent; color: var(--urgent); }
+.owedcard b { display: block; }
+.owedcard small { font-size: 12px; opacity: .85; }
+.owedcard .btn { width: auto; flex: none; }
+.redocard { margin-top: 12px; border-color: var(--accent); }
+.redocard .paypick { margin: 4px 0 8px; }
+.redocard .btn { margin-top: 8px; }
+.seg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--bg); border-radius: 10px; padding: 4px; margin: 4px 0 10px; }
+.seg2 label { position: relative; cursor: pointer; }
+.seg2 input { position: absolute; opacity: 0; pointer-events: none; }
+.seg2 span { display: block; text-align: center; padding: 7px 6px; border-radius: 8px; font-size: 13.5px; color: var(--muted); }
+.seg2 input:checked + span { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+.seg2 input:focus-visible + span { outline: 2px solid var(--accent); }
+.ptsw { position: relative; display: flex; margin-left: auto; cursor: pointer; flex: none; }
+.ptsw input { position: absolute; opacity: 0; pointer-events: none; }
+.ptsw input:checked + .tog { background: var(--accent); }
+.ptsw input:checked + .tog::after { left: 20px; }
+.okline { color: var(--ok); font-size: 13px; font-weight: 600; }
+.reviewcard { margin-top: 12px; }
+.reviewcard .starpick { margin: 6px 0 10px; }
+.reviewcard > p { margin: 8px 0 0; font-size: 14px; }
+.rtags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.rtags span, .rtags button { border-radius: 999px; padding: 4px 11px; font-size: 12.5px; background: var(--accent-soft); color: var(--accent); border: 1px solid transparent; font-family: inherit; }
+.rtags.pick button { background: var(--surface); color: var(--muted); border-color: var(--line); cursor: pointer; }
+.rtags.pick button.on { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.reviewsum { margin-top: 12px; }
+.reviewsum .stars svg { width: 15px; height: 15px; }
+.revrow { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink); text-decoration: none; margin-top: 8px; }
+.revrow + .revrow { margin-top: 0; }
+.revrow span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.revrow small { color: var(--muted); font-size: 11.5px; }
+.trackpage { max-width: 560px; margin: 0 auto; padding: 12px 16px 40px; }
+.trackpage .dlvban { margin-top: 0; }
+.trackfoot { margin-top: 18px; text-align: center; font-size: 12.5px; }
+.trackfoot a { color: var(--accent); }
+body.role-track { background: var(--bg); }
+
 </style>
 </head>
 <body>
@@ -2013,16 +2071,21 @@ var CONFIG = {
   // วิธีชำระ: จ่ายตอนฝากของ (ผู้สั่งจ่าย) / เก็บเงินปลายทาง (ผู้รับจ่าย) — คนที่จ่ายเป็นคนใช้และได้ Point
   PAY_METHODS: {
     sender: { label: 'จ่ายตอนฝากของ', hint: 'ผู้สั่งจ่ายเงินสดเมื่อไรเดอร์รับของที่จุดรับฝาก' },
-    cod: { label: 'เก็บเงินปลายทาง', hint: 'ผู้รับจ่ายเงินสดตอนได้รับของ · ผู้รับต้องกดยอมรับก่อนแอดมินยืนยันคำสั่ง' },
+    cod: { label: 'เก็บเงินปลายทาง', hint: 'ผู้รับจ่ายเงินสดให้ไรเดอร์ตอนได้รับของ · ผู้สั่งยืนยันว่าผู้รับตกลงจ่ายแล้ว ถ้าผู้รับไม่จ่าย ผู้สั่งจ่ายค่าส่งรอบนั้นแทน' },
   },
   // ปฏิเสธรับของแบบเก็บเงินปลายทาง (หลังไรเดอร์ออกนำส่ง) ที่เป็นความผิดของผู้รับ
+  // v2.29 ผู้รับไม่ต้องสมัคร: ไรเดอร์โทรผู้รับ CALLS ครั้ง (ห่าง CALL_GAP_MIN นาที) → โทรผู้สั่ง → รอ WAIT_MIN นาที → นำของกลับจุดรับฝาก เก็บ HOLD_DAYS วัน
+  // ไม่มีบทลงโทษผู้รับแล้ว (PENALTY/LIMIT/BAN ใช้แสดงข้อมูลเก่าเท่านั้น)
   REFUSE: { PENALTY: 5, LIMIT: 2, WINDOW_DAYS: 30, BAN_DAYS: 30, WAIT_MIN: 10, CALLS: 2, CALL_GAP_MIN: 5, HOLD_DAYS: 3 },
+  REVIEW_TAGS: ['ส่งตรงเวลา', 'ไรเดอร์สุภาพ', 'ของอยู่ในสภาพดี', 'ติดต่อง่าย'], // ผู้รับให้คะแนนผ่านลิงก์ติดตาม (ไม่ได้ Point)
+  TRACK_DAYS: 7, // ลิงก์ติดตามใช้ได้ถึงกี่วันหลังจบงาน
+  PHONE_KEEP_DAYS: 30, // ลบเบอร์ผู้รับออกจากคำสั่งหลังจบงานกี่วัน (PDPA)
   // ส่งช้า: ไม่เกิน GRACE_MIN บันทึกอย่างเดียว / เกิน ชดเชย Point ให้คนที่จ่าย / เกิน COD_FREE_MIN ผู้รับปลายทางปฏิเสธได้โดยไม่ถูกหัก
   LATE: { GRACE_MIN: 10, COMP_POINTS: 2, COD_FREE_MIN: 30, PENDING_WARN_MIN: 10, NEAR_DUE_MIN: 15 },
   // เหตุผลส่งไม่สำเร็จ: fault = คนที่ผิด (recipient / sender / shop) · verdict = แอดมินเลือกคนผิดเองหลังเทียบรูป 3 ช่วง
   FAIL_REASONS: {
-    no_pay: { label: 'เจอผู้รับ แต่ไม่จ่าย / เปลี่ยนใจ / ไม่มีเงิน', fault: 'recipient', by: 'admin' },
-    not_found: { label: 'ไม่พบผู้รับ ติดต่อไม่ได้', fault: 'recipient', by: 'admin' },
+    no_pay: { label: 'เจอผู้รับ แต่ไม่จ่าย / ไม่รับของ', fault: 'recipient', by: 'admin' },
+    not_found: { label: 'ติดต่อผู้รับไม่ได้ / ผู้รับไม่มารับ', fault: 'recipient', by: 'admin' },
     item_mismatch: { label: 'ผู้รับตรวจแล้ว ของไม่ตรง / ไม่ครบ', verdict: true, by: 'admin' },
     item_damaged: { label: 'ของเสียหาย', verdict: true, by: 'admin' },
     wrong_person: { label: 'ผู้สั่งส่งผิดคน / ไม่ใช่ของผู้รับ', fault: 'sender', by: 'both' },
@@ -2110,7 +2173,10 @@ var SCHEMA = {
     'hidden_sender', 'hidden_recipient', // ซ่อนจากประวัติของแต่ละฝ่าย (ไม่ลบข้อมูลจริง)
     'pay_method', 'payer_id', 'cod_status', 'cod_at', 'arrived_at', 'contact_log', 'late_min', 'late_excused', 'comp_points',
     'fail_reason', 'fail_fault', 'fail_note', 'fail_photo_count', 'penalty_points', 'penalty_user', 'appeal_text', 'appeal_at', 'appeal_result', 'appeal_done_at',
-    'refund_amount', 'refunded_at', 'keep_until', 'disposed_at', 'dispose_note', 'remind_at'], // ส่งไม่สำเร็จเพราะ TheungMue: คืนเงินสดให้ผู้สั่งตอนมารับของคืน
+    'refund_amount', 'refunded_at', 'keep_until', 'disposed_at', 'dispose_note', 'remind_at',
+    // v2.29 ผู้รับไม่ต้องสมัคร: ชื่อ/เบอร์ผู้รับ (recipient_id = สมาชิกที่เบอร์ตรง ถ้ามี) · ลิงก์ติดตาม · ค้างชำระของผู้สั่ง · ส่งมอบแบบไม่มีรหัส · รีวิวผู้รับ · ส่งใหม่
+    'recipient_name', 'recipient_phone', 'track_token', 'cod_agreed', 'sender_owed', 'owed_paid_at', 'handover', 'handover_name',
+    'review_stars', 'review_tags', 'review_text', 'review_at', 'phone_purged_at', 'redo_of', 'redo_id'], // ส่งไม่สำเร็จเพราะ TheungMue: คืนเงินสดให้ผู้สั่งตอนมารับของคืน
   // รูปของคำสั่ง: stage = item (ผู้สั่งแนบ) / pickup (ร้านถ่ายตอนรับของ) / delivery (ร้านถ่ายตอนส่งถึง)
   Photos: ['id', 'job_id', 'idx', 'data', 'created_at', 'stage'],
   // channel: sender = ห้องร้าน↔ผู้สั่ง / recipient = ห้องร้าน↔ผู้รับ
@@ -2222,9 +2288,16 @@ function createLogic(store) {
     });
   }
 
+  // เข้าสู่ระบบได้ทีละเครื่อง (ยกเว้นแอดมิน ที่อาจเปิดทั้งคอมที่จุดรับฝากและมือถือไรเดอร์)
+  // เข้าเครื่องใหม่ = เครื่องเก่าหลุด และเห็นข้อความบอกเหตุผล
   function newSession(user) {
     var token = rid('', 32);
     var now = new Date();
+    if (user.role !== 'admin') {
+      store.list('Sessions').forEach(function (s) {
+        if (s.user_id === user.id && !s.revoked && new Date(s.expires_at) > now) store.update('Sessions', s.token, { revoked: 'replaced' }, null, 'token');
+      });
+    }
     store.insert('Sessions', {
       token: token, user_id: user.id, created_at: now.toISOString(),
       expires_at: new Date(now.getTime() + CONFIG.SESSION_DAYS * 864e5).toISOString(), revoked: '',
@@ -2237,6 +2310,7 @@ function createLogic(store) {
     if (!s) return null;
     var u = userById(s.user_id);
     if (u && u.status === 'disabled') fail('บัญชีนี้ถูกระงับการใช้งาน กรุณาติดต่อแอดมิน');
+    if (s.revoked === 'replaced') fail('บัญชีนี้เข้าสู่ระบบจากอุปกรณ์อื่นแล้ว เครื่องนี้จึงออกจากระบบ (ใช้งานได้ทีละเครื่อง)');
     if (s.revoked === 'yes' || new Date(s.expires_at) < new Date()) return null;
     if (!u || u.status !== 'active') return null;
     return u;
@@ -2412,6 +2486,8 @@ function createLogic(store) {
     var busy = jobs().some(function (j) { return isActive(j) && (j.sender_id === me.id || j.recipient_id === me.id); });
     if (busy) fail('ยังมีคำสั่งที่ค้างอยู่ — รอให้สำเร็จหรือยกเลิกก่อนลบบัญชี');
     if (jobs().some(function (j) { var t = todoOf(j); return j.sender_id === me.id && (t.refund || t.ret); })) fail('ยังมีของหรือเงินคืนที่ต้องรับที่จุดรับฝาก — รับให้เรียบร้อยก่อนลบบัญชี');
+    var owd = owedOf(me.id);
+    if (owd) fail('ยังมียอดค้างชำระ ฿' + owd + ' — ชำระที่จุดรับฝากก่อนลบบัญชี');
     store.update('Users', me.id, { status: 'deleted', username: 'deleted_' + me.id.toLowerCase(), phone: '' });
     // ลบแชทกับน้องถึงและคะแนนขนนกของบัญชีนี้ (ถ้าระบบเก็บข้อมูลลบแถวไม่ได้ ให้ล้างข้อความแทน)
     [['BotMessages', 'user_id', { text: '(ลบแล้ว)', card: '', options: '' }], ['BotRatings', 'user_id', { comment: '', stars: '0' }], ['BotThreads', 'user_id', { summary: '', last_order: '', mode: 'bot' }]].forEach(function (x) {
@@ -2475,6 +2551,11 @@ function createLogic(store) {
     return { total: all.length, recent: recent.length, ban_until: banUntil };
   }
   function contactLog(j) { try { return JSON.parse(j.contact_log || '[]'); } catch (e) { return []; } }
+  function normPhone(p) { return String(p == null ? '' : p).replace(/\D/g, '').slice(0, 15); }
+  // ยอดที่ผู้สั่งค้างจ่าย: ปลายทางที่ผู้รับไม่จ่าย / ส่งใหม่แบบจ่ายทีหลัง (ไม่นับคำสั่งที่ยกเลิกก่อนส่ง)
+  function owedLive(j) { return Number(j.sender_owed || 0) > 0 && !j.owed_paid_at && !(j.status === 'cancelled' && j.cancel_reason !== 'failed'); }
+  function owedOf(uid, js) { return (js || jobs()).reduce(function (t, j) { return t + (j.sender_id === uid && owedLive(j) ? Number(j.sender_owed) : 0); }, 0); }
+  function recipientName(j, users) { return j.recipient_name || (j.recipient_id ? nameOf(j.recipient_id, users) : ''); }
   // ส่วนลดสูงสุดที่ใช้ Point ได้กับยอดนี้ (บาท)
   function maxDiscount(subtotal, balance) {
     var P = CONFIG.POINT_USE;
@@ -2485,9 +2566,10 @@ function createLogic(store) {
   // งานค้างของคำสั่งที่ปิดแล้ว: คืนเงิน · ของรอผู้สั่งมารับคืน (เก็บไว้ HOLD_DAYS วัน ขยายได้) · คำโต้แย้งรอตรวจ
   function keepUntil(j) { return j.keep_until || (j.cancelled_at ? new Date(new Date(j.cancelled_at).getTime() + CONFIG.REFUSE.HOLD_DAYS * 864e5).toISOString() : ''); }
   function todoOf(j) {
-    var t = { refund: !!(Number(j.refund_amount) && !j.refunded_at), ret: !!(j.status === 'cancelled' && j.picked_at && !j.returned_at && !j.disposed_at), appeal: !!(j.appeal_at && !j.appeal_result) };
+    var t = { refund: !!(Number(j.refund_amount) && !j.refunded_at), ret: !!(j.status === 'cancelled' && j.picked_at && !j.returned_at && !j.disposed_at && !j.redo_id), appeal: !!(j.appeal_at && !j.appeal_result),
+      owed: !!(j.status === 'cancelled' && owedLive(j)) };
     if (t.ret) { t.keep_until = keepUntil(j); t.overdue = Date.now() > new Date(t.keep_until).getTime(); t.days_left = Math.max(0, Math.ceil((new Date(t.keep_until).getTime() - Date.now()) / 864e5)); }
-    t.any = t.refund || t.ret || t.appeal;
+    t.any = t.refund || t.ret || t.appeal || t.owed;
     return t;
   }
   // ราคาและ Point ที่แอดมินตั้งเอง (เก็บใน Settings: pricing) · ไม่ตั้ง = ใช้ค่าใน CONFIG
@@ -2521,26 +2603,28 @@ function createLogic(store) {
     var o = {};
     for (var k in job) o[k] = job[k];
     var admin = me && me.role === 'admin';
-    if (!me || me.id !== job.recipient_id || job.status !== 'delivering') delete o.code; // ผู้รับเห็นรหัสเฉพาะตอนกำลังนำส่ง
+    // รหัสรับของ: ผู้สั่งเห็นเพื่อส่งต่อให้ผู้รับ · ผู้รับที่มีบัญชีเห็นเอง · แอดมิน/ไรเดอร์ไม่เห็น (ต้องได้จากผู้รับ)
+    if (!me || (me.id !== job.sender_id && me.id !== job.recipient_id) || closed(job)) delete o.code;
+    if (!me || (me.id !== job.sender_id && me.id !== job.recipient_id && !admin)) delete o.track_token;
     o.hidden = me && hiddenFields(job, me).some(function (f) { return job[f]; }) ? '1' : '';
     delete o.hidden_sender; delete o.hidden_recipient;
     if (!admin) { delete o.code_fails; delete o.admin_note; }
     if (!admin && (!me || me.id !== job.penalty_user)) Object.keys(o).forEach(function (k) { if (/^(penalty_|appeal_)/.test(k)) delete o[k]; }); // บทลงโทษเห็นเฉพาะคนที่ถูกลงโทษและแอดมิน
     o.sender_name = nameOf(job.sender_id, users);
-    o.recipient_name = nameOf(job.recipient_id, users);
+    o.recipient_name = recipientName(job, users);
+    o.owed = owedLive(job) ? Number(job.sender_owed) : 0;
+    if (me && me.id === job.recipient_id && me.id !== job.sender_id) delete o.recipient_phone;
     o.overdue_min = closed(job) ? 0 : overdueMin(job);
     o.payer = payerOf(job);
     o.contacts = contactLog(job); delete o.contact_log;
-    if (admin && job.status !== 'delivered') o.recipient_refusals = refusals(job.recipient_id);
     if (admin) o.todo = todoOf(job);
     if (job.status === 'cancelled' && job.picked_at) o.keep_until = keepUntil(job);
     o.near_due = false;
     if (isActive(job) && ['pending', 'confirmed', 'picked'].indexOf(job.status) >= 0) { var lf = (new Date(job.due_at).getTime() - Date.now()) / 60000; o.near_due = lf <= CONFIG.LATE.NEAR_DUE_MIN; }
     if (job.status === 'pending') o.waiting_min = Math.floor((Date.now() - new Date(job.cod_at || job.created_at).getTime()) / 60000);
-    if (job.status === 'delivering' && job.pay_method === 'cod') o.free_refuse = overdueMin(job) > CONFIG.LATE.COD_FREE_MIN;
     if (admin || isActive(job)) {
       var phone = function (id) { var u = users.filter(function (x) { return x.id === id; })[0]; return u ? u.phone : ''; };
-      if (admin) { o.sender_phone = phone(job.sender_id); o.recipient_phone = phone(job.recipient_id); }
+      if (admin) { o.sender_phone = phone(job.sender_id); o.recipient_phone = job.recipient_phone || (job.phone_purged_at ? '' : phone(job.recipient_id)); }
     }
     return o;
   }
@@ -2584,15 +2668,28 @@ function createLogic(store) {
     return pre + ('0' + (n + 1)).slice(-2);
   }
 
+  // ผู้รับไม่ต้องมีบัญชี: กรอกชื่อ + เบอร์ (ถ้าเบอร์ตรงกับสมาชิก คำสั่งจะขึ้นในหน้า "ของที่จะได้รับ" ของสมาชิกคนนั้นด้วย)
+  // ระบบเดิมที่ส่ง recipient_id (เลือกจากสมาชิก) ยังใช้ได้: ใช้ชื่อ/เบอร์ของสมาชิกคนนั้น
+  function checkRecipient(me, f) {
+    var name = str(f.recipient_name, 40).replace(/\s+/g, ' '), phone = normPhone(f.recipient_phone), consent = !!f.recipient_consent;
+    if (f.recipient_id && !phone) {
+      var ru = userById(f.recipient_id);
+      if (!ru || ru.role !== 'user' || ru.status !== 'active') fail('ไม่พบผู้รับปลายทาง');
+      name = name || ru.name; phone = ru.phone; consent = true;
+    }
+    if (!name) fail('กรอกชื่อผู้รับ');
+    if (!/^0\d{8,9}$/.test(phone)) fail('เบอร์โทรผู้รับไม่ถูกต้อง (ตัวเลข 9–10 หลัก ขึ้นต้นด้วย 0)');
+    if (phone === me.phone) fail('ผู้รับต้องไม่ใช่ตัวเอง');
+    if (!consent) fail('กรุณายืนยันว่าผู้รับยินยอมให้ไรเดอร์โทรหาเบอร์นี้');
+    var member = allUsers().filter(function (u) { return u.role === 'user' && u.status === 'active' && u.phone === phone && u.id !== me.id; })[0] || null;
+    return { name: name, phone: phone, member: member };
+  }
   function checkOrder(me, f) {
-    ['item_type', 'item_detail', 'dropoff_zone', 'recipient_id', 'mode'].forEach(function (k) { if (!str(f[k], 500)) fail('กรอกข้อมูลให้ครบ'); });
+    ['item_type', 'item_detail', 'dropoff_zone', 'mode'].forEach(function (k) { if (!str(f[k], 500)) fail('กรอกข้อมูลให้ครบ'); });
     if (!CONFIG.MODES[f.mode]) fail('แบบการส่งไม่ถูกต้อง');
     if (CONFIG.ZONES.indexOf(f.dropoff_zone) < 0) fail('จุดส่งไม่ถูกต้อง');
     if (CONFIG.ITEM_TYPES.indexOf(f.item_type) < 0) fail('ประเภทของไม่ถูกต้อง');
-    var r = userById(f.recipient_id);
-    if (!r || r.role !== 'user' || r.status !== 'active') fail('ไม่พบผู้รับปลายทาง');
-    if (r.id === me.id) fail('ผู้รับปลายทางต้องไม่ใช่ตัวเอง');
-    return r;
+    return checkRecipient(me, f);
   }
   // เวลาให้บริการ: สั่งได้เฉพาะในเวลา · งานด่วนต้องถึงก่อนปิด (แอดมินเปิด "รับคำสั่งนอกเวลา" ได้ตอนทดสอบ/นำเสนอ)
   function setting(id) { var s = store.list('Settings').filter(function (x) { return x.id === id; })[0]; return s ? s.value : ''; }
@@ -2629,13 +2726,18 @@ function createLogic(store) {
     }
     var pr = priceFor(f.mode, f.dropoff_zone, f.item_type);
     var cod = f.pay_method === 'cod';
-    if (cod) { var rb = refusals(r.id); if (rb.ban_until) fail('ผู้รับคนนี้รับของแบบเก็บเงินปลายทางไม่ได้ชั่วคราว กรุณาเลือก "จ่ายตอนฝากของ"'); }
+    if (cod) {
+      if (!f.cod_agreed) fail('กรุณายืนยันว่าผู้รับตกลงจ่ายเงินปลายทางแล้ว');
+      var ow = owedOf(me.id);
+      if (ow) fail('คุณมียอดค้างชำระ ฿' + ow + ' จึงเลือกเก็บเงินปลายทางไม่ได้จนกว่าจะชำระ · เลือก "จ่ายตอนฝากของ" ได้');
+    }
     var bal = pointBalance(me.id).balance;
-    var discount = !cod && f.use_points ? maxDiscount(pr.subtotal, bal) : 0; // เก็บเงินปลายทาง: ผู้รับเลือกใช้ Point เองตอนยอมรับ
+    var discount = !cod && f.use_points ? maxDiscount(pr.subtotal, bal) : 0; // เก็บเงินปลายทาง: ผู้รับที่มีบัญชีใช้ Point ของตัวเองได้ในหน้า "ของที่จะได้รับ"
     // ตรวจยอดที่หน้าเว็บแสดง ถ้าไม่ตรง (ราคาหรือ Point เปลี่ยนระหว่างกรอก) ให้ผู้ใช้ดูยอดใหม่ก่อน
     if (f.expect_total !== undefined && f.expect_total !== null && f.expect_total !== '' && Number(f.expect_total) !== pr.subtotal - discount) fail('ยอดชำระเปลี่ยนแล้ว กรุณาตรวจยอดใหม่อีกครั้ง');
     var job = {
-      id: orderNo(), created_at: created.toISOString(), sender_id: me.id, recipient_id: r.id,
+      id: orderNo(), created_at: created.toISOString(), sender_id: me.id, recipient_id: r.member ? r.member.id : '',
+      recipient_name: r.name, recipient_phone: r.phone, track_token: rid('', 16),
       item_type: f.item_type, item_detail: str(f.item_detail, 300),
       pickup_zone: CONFIG.DROP_POINT, pickup_detail: '',
       dropoff_zone: f.dropoff_zone, dropoff_detail: str(f.dropoff_detail, 200),
@@ -2644,75 +2746,82 @@ function createLogic(store) {
       price_base: String(pr.base), price_dist: String(pr.dist), price_item: String(pr.item), subtotal: String(pr.subtotal),
       points_used: String(discount * CONFIG.POINT_USE.PER_BAHT), discount: String(discount), total: String(pr.subtotal - discount),
       service: str(f.service, 20),
-      pay_method: cod ? 'cod' : 'sender', payer_id: cod ? '' : me.id, cod_status: cod ? 'waiting' : '',
+      pay_method: cod ? 'cod' : 'sender', payer_id: cod ? (r.member ? r.member.id : '') : me.id, cod_status: cod ? 'accepted' : '',
+      cod_agreed: cod ? '1' : '', cod_at: cod ? created.toISOString() : '',
     };
     savePhotos(job.id, 'item', photos, job.created_at);
     store.insert('Jobs', job);
-    log(me, 'job_create', job.id, 'สั่ง' + CONFIG.MODES[job.mode].label + ' → ' + job.dropoff_zone + (cod ? ' · เก็บเงินปลายทาง ฿' + job.total : ' · ฿' + job.total + (discount ? ' (ใช้ ' + job.points_used + ' Point)' : '')));
+    log(me, 'job_create', job.id, 'สั่ง' + CONFIG.MODES[job.mode].label + ' → ' + job.dropoff_zone + ' ถึง ' + r.name + (cod ? ' · เก็บเงินปลายทาง ฿' + job.total : ' · ฿' + job.total + (discount ? ' (ใช้ ' + job.points_used + ' Point)' : '')));
     return job;
   }
 
-  // ส่งไม่สำเร็จ: ยกเลิกคำสั่ง คืน Point ที่ใช้ไป และหักโทษผู้รับถ้าเป็นความผิดผู้รับในคำสั่งเก็บเงินปลายทาง
+  // ส่งไม่สำเร็จ: ยกเลิกคำสั่ง คืน Point ที่ใช้ไป · ไม่มีบทลงโทษใคร · ของกลับไปเก็บที่จุดรับฝาก
+  // ปลายทางที่ผิดฝั่งผู้รับ/ผู้สั่ง: ผู้สั่งค้างจ่ายค่าส่งรอบนี้ (ราคาเต็ม) · จ่ายตอนฝาก: ไม่คืนเงิน · ผิดที่ TheungMue: คืนเงิน
   function failJob(me, job, reason, fault, note, photos, at, by) {
     var patch = { status: 'cancelled', cancelled_at: at, cancel_reason: 'failed', fail_reason: reason, fail_fault: fault, fail_note: note, fail_photo_count: String(photos.length) };
     var pen = 0;
-    if (fault === 'recipient' && job.pay_method === 'cod') {
-      var after = pointBalance(job.recipient_id).balance + (payerOf(job) === job.recipient_id ? Number(job.points_used || 0) : 0); // คืน Point ที่ใช้ไปก่อน แล้วค่อยหัก
-      pen = Math.max(0, Math.min(CONFIG.REFUSE.PENALTY, after));
-      patch.penalty_user = job.recipient_id; patch.penalty_points = String(pen);
-    }
+    if ((fault === 'recipient' || fault === 'sender') && job.pay_method === 'cod') patch.sender_owed = String(job.subtotal);
     if (fault === 'shop' && job.pay_method !== 'cod' && job.picked_at && Number(job.total) > 0) patch.refund_amount = String(job.total); // ผู้สั่งจ่ายตอนฝากแล้ว คืนเงินสดตอนมารับของคืน
     var r = update('Jobs', job.id, patch, { status: 'delivering' });
     if (photos.length) savePhotos(job.id, 'fail', photos, at);
     log(me, by === 'recipient' ? 'job_refuse' : 'job_fail', job.id, CONFIG.FAIL_REASONS[reason].label + ' · ' + (CONFIG.FAULT_LABEL[fault] ? 'ความผิด' + CONFIG.FAULT_LABEL[fault] : '') + (pen ? ' · หัก ' + pen + ' Point' : ''));
-    if (patch.penalty_user) {
-      var rf = refusals(job.recipient_id);
-      addReward(job.recipient_id, 'penalty', pen, job.id, CONFIG.FAIL_REASONS[reason].label + '|' + rf.recent + '|' + (rf.ban_until || ''));
+    if (fault === 'recipient' || fault === 'sender') {
+      var keep = new Date(new Date(at).getTime() + CONFIG.REFUSE.HOLD_DAYS * 864e5).toLocaleDateString('th-TH', { timeZone: CONFIG.TIMEZONE, day: 'numeric', month: 'short' });
+      addReward(job.sender_id, 'notice', 0, job.id, 'ส่งไม่สำเร็จ: ' + CONFIG.FAIL_REASONS[reason].label + ' · ของเก็บที่จุดรับฝากถึง ' + keep + ' กดส่งใหม่ (ราคาเดิม) หรือมารับคืนได้ในหน้าคำสั่ง' +
+        (patch.sender_owed ? ' · ค่าส่งรอบนี้ ฿' + patch.sender_owed + ' คุณจ่ายตอนมารับคืนหรือตอนส่งใหม่' : '') + ' · คำสั่งนี้ไม่ได้ Point');
     }
     return r;
   }
-  function act(me, id, action, code, photos, note) {
+  function act(me, id, action, code, photos, note, extra) {
     var job = getJob(id), r, at = nowIso();
+    extra = extra || {};
     var admin = me.role === 'admin';
     var need = function (st, msg) { if (job.status !== st) fail(msg || 'สถานะคำสั่งไม่ถูกต้อง'); };
     var cod = job.pay_method === 'cod';
-    // ---- ผู้รับ: ยอมรับ / ปฏิเสธ / ถอน การชำระปลายทาง
-    if (action === 'cod_accept') {
-      if (me.id !== job.recipient_id) fail('เฉพาะผู้รับ');
-      if (!cod || job.status !== 'pending' || job.cod_status !== 'waiting') fail('คำสั่งนี้ไม่ได้รอการยอมรับชำระ');
-      var sub = Number(job.subtotal), disc = note === 'use_points' ? maxDiscount(sub, pointBalance(me.id).balance) : 0;
-      if (code !== undefined && code !== null && code !== '' && Number(code) !== sub - disc) fail('ยอดชำระเปลี่ยนแล้ว กรุณาตรวจยอดใหม่อีกครั้ง');
-      r = update('Jobs', id, { cod_status: 'accepted', cod_at: at, payer_id: me.id, discount: String(disc), points_used: String(disc * CONFIG.POINT_USE.PER_BAHT), total: String(sub - disc) }, { status: 'pending', cod_status: 'waiting' });
-      log(me, 'cod_accept', id, 'ยอมรับชำระปลายทาง ฿' + (sub - disc) + (disc ? ' (ใช้ ' + disc * CONFIG.POINT_USE.PER_BAHT + ' Point)' : ''));
+    // ---- ผู้รับที่มีบัญชี (เบอร์ตรง): ใช้ Point ของตัวเองลดค่าปลายทาง (เปิด/ปิดได้จนกว่าจะส่งสำเร็จ)
+    if (action === 'cod_points') {
+      if (!job.recipient_id || me.id !== job.recipient_id) fail('เฉพาะผู้รับที่มีบัญชี');
+      if (!cod || !isActive(job)) fail('ใช้ Point ได้เฉพาะคำสั่งเก็บเงินปลายทางที่ยังไม่จบ');
+      var sub = Number(job.subtotal), mineNow = payerOf(job) === me.id ? Number(job.points_used || 0) : 0;
+      var disc = note === 'use_points' ? maxDiscount(sub, pointBalance(me.id).balance + mineNow) : 0;
+      r = update('Jobs', id, { payer_id: me.id, discount: String(disc), points_used: String(disc * CONFIG.POINT_USE.PER_BAHT), total: String(sub - disc) }, { status: job.status });
+      log(me, 'cod_points', id, disc ? 'ใช้ ' + disc * CONFIG.POINT_USE.PER_BAHT + ' Point ลดค่าปลายทาง ฿' + disc : 'ไม่ใช้ Point กับค่าปลายทาง');
       return r;
     }
-    if (action === 'cod_decline' || action === 'cod_withdraw') {
-      if (me.id !== job.recipient_id) fail('เฉพาะผู้รับ');
-      if (!cod) fail('คำสั่งนี้ไม่ได้เก็บเงินปลายทาง');
-      if (action === 'cod_decline' && !(job.status === 'pending' && job.cod_status === 'waiting')) fail('ปฏิเสธได้เฉพาะตอนรอการยอมรับ');
-      if (action === 'cod_withdraw' && !(job.cod_status === 'accepted' && (job.status === 'pending' || job.status === 'confirmed'))) fail('ถอนการยอมรับได้ก่อนไรเดอร์รับของเท่านั้น');
-      r = update('Jobs', id, { status: 'cancelled', cancelled_at: at, cancel_reason: action === 'cod_decline' ? 'cod_declined' : 'cod_withdrawn', cod_status: action === 'cod_decline' ? 'declined' : 'withdrawn' }, { status: job.status });
-      log(me, action, id, action === 'cod_decline' ? 'ปฏิเสธชำระปลายทาง' : 'ถอนการยอมรับชำระปลายทาง');
-      return r;
-    }
-    // ---- ผู้รับ: ไม่รับของระหว่างร้านนำส่ง
-    if (action === 'refuse') {
-      if (me.id !== job.recipient_id) fail('เฉพาะผู้รับ');
-      need('delivering', 'ไม่รับของได้ระหว่างไรเดอร์กำลังนำส่ง');
-      var rr = CONFIG.FAIL_REASONS[code];
-      if (!rr || (rr.by !== 'recipient' && rr.by !== 'both')) fail('เลือกเหตุผลที่ไม่รับของ');
-      if (code === 'cannot_pay' && job.pay_method !== 'cod') fail('คำสั่งนี้ผู้สั่งจ่ายแล้ว เลือกเหตุผลอื่น');
-      if (code === 'late' && overdueMin(job) <= CONFIG.LATE.COD_FREE_MIN) fail('เลือก "ส่งช้าเกินกำหนด" ได้เมื่อเลยกำหนดเกิน ' + CONFIG.LATE.COD_FREE_MIN + ' นาที');
-      return failJob(me, job, code, rr.fault, str(note, 300), [], at, 'recipient');
-    }
-    // ---- ผู้ที่ถูกหัก Point: ยื่นโต้แย้ง
-    if (action === 'appeal') {
-      if (me.id !== job.penalty_user || job.fail_fault !== 'recipient' || job.appeal_result === 'revoked') fail('ไม่มีบทลงโทษให้โต้แย้ง');
-      if (job.appeal_at) fail('ยื่นโต้แย้งไปแล้ว');
-      if (!str(note, 500)) fail('กรุณาเขียนเหตุผลที่โต้แย้ง');
-      r = update('Jobs', id, { appeal_text: str(note, 500), appeal_at: at });
-      log(me, 'appeal', id, 'ยื่นโต้แย้งการหัก Point');
-      return r;
+    if (['cod_accept', 'cod_decline', 'cod_withdraw', 'refuse', 'appeal'].indexOf(action) >= 0) fail('ระบบใหม่ไม่ใช้ขั้นตอนนี้แล้ว (ผู้รับไม่ต้องกดยอมรับในแอป และไม่มีบทลงโทษผู้รับ)');
+    // ---- ผู้สั่ง: ส่งใหม่ราคาเดิม (ของที่ส่งไม่สำเร็จเพราะผู้รับ/ผู้สั่ง และยังอยู่ที่จุดรับฝาก)
+    if (action === 'redeliver') {
+      if (job.sender_id !== me.id) fail('ส่งใหม่ได้เฉพาะผู้สั่ง');
+      if (!(job.status === 'cancelled' && job.cancel_reason === 'failed' && ['recipient', 'sender'].indexOf(job.fail_fault) >= 0 && todoOf(job).ret)) fail('ส่งใหม่ได้เฉพาะของที่ส่งไม่สำเร็จและยังอยู่ที่จุดรับฝาก');
+      var sv2 = serviceStatus();
+      if (!sv2.open) fail('ตอนนี้นอกเวลาให้บริการ (เปิด ' + sv2.hours.open + '–' + sv2.hours.close + ' น.)');
+      var payCod = extra.pay === 'cod';
+      var rc = (extra.recipient_name || extra.recipient_phone) ? checkRecipient(me, { recipient_name: extra.recipient_name, recipient_phone: extra.recipient_phone, recipient_consent: extra.recipient_consent })
+        : { name: job.recipient_name || recipientName(job, allUsers()), phone: job.recipient_phone, member: job.recipient_id ? userById(job.recipient_id) : null };
+      if (!rc.phone) fail('กรอกเบอร์ผู้รับอีกครั้ง (เบอร์เดิมถูกลบตามระยะเวลาเก็บข้อมูลแล้ว)');
+      if (payCod) {
+        if (!extra.cod_agreed) fail('กรุณายืนยันว่าผู้รับตกลงจ่ายเงินปลายทางแล้ว');
+        var ow2 = owedOf(me.id);
+        if (ow2) fail('คุณมียอดค้างชำระ ฿' + ow2 + ' จึงเลือกเก็บเงินปลายทางไม่ได้จนกว่าจะชำระ · เลือก "จ่ายทีหลัง" ได้');
+      }
+      var created2 = new Date(), sub2 = Number(job.subtotal);
+      var nj = {
+        id: orderNo(), created_at: created2.toISOString(), sender_id: me.id, recipient_id: rc.member ? rc.member.id : '', recipient_name: rc.name, recipient_phone: rc.phone, track_token: rid('', 16),
+        item_type: job.item_type, item_detail: job.item_detail, pickup_zone: CONFIG.DROP_POINT, pickup_detail: '', dropoff_zone: job.dropoff_zone, dropoff_detail: job.dropoff_detail,
+        mode: job.mode, due_at: new Date(created2.getTime() + CONFIG.MODES[job.mode].hours * 3600000).toISOString(), note: job.note, status: 'confirmed', confirmed_at: created2.toISOString(),
+        code: ('000' + rnd(10000)).slice(-4), photo_count: job.photo_count, service: job.service,
+        price_base: job.price_base, price_dist: job.price_dist, price_item: job.price_item, subtotal: String(sub2), points_used: '0', discount: '0', total: String(sub2),
+        pay_method: payCod ? 'cod' : 'sender', payer_id: payCod ? (rc.member ? rc.member.id : '') : me.id, cod_status: payCod ? 'accepted' : '', cod_agreed: payCod ? '1' : '', cod_at: payCod ? created2.toISOString() : '',
+        sender_owed: payCod ? '' : String(sub2), redo_of: job.id,
+      };
+      if (nj.mode === 'urgent' && !sv2.override && new Date(nj.due_at).getTime() > new Date(sv2.close_at).getTime()) nj.due_at = sv2.close_at;
+      store.insert('Jobs', nj);
+      store.list('Photos').filter(function (p) { return p.job_id === job.id && (p.stage || 'item') === 'item'; }).forEach(function (p) {
+        store.insert('Photos', { id: rid('P', 8), job_id: nj.id, idx: p.idx, data: p.data, created_at: nj.created_at, stage: 'item' });
+      });
+      update('Jobs', id, { redo_id: nj.id });
+      log(me, 'job_redeliver', nj.id, 'ส่งใหม่จาก ' + job.id + ' ราคาเดิม ฿' + sub2 + (payCod ? ' · เก็บเงินปลายทาง' : ' · ผู้สั่งจ่ายทีหลัง'));
+      return nj;
     }
     if (action === 'cancel') { // ผู้สั่งยกเลิกเองได้ก่อนไรเดอร์รับของ / แอดมินยกเลิกได้จนกว่าจะส่งสำเร็จ
       if (!admin && job.sender_id !== me.id) fail('ยกเลิกได้เฉพาะผู้สั่ง');
@@ -2731,8 +2840,13 @@ function createLogic(store) {
       if (job.status !== 'cancelled' || !job.picked_at) fail('ยืนยันรับของคืนได้เฉพาะคำสั่งที่ยกเลิกหลังไรเดอร์รับของแล้ว');
       if (job.returned_at) fail('บันทึกรับของคืนไปแล้ว');
       if (job.disposed_at) fail('ของชิ้นนี้แอดมินจัดการไปแล้ว');
-      r = update('Jobs', id, job.refund_amount && !job.refunded_at ? { returned_at: at, refunded_at: at } : { returned_at: at });
-      log(me, 'job_returned', id, 'รับของคืนแล้ว' + (job.refund_amount ? ' · คืนเงิน ฿' + job.refund_amount : ''));
+      if (job.redo_id) fail('ของชิ้นนี้ส่งใหม่แล้วในคำสั่ง ' + job.redo_id);
+      if (!admin && owedLive(job)) fail('มีค่าส่งค้างชำระ ฿' + job.sender_owed + ' จ่ายที่จุดรับฝาก แอดมินจะบันทึกรับของคืนให้');
+      var rp = { returned_at: at };
+      if (job.refund_amount && !job.refunded_at) rp.refunded_at = at;
+      if (owedLive(job)) rp.owed_paid_at = at; // ผู้สั่งจ่ายค่าส่งที่ค้างตอนมารับของคืน
+      r = update('Jobs', id, rp);
+      log(me, 'job_returned', id, 'รับของคืนแล้ว' + (job.refund_amount ? ' · คืนเงิน ฿' + job.refund_amount : '') + (rp.owed_paid_at ? ' · รับค่าส่งที่ค้าง ฿' + job.sender_owed : ''));
       return r;
     }
     if (!admin) fail('เฉพาะแอดมิน');
@@ -2742,6 +2856,12 @@ function createLogic(store) {
       if (job.refunded_at) fail('บันทึกคืนเงินไปแล้ว');
       r = update('Jobs', id, { refunded_at: at });
       log(me, 'refund_paid', id, 'คืนเงินผู้สั่ง ฿' + job.refund_amount);
+      return r;
+    }
+    if (action === 'owed_paid') { // ผู้สั่งจ่ายยอดค้างแล้ว (แยกจากการรับของคืน)
+      if (!owedLive(job)) fail('คำสั่งนี้ไม่มียอดค้างชำระ');
+      r = update('Jobs', id, { owed_paid_at: at });
+      log(me, 'owed_paid', id, 'ผู้สั่งจ่ายยอดค้าง ฿' + job.sender_owed);
       return r;
     }
     if (action === 'remind_return' || action === 'extend_keep' || action === 'dispose') {
@@ -2765,7 +2885,7 @@ function createLogic(store) {
     }
     if (action === 'confirm') {
       need('pending', 'ยืนยันได้เฉพาะคำสั่งที่รอยืนยัน');
-      if (cod && job.cod_status !== 'accepted') fail('ต้องรอผู้รับยอมรับชำระปลายทางก่อน');
+      if (cod && job.cod_status === 'waiting') fail('ต้องรอผู้รับยอมรับชำระปลายทางก่อน'); // คำสั่งแบบเก่าเท่านั้น
       r = update('Jobs', id, { status: 'confirmed', confirmed_at: at }, { status: 'pending' });
       log(me, 'job_confirm', id, 'แอดมินยืนยันคำสั่ง');
       return r;
@@ -2780,9 +2900,10 @@ function createLogic(store) {
     if (action === 'pickup') { // รับของที่จุดรับฝาก + เก็บเงินสด
       need('confirmed', 'ต้องยืนยันคำสั่งก่อน');
       var pp = checkPhotos(photos, CONFIG.PROOF_MIN, CONFIG.PROOF_MAX, 'กรุณาถ่ายรูปของตอนรับอย่างน้อย ' + CONFIG.PROOF_MIN + ' รูป');
-      r = update('Jobs', id, { status: 'picked', picked_at: at, paid_at: cod ? '' : at, pickup_photo_count: String(pp.length) }, { status: 'confirmed' });
+      var later = !cod && Number(job.sender_owed || 0) > 0; // ส่งใหม่แบบผู้สั่งจ่ายทีหลัง: ไม่เก็บเงินตอนรับของ
+      r = update('Jobs', id, { status: 'picked', picked_at: at, paid_at: cod || later ? '' : at, pickup_photo_count: String(pp.length) }, { status: 'confirmed' });
       savePhotos(id, 'pickup', pp, at);
-      log(me, 'job_pickup', id, 'รับของที่จุดรับฝาก · ' + (cod ? 'เก็บเงินปลายทาง ฿' + job.total : 'เก็บเงิน ฿' + job.total));
+      log(me, 'job_pickup', id, 'รับของที่จุดรับฝาก · ' + (cod ? 'เก็บเงินปลายทาง ฿' + job.total : later ? 'ผู้สั่งจ่ายทีหลัง ฿' + job.total : 'เก็บเงิน ฿' + job.total));
       return r;
     }
     if (action === 'start') {
@@ -2798,19 +2919,21 @@ function createLogic(store) {
       log(me, 'job_arrive', id, 'ถึงจุดส่ง');
       return r;
     }
-    if (action === 'contact') { // บันทึกการพยายามติดต่อผู้รับ (ใช้เป็นหลักฐานกรณีไม่พบผู้รับ)
+    if (action === 'contact') { // บันทึกการโทร: ผู้รับ (call) ครบ CALLS ครั้ง ห่าง CALL_GAP_MIN นาที → ผู้สั่ง (sender) · ไรเดอร์โทรจากเบอร์ส่วนตัว
       need('delivering');
       if (!job.arrived_at) fail('กด "ถึงจุดส่งแล้ว" ก่อน');
-      var cl = contactLog(job), kind = code === 'chat' ? 'chat' : 'call';
+      var R0 = CONFIG.REFUSE, cl = contactLog(job), kind = code === 'sender' ? 'sender' : 'call';
+      var calls = cl.filter(function (c) { return c.k === 'call'; });
       if (kind === 'call') {
-        var calls = cl.filter(function (c) { return c.k === 'call'; });
-        if (calls.length && Date.now() - new Date(calls[calls.length - 1].t).getTime() < CONFIG.REFUSE.CALL_GAP_MIN * 60000) fail('โทรครั้งถัดไปได้หลังครั้งก่อน ' + CONFIG.REFUSE.CALL_GAP_MIN + ' นาที');
+        if (calls.length && Date.now() - new Date(calls[calls.length - 1].t).getTime() < R0.CALL_GAP_MIN * 60000) fail('โทรครั้งถัดไปได้หลังครั้งก่อน ' + R0.CALL_GAP_MIN + ' นาที');
       } else {
-        store.insert('Messages', { id: rid('M', 8), job_id: id, sender_id: me.id, text: 'ถึงจุดส่งแล้วครับ รบกวนติดต่อกลับหรือมารับของ', preset: 'yes', created_at: at, channel: 'recipient' });
+        if (calls.length < R0.CALLS) fail('โทรหาผู้รับให้ครบ ' + R0.CALLS + ' ครั้งก่อน แล้วจึงโทรหาผู้สั่ง');
       }
+      var firstSender = kind === 'sender' && !cl.some(function (c) { return c.k === 'sender'; });
       cl.push({ k: kind, t: at });
       r = update('Jobs', id, { contact_log: JSON.stringify(cl) });
-      log(me, 'job_contact', id, kind === 'call' ? 'โทรหาผู้รับ ไม่รับสาย' : 'ส่งแชทแจ้งถึงจุดส่ง');
+      log(me, 'job_contact', id, kind === 'call' ? 'โทรหาผู้รับ ครั้งที่ ' + (calls.length + 1) + ' ไม่รับสาย' : 'ติดต่อผู้รับไม่ได้ โทรหาผู้สั่งให้ช่วยตาม');
+      if (firstSender) addReward(job.sender_id, 'notice', 0, id, 'ไรเดอร์ติดต่อผู้รับ (' + recipientName(job, allUsers()) + ') ไม่ได้ ช่วยตามให้มารับที่ ' + zoneShort(job) + ' ภายใน ' + hm(Date.now() + R0.WAIT_MIN * 60000) + ' น. · ไรเดอร์โทรหาคุณจากเบอร์ส่วนตัว');
       return r;
     }
     if (action === 'fail') { // ส่งไม่สำเร็จ (แอดมิน)
@@ -2821,11 +2944,11 @@ function createLogic(store) {
       if (fr.verdict && ['sender', 'shop', 'recipient'].indexOf(fault) < 0) fail('เลือกว่าเป็นความผิดของใคร (เทียบรูป 3 ช่วง)');
       if ((fr.verdict || code === 'no_pay') && !fnote) fail('กรุณาเขียนรายละเอียด');
       var fp = checkPhotos(fph, 1, CONFIG.PROOF_MAX, 'กรุณาถ่ายรูปหลักฐานอย่างน้อย 1 รูป');
-      if (code === 'not_found') {
-        var R = CONFIG.REFUSE, log2 = contactLog(job), calls2 = log2.filter(function (c) { return c.k === 'call'; }).length, chats = log2.filter(function (c) { return c.k === 'chat'; }).length;
+      if (code === 'not_found') { // ต้องโทรผู้รับครบ → โทรผู้สั่ง → รอครบเวลา (นับจากโทรหาผู้สั่ง)
+        var R = CONFIG.REFUSE, log2 = contactLog(job), calls2 = log2.filter(function (c) { return c.k === 'call'; }).length, snd = log2.filter(function (c) { return c.k === 'sender'; });
         if (!job.arrived_at) fail('กด "ถึงจุดส่งแล้ว" ก่อน');
-        var waited = (Date.now() - new Date(job.arrived_at).getTime()) / 60000;
-        if (calls2 < R.CALLS || chats < 1 || waited < R.WAIT_MIN) fail('ยังทำขั้นตอนไม่ครบ: โทร ' + calls2 + '/' + R.CALLS + ' ครั้ง · แชท ' + Math.min(chats, 1) + '/1 · รอ ' + Math.floor(waited) + '/' + R.WAIT_MIN + ' นาที');
+        var waited = snd.length ? (Date.now() - new Date(snd[0].t).getTime()) / 60000 : 0;
+        if (calls2 < R.CALLS || !snd.length || waited < R.WAIT_MIN) fail('ยังทำขั้นตอนไม่ครบ: โทรผู้รับ ' + Math.min(calls2, R.CALLS) + '/' + R.CALLS + ' ครั้ง · โทรผู้สั่ง ' + (snd.length ? 1 : 0) + '/1 · รอ ' + Math.floor(waited) + '/' + R.WAIT_MIN + ' นาที');
       }
       return failJob(me, job, code, fault, fnote, fp, at, 'admin');
     }
@@ -2842,9 +2965,12 @@ function createLogic(store) {
     if (action === 'deliver') {
       need('delivering', 'ต้องกด "เริ่มนำส่ง" ก่อน');
       if (cod && note !== 'cod_collected') fail('ติ๊ก "เก็บเงินสดจากผู้รับแล้ว" ก่อนยืนยัน');
+      // ผู้รับไม่มีรหัส (ผู้สั่งไม่ได้ส่งต่อ): ถ่ายรูปตอนส่ง + ชื่อคนที่รับของแทน
+      var noCode = extra.handover === 'photo', hname = str(extra.handover_name, 60);
+      if (noCode && !hname) fail('ใส่ชื่อคนที่รับของ');
       var lockLeft = job.code_lock_until ? new Date(job.code_lock_until).getTime() - Date.now() : 0;
-      if (lockLeft > 0) fail('ใส่รหัสผิดครบ ' + CONFIG.CODE_MAX_TRIES + ' ครั้ง ลองใหม่ได้ในอีก ' + Math.ceil(lockLeft / 60000) + ' นาที');
-      if (str(code, 10) !== ('000' + job.code).slice(-4)) {
+      if (!noCode && lockLeft > 0) fail('ใส่รหัสผิดครบ ' + CONFIG.CODE_MAX_TRIES + ' ครั้ง ลองใหม่ได้ในอีก ' + Math.ceil(lockLeft / 60000) + ' นาที หรือเลือก "ผู้รับไม่มีรหัส"');
+      if (!noCode && str(code, 10) !== ('000' + job.code).slice(-4)) {
         var fails = Number(job.code_fails || 0) + 1;
         if (fails >= CONFIG.CODE_MAX_TRIES) {
           store.update('Jobs', id, { code_fails: '0', code_lock_until: new Date(Date.now() + CONFIG.CODE_LOCK_MIN * 60000).toISOString() });
@@ -2855,16 +2981,17 @@ function createLogic(store) {
         fail('รหัสรับของไม่ถูกต้อง · เหลืออีก ' + (CONFIG.CODE_MAX_TRIES - fails) + ' ครั้ง');
       }
       var dp = checkPhotos(photos, CONFIG.PROOF_MIN, CONFIG.PROOF_MAX, 'กรุณาถ่ายรูปตอนส่งอย่างน้อย ' + CONFIG.PROOF_MIN + ' รูป');
-      var pe = pointsEarn(job), payer = payerOf(job);
+      var payer = payerOf(job), pe = payer ? pointsEarn(job) : 0;
       var lateMin = Math.max(0, Math.round((new Date(at).getTime() - new Date(job.due_at).getTime()) / 60000));
       var excused = lateMin > 0 && job.arrived_at && new Date(job.arrived_at).getTime() <= new Date(job.due_at).getTime(); // ถึงก่อนกำหนดแต่ผู้รับไม่อยู่
       var comp = lateMin > CONFIG.LATE.GRACE_MIN && !excused ? CONFIG.LATE.COMP_POINTS : 0;
       r = update('Jobs', id, { status: 'delivered', delivered_at: at, delivery_photo_count: String(dp.length), code_fails: '0', code_lock_until: '', points_earned: String(pe),
-        paid_at: cod ? at : job.paid_at, late_min: String(lateMin), late_excused: excused ? '1' : '', comp_points: comp ? String(comp) : '' }, { status: 'delivering' });
+        paid_at: cod ? at : job.paid_at, late_min: String(lateMin), late_excused: excused ? '1' : '', comp_points: comp ? String(comp) : '',
+        handover: noCode ? 'photo' : 'code', handover_name: noCode ? hname : '' }, { status: 'delivering' });
       savePhotos(id, 'delivery', dp, at);
-      log(me, 'job_deliver', id, 'ส่งถึงมือผู้รับแล้ว' + (cod ? ' · เก็บเงินปลายทาง ฿' + job.total : '') + (lateMin > 0 ? ' · ' + (excused ? 'หลังกำหนด ' + lateMin + ' นาที (ผู้รับไม่อยู่)' : 'ช้า ' + lateMin + ' นาที') : ''));
-      addReward(payer, 'point', pe, id, 'คำสั่ง ' + id + ' สำเร็จ');
-      if (comp) addReward(payer, 'point', comp, id, 'ชดเชยส่งช้า ' + lateMin + ' นาที');
+      log(me, 'job_deliver', id, 'ส่งถึงมือผู้รับแล้ว' + (noCode ? ' · ไม่มีรหัส ถ่ายรูป + ชื่อ ' + hname : '') + (cod ? ' · เก็บเงินปลายทาง ฿' + job.total : '') + (lateMin > 0 ? ' · ' + (excused ? 'หลังกำหนด ' + lateMin + ' นาที (ผู้รับไม่อยู่)' : 'ช้า ' + lateMin + ' นาที') : ''));
+      if (payer) addReward(payer, 'point', pe, id, 'คำสั่ง ' + id + ' สำเร็จ'); // ปลายทางที่ผู้รับไม่มีบัญชี: ไม่มีใครได้ Point
+      if (payer && comp) addReward(payer, 'point', comp, id, 'ชดเชยส่งช้า ' + lateMin + ' นาที');
       return r;
     }
     fail('คำสั่งไม่ถูกต้อง');
@@ -2872,7 +2999,7 @@ function createLogic(store) {
 
   function needAdmin(me) { if (me.role !== 'admin') fail('เฉพาะแอดมิน'); }
   // แชท: ผู้สั่งและผู้รับคุยกับร้าน (แอดมิน) คนละห้อง ต่อหนึ่งคำสั่ง
-  function canChat(job, me) { return me.role === 'admin' || [job.sender_id, job.recipient_id].indexOf(me.id) >= 0; }
+  function canChat(job, me) { return me.role === 'admin' || job.sender_id === me.id; } // v2.29: แชทในคำสั่งเฉพาะผู้สั่ง ผู้รับคุยกับไรเดอร์ทางโทรศัพท์
   function chatChannel(job, me, want) {
     if (me.role === 'admin') {
       if (want !== 'sender' && want !== 'recipient') fail('เลือกห้องแชทก่อน');
@@ -2936,7 +3063,7 @@ function createLogic(store) {
     if (j.delivered_at) rows.push(['ส่งสำเร็จ', tWhen(j.delivered_at)]);
     if (j.cancelled_at) rows.push(['ยกเลิก', tWhen(j.cancelled_at)]);
     if (isActive(j)) rows.push(['ต้องถึง ' + zoneShort(j), 'ก่อน ' + tTime(j.due_at)]);
-    var st = j.status === 'pending' && j.cod_status === 'waiting' ? 'รอผู้รับยอมรับ' : CONFIG.STATUS[j.status];
+    var st = CONFIG.STATUS[j.status];
     return JSON.stringify({ type: 'order', id: j.id, status: st, st: j.status, as: j.sender_id === uid ? 'ผู้สั่ง' : 'ผู้รับ', rows: rows });
   }
   // ---- คำตอบแต่ละประเภท (ดึงจากข้อมูลจริง ไม่ให้ AI แต่งตัวเลขเอง) ----
@@ -2944,10 +3071,10 @@ function createLogic(store) {
     var cod = j.pay_method === 'cod', payer = payerOf(j);
     if (intent === 'status') {
       var s = {
-        pending: cod && j.cod_status === 'waiting' ? 'รอผู้รับกดยอมรับชำระปลายทาง จากนั้นแอดมินจึงยืนยันคำสั่ง' : 'รอแอดมินยืนยันคำสั่งครับ',
+        pending: 'รอแอดมินยืนยันคำสั่งครับ',
         confirmed: 'แอดมินยืนยันแล้ว รอไรเดอร์รับของที่จุดรับฝาก',
         picked: 'ไรเดอร์รับของแล้ว กำลังเตรียมออกนำส่ง',
-        delivering: j.arrived_at ? 'ไรเดอร์ถึงจุดส่งแล้วเมื่อ ' + tTime(j.arrived_at) + ' กำลังติดต่อผู้รับ' : 'กำลังนำส่งครับ ต้องถึงก่อน ' + tTime(j.due_at),
+        delivering: j.arrived_at ? 'ไรเดอร์ถึงจุดส่งแล้วเมื่อ ' + tTime(j.arrived_at) + ' กำลังโทรหาผู้รับ (จากเบอร์ส่วนตัว)' : 'กำลังนำส่งครับ ต้องถึงก่อน ' + tTime(j.due_at),
         delivered: 'ส่งสำเร็จแล้วเมื่อ ' + tWhen(j.delivered_at),
         cancelled: 'คำสั่งนี้ยกเลิกแล้ว (' + (CANCEL_LABEL[j.cancel_reason] || 'ยกเลิก') + ')',
       }[j.status];
@@ -2956,7 +3083,6 @@ function createLogic(store) {
     }
     if (intent === 'pay_amount') {
       if (j.status === 'cancelled') return { text: j.id + ' ยกเลิกแล้ว จึงไม่มีการเก็บเงิน' + (Number(j.points_used) ? ' และคืน ' + j.points_used + ' Point ให้คนที่ใช้แล้ว' : '') };
-      if (cod && j.cod_status === 'waiting') return { text: j.id + ' เป็นแบบเก็บเงินปลายทาง ผู้รับเป็นผู้จ่าย ยอดก่อนส่วนลด ฿' + j.subtotal + (j.recipient_id === me.id ? ' คุณเลือกใช้ Point ลดได้ตอนกดยอมรับในหน้าคำสั่ง' : ' รอผู้รับกดยอมรับ'), card: orderCard(j, me.id) };
       var who = payer === me.id ? 'คุณเป็นผู้จ่าย' : (cod ? 'ผู้รับเป็นผู้จ่าย' : 'ผู้สั่งเป็นผู้จ่าย');
       var parts = 'ค่าบริการ ฿' + j.subtotal + (Number(j.discount) ? ' ใช้ ' + j.points_used + ' Point ลด ฿' + j.discount : '');
       var when = j.paid_at ? 'ชำระแล้วเมื่อ ' + tWhen(j.paid_at) : (cod ? 'จ่ายเงินสดให้ไรเดอร์ตอนได้รับของ' : 'จ่ายเงินสดตอนไรเดอร์รับของที่จุดรับฝาก');
@@ -2964,7 +3090,7 @@ function createLogic(store) {
     }
     if (intent === 'cancel') {
       if (closed(j)) return { text: j.id + ' ปิดแล้ว (' + CONFIG.STATUS[j.status] + ') ยกเลิกไม่ได้' };
-      if (j.sender_id !== me.id) return { text: 'ผู้รับยกเลิกคำสั่งไม่ได้ครับ ถ้าไม่ต้องการของ ' + (cod ? 'กดปฏิเสธชำระปลายทางในหน้าคำสั่งได้' : 'แจ้งผู้สั่งหรือติดต่อแอดมิน') };
+      if (j.sender_id !== me.id) return { text: 'ผู้รับยกเลิกคำสั่งไม่ได้ครับ ถ้าไม่ต้องการของ แจ้งผู้สั่ง หรือบอกไรเดอร์ตอนโทรมา' };
       if (['pending', 'confirmed'].indexOf(j.status) >= 0) return { text: 'ยกเลิกเองได้ครับ เปิดคำสั่ง ' + j.id + ' แล้วกด "ยกเลิกคำสั่ง" ด้านล่าง' + (Number(j.points_used) ? ' Point ที่ใช้ไปจะคืนอัตโนมัติ' : ''), card: orderCard(j, me.id) };
       return { text: 'ไรเดอร์รับ ' + j.id + ' ไปแล้ว จึงยกเลิกเองไม่ได้ ถ้าต้องการยกเลิกกด "ติดต่อแอดมิน" ได้เลยครับ' };
     }
@@ -2974,7 +3100,7 @@ function createLogic(store) {
       if (!isActive(j)) return { text: j.id + ' ยกเลิกแล้ว' };
       var o = overdueMin(j);
       if (!o) return { text: j.id + ' ยังไม่เลยกำหนดครับ ต้องถึงก่อน ' + tTime(j.due_at), card: orderCard(j, me.id) };
-      return { text: j.id + ' เลยกำหนดมา ' + o + ' นาที ขออภัยครับ ถ้าส่งช้าเกิน ' + L.GRACE_MIN + ' นาที คนที่จ่ายจะได้ชดเชย ' + L.COMP_POINTS + ' Point อัตโนมัติ' + (cod ? ' และถ้าเลยเกิน ' + L.COD_FREE_MIN + ' นาที ผู้รับปฏิเสธรับของได้โดยไม่ถูกหัก Point' : ''), card: orderCard(j, me.id) };
+      return { text: j.id + ' เลยกำหนดมา ' + o + ' นาที ขออภัยครับ ถ้าส่งช้าเกิน ' + L.GRACE_MIN + ' นาที คนที่จ่าย (ที่มีบัญชี) จะได้ชดเชย ' + L.COMP_POINTS + ' Point อัตโนมัติ', card: orderCard(j, me.id) };
     }
     return null;
   }
@@ -2985,7 +3111,7 @@ function createLogic(store) {
       case 'thanks': return 'ยินดีครับ มีอะไรถามได้ตลอด';
       case 'status': case 'pay_amount': return 'ตอนนี้คุณไม่มีคำสั่งที่กำลังดำเนินการครับ ถ้าถามถึงคำสั่งเก่า พิมพ์เลขคำสั่งมาได้เลย เช่น TM' + new Date().toLocaleDateString('en-GB', { timeZone: CONFIG.TIMEZONE, day: '2-digit', month: '2-digit' }).replace('/', '') + '-01';
       case 'cancel': return 'ผู้สั่งยกเลิกเองได้ก่อนไรเดอร์รับของ ที่หน้าคำสั่งปุ่ม "ยกเลิกคำสั่ง" Point ที่ใช้คืนอัตโนมัติ หลังไรเดอร์รับของแล้วต้องติดต่อแอดมิน';
-      case 'late': return 'ถ้าส่งช้าเกินกำหนดเกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที คนที่จ่ายได้ชดเชย ' + CONFIG.LATE.COMP_POINTS + ' Point อัตโนมัติ ส่วนแบบเก็บเงินปลายทางที่เลยเกิน ' + CONFIG.LATE.COD_FREE_MIN + ' นาที ผู้รับปฏิเสธได้โดยไม่ถูกหัก Point';
+      case 'late': return 'ถ้าส่งช้าเกินกำหนดเกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที คนที่จ่าย (ที่มีบัญชี) ได้ชดเชย ' + CONFIG.LATE.COMP_POINTS + ' Point อัตโนมัติ';
       case 'pay_method': return 'จ่ายได้ 2 แบบ เป็นเงินสดทั้งคู่: ' + CONFIG.PAY_METHODS.sender.label + ' (' + CONFIG.PAY_METHODS.sender.hint + ') หรือ ' + CONFIG.PAY_METHODS.cod.label + ' (' + CONFIG.PAY_METHODS.cod.hint + ') · ตอนนี้ยังไม่รับโอน';
       case 'price': {
         var items = Object.keys(P.ITEM_EXTRA).map(function (k) { return k.split(' /')[0]; }).join(' ');
@@ -2997,14 +3123,15 @@ function createLogic(store) {
         return 'ตอนนี้คุณมี ' + b.balance + ' Point · ใช้ลดค่าบริการได้ ' + U.PER_BAHT + ' Point = ฿1 ไม่เกินครึ่งหนึ่งของค่าบริการ · ได้ Point อัตโนมัติเมื่อคำสั่งสำเร็จ (ปกติ ' + CONFIG.POINTS.BASE.normal + ' ด่วน ' + CONFIG.POINTS.BASE.urgent + ' บวกตามระยะ) คนที่จ่ายเป็นคนได้ Point';
       }
       case 'refuse_rule': {
-        var rf = refusals(me.id);
-        return 'ปฏิเสธรับของได้ครับ ไม่เสียค่าบริการและคืน Point ที่ใช้ แต่ถ้าเป็นแบบเก็บเงินปลายทาง ไรเดอร์ออกนำส่งแล้ว และเป็นความผิดของผู้รับ (เช่น เปลี่ยนใจ ติดต่อไม่ได้) จะหัก ' + R.PENALTY + ' Point ' +
-          'ครบ ' + R.LIMIT + ' ครั้งใน ' + R.WINDOW_DAYS + ' วัน ระงับรับปลายทาง ' + R.BAN_DAYS + ' วัน ถ้าเห็นว่าไม่ได้ผิดยื่นโต้แย้งได้ในหน้าคำสั่ง · ของคุณตอนนี้: ' + rf.recent + ' ครั้งใน ' + R.WINDOW_DAYS + ' วัน' + (rf.ban_until ? ' (ระงับถึง ' + tWhen(rf.ban_until) + ')' : '');
+        var ow = owedOf(me.id);
+        return 'ถ้าไรเดอร์ติดต่อผู้รับไม่ได้: โทรหาผู้รับ ' + R.CALLS + ' ครั้ง ห่างกัน ' + R.CALL_GAP_MIN + ' นาที แล้วโทรหาผู้สั่งให้ช่วยตาม และรอ ' + R.WAIT_MIN + ' นาที ถ้ายังไม่มา ของกลับไปเก็บที่จุดรับฝาก ' + R.HOLD_DAYS + ' วัน ' +
+          'ผู้สั่งกดส่งใหม่ได้ราคาเดิม หรือมารับคืน คำสั่งนั้นไม่ได้ Point แต่ไม่มีบทลงโทษใคร · แบบเก็บเงินปลายทางที่ผู้รับไม่จ่าย ผู้สั่งจ่ายค่าส่งรอบนั้นแทน และต้องจ่ายก่อนจึงเลือกปลายทางได้อีก' + (ow ? ' · ตอนนี้คุณค้างชำระ ฿' + ow : '');
       }
+      case 'notify': return 'ผู้รับไม่ต้องสมัคร TheungMue ครับ หลังสั่งแล้วเปิดหน้าคำสั่งกด "แชร์ทาง LINE" หรือ "คัดลอก" ข้อความมีรหัสรับของ เงินที่ต้องเตรียม (ถ้าปลายทาง) และลิงก์ติดตามที่ผู้รับเปิดดูได้โดยไม่ต้องล็อกอิน · ระบบไม่ส่ง SMS ให้ผู้รับ ผู้สั่งต้องบอกเอง · ไรเดอร์จะโทรหาผู้รับจากเบอร์ส่วนตัวตอนถึงจุดส่ง';
       case 'hours': return 'เปิดให้บริการ' + H.days + ' ' + H.open + '–' + H.close + ' น. ตอนนี้' + (shopOpen() ? 'อยู่ในเวลาให้บริการ งานด่วนสั่งได้ถึง ' + serviceStatus().urgent_until + ' น.' : 'นอกเวลาให้บริการ สั่งได้อีกครั้งตอน ' + H.open + ' น.');
       case 'dropoff_point': return 'จุดรับฝากอยู่ที่ ' + CONFIG.DROP_POINT_PLACE + ' ' + CONFIG.DROP_POINT_NOTE;
-      case 'how_order': return 'กด "หน้าแรก" เลือกบริการ แล้วกรอกผู้รับ จุดส่ง ประเภทของ แนบรูปของ เลือกวิธีจ่าย ตรวจราคาแล้วกดยืนยัน จากนั้นนำของไปวางที่จุดรับฝาก ' + CONFIG.DROP_POINT_PLACE;
-      case 'code': return 'รหัสรับของ 4 หลักอยู่ในหน้าคำสั่งฝั่งผู้รับ ให้บอกไรเดอร์ตอนได้รับของเท่านั้น ใส่ผิดได้ ' + CONFIG.CODE_MAX_TRIES + ' ครั้งแล้วล็อก ' + CONFIG.CODE_LOCK_MIN + ' นาที · เพื่อความปลอดภัยผู้ช่วยไม่แสดงรหัสในแชท';
+      case 'how_order': return 'กด "หน้าแรก" เลือกบริการ แล้วกรอกชื่อและเบอร์ผู้รับ (ผู้รับไม่ต้องสมัคร) จุดส่ง ประเภทของ แนบรูปของ เลือกวิธีจ่าย ตรวจราคาแล้วกดยืนยัน จากนั้นแชร์รหัสกับลิงก์ติดตามให้ผู้รับ และนำของไปวางที่จุดรับฝาก ' + CONFIG.DROP_POINT_PLACE;
+      case 'code': return 'รหัสรับของ 4 หลักอยู่ในหน้าคำสั่งของผู้สั่ง ให้ผู้สั่งส่งต่อให้ผู้รับ (ปุ่มแชร์ทาง LINE) ผู้รับบอกไรเดอร์ตอนได้รับของเท่านั้น ใส่ผิดได้ ' + CONFIG.CODE_MAX_TRIES + ' ครั้งแล้วล็อก ' + CONFIG.CODE_LOCK_MIN + ' นาที · ถ้าผู้รับไม่มีรหัส ไรเดอร์ถ่ายรูปตอนส่งพร้อมชื่อคนรับแทน · เพื่อความปลอดภัยผู้ช่วยไม่แสดงรหัสในแชท';
     }
     return '';
   }
@@ -3357,6 +3484,46 @@ function createLogic(store) {
       addReward(j.sender_id, 'expire', 0, j.id, 'ผู้รับไม่ตอบรับเก็บเงินปลายทางภายใน ' + CONFIG.COD_WAIT_HOURS + ' ชม. ระบบจึงยกเลิกคำสั่งให้ ไม่ต้องนำของมาฝาก สั่งใหม่แบบ "จ่ายตอนฝากของ" ได้');
     });
   }
+  // ---- ลิงก์ติดตามของผู้รับ (ไม่ต้องล็อกอิน): เห็นเฉพาะข้อมูลที่ผู้รับต้องใช้ ----
+  function trackJob(t) {
+    t = str(t, 40);
+    if (!/^[A-Z0-9]{12,40}$/.test(t)) fail('ลิงก์ติดตามไม่ถูกต้อง');
+    var j = jobs().filter(function (x) { return x.track_token === t; })[0];
+    if (!j) fail('ไม่พบคำสั่งนี้ ลิงก์อาจผิดหรือหมดอายุแล้ว');
+    var end = j.delivered_at || j.cancelled_at;
+    if (end && Date.now() - new Date(end).getTime() > CONFIG.TRACK_DAYS * 864e5) fail('ลิงก์นี้หมดอายุแล้ว (ใช้ได้ถึง ' + CONFIG.TRACK_DAYS + ' วันหลังจบงาน)');
+    return j;
+  }
+  function trackView(t) {
+    var j = trackJob(t), users = allUsers(), cod = j.pay_method === 'cod';
+    var sname = nameOf(j.sender_id, users);
+    return { id: j.id, status: j.status, status_label: CONFIG.STATUS[j.status], mode: j.mode, item_type: j.item_type, dropoff_zone: j.dropoff_zone, dropoff_detail: j.dropoff_detail,
+      due_at: j.due_at, created_at: j.created_at, picked_at: j.picked_at, delivering_at: j.delivering_at, arrived_at: isActive(j) ? j.arrived_at : '', delivered_at: j.delivered_at,
+      cancelled_at: j.cancelled_at, failed: j.cancel_reason === 'failed', sender_name: sname, recipient_name: recipientName(j, users),
+      code: closed(j) ? '' : j.code, cod: cod, amount: cod ? Number(j.total) : 0, called: contactLog(j).filter(function (c) { return c.k === 'call'; }).length,
+      review: j.review_at ? { stars: Number(j.review_stars), tags: j.review_tags ? j.review_tags.split('|') : [], text: j.review_text, at: j.review_at } : null,
+      review_tags: CONFIG.REVIEW_TAGS, place: CONFIG.DROP_POINT_PLACE };
+  }
+  function trackReview(a) {
+    var j = trackJob(a.t);
+    if (j.status !== 'delivered') fail('รีวิวได้หลังได้รับของแล้ว');
+    if (j.review_at) fail('รีวิวคำสั่งนี้ไปแล้ว ขอบคุณครับ');
+    var stars = Math.round(Number(a.stars));
+    if (!(stars >= 1 && stars <= 5)) fail('เลือกจำนวนดาว 1–5');
+    var tags = [].concat(a.tags || []).filter(function (x) { return CONFIG.REVIEW_TAGS.indexOf(x) >= 0; });
+    store.update('Jobs', j.id, { review_stars: String(stars), review_tags: tags.join('|'), review_text: str(a.text, 300), review_at: nowIso() });
+    log(null, 'review', j.id, 'ผู้รับให้ ' + stars + ' ดาว');
+    return trackView(a.t);
+  }
+  // PDPA: ลบเบอร์ผู้รับออกจากคำสั่งที่จบเกิน PHONE_KEEP_DAYS วัน
+  function purgePhones() {
+    var lim = CONFIG.PHONE_KEEP_DAYS * 864e5, now = Date.now();
+    jobs().forEach(function (j) {
+      var end = j.delivered_at || j.cancelled_at;
+      if (!j.recipient_phone || !end || !closed(j) || now - new Date(end).getTime() < lim) return;
+      store.update('Jobs', j.id, { recipient_phone: '', phone_purged_at: nowIso() });
+    });
+  }
   function handle(token, action, a) {
     a = a || {};
     loadPricing();
@@ -3375,11 +3542,14 @@ function createLogic(store) {
       return { seconds: ms > 0 ? Math.ceil(ms / 1000) : 0 };
     }
     if (action === 'contact') return { text: CONFIG.ADMIN_CONTACT };
+    if (action === 'track') return trackView(a.t);
+    if (action === 'track_review') return trackReview(a);
     if (action === 'demo') return CONFIG.PRODUCTION ? { accounts: [], password: '' } : { accounts: CONFIG.SEED_USERS.map(function (u) { return { username: u.username, role: u.role, points: u.points || 0 }; }), password: CONFIG.DEMO_PASSWORD };
 
     var me = sessionUser(token);
     if (!me) fail('กรุณาเข้าสู่ระบบ');
     expireCod();
+    purgePhones();
     if (me.must_change === 'yes' && ['session', 'logout', 'change_password'].indexOf(action) < 0) fail('กรุณาตั้งรหัสผ่านใหม่ก่อนใช้งาน');
     var users = allUsers();
     var v = function (j) { return viewJob(j, me, users); };
@@ -3397,7 +3567,7 @@ function createLogic(store) {
         var fj = jobs();
         return { user: publicUser(fu), locked: lockedMinutesLeft(fu), status_note: fu.status_note || '',
           sent: fj.filter(function (j) { return j.sender_id === fu.id; }).length, received: fj.filter(function (j) { return j.recipient_id === fu.id; }).length,
-          refusals: refusals(fu.id).recent, active: fj.filter(function (j) { return isActive(j) && (j.sender_id === fu.id || j.recipient_id === fu.id); }).length,
+          refusals: refusals(fu.id).recent, owed: owedOf(fu.id, fj), owed_n: fj.filter(function (j) { return j.sender_id === fu.id && owedLive(j); }).length, active: fj.filter(function (j) { return isActive(j) && (j.sender_id === fu.id || j.recipient_id === fu.id); }).length,
           active_list: fj.filter(function (j) { return isActive(j) && (j.sender_id === fu.id || j.recipient_id === fu.id); }).map(function (j) {
             return { id: j.id, as: j.recipient_id === fu.id ? 'recipient' : 'sender', status: j.status, cod_waiting: j.status === 'pending' && j.cod_status === 'waiting' }; }) };
       }
@@ -3437,12 +3607,14 @@ function createLogic(store) {
         return deleteAccount(me, a);
       case 'update_profile':
         return updateProfile(me, a);
-      case 'recipients':
-        return {
-          users: users.filter(function (u) { return u.role === 'user' && u.status === 'active' && u.id !== me.id; })
-            .map(function (u) { return { id: u.id, name: u.name, username: u.username }; }), // ไม่ส่งสถานะการถูกระงับของคนอื่น (แจ้งตอนกดสั่งแทน)
-          service: serviceStatus(),
-        };
+      case 'recipients': { // ผู้รับที่เคยส่งให้ (ล่าสุดก่อน ไม่ซ้ำเบอร์) · ยอดค้าง
+        var seen = {}, recent = [];
+        jobs().filter(function (j) { return j.sender_id === me.id && j.recipient_phone; }).sort(byCreatedDesc).forEach(function (j) {
+          if (seen[j.recipient_phone] || recent.length >= 6) return;
+          seen[j.recipient_phone] = 1; recent.push({ name: recipientName(j, users), phone: j.recipient_phone });
+        });
+        return { recent: recent, owed: owedOf(me.id), service: serviceStatus() };
+      }
       case 'quote': { // ราคา + ส่วนลดจาก Point ก่อนยืนยันคำสั่ง
         var pr = priceFor(a.mode, a.dropoff_zone, a.item_type), bal = pointBalance(me.id).balance, md = maxDiscount(pr.subtotal, bal);
         pr.balance = bal; pr.max_discount = md; pr.points_for_max = md * CONFIG.POINT_USE.PER_BAHT;
@@ -3483,11 +3655,24 @@ function createLogic(store) {
               cancelled: f(function (j) { return j.status === 'cancelled' && j.cancel_reason !== 'failed'; }),
               pending: f(function (j) { return j.status === 'pending'; }), confirmed: f(function (j) { return j.status === 'confirmed'; }),
               moving: f(function (j) { return j.status === 'picked' || j.status === 'delivering'; }) }; })(),
-          cash: (function () { // เงินสดวันนี้: เก็บตอนฝาก (paid_at) + เก็บปลายทาง (ส่งสำเร็จ) − คืนแล้ว
+          flow: (function () { // ตัวชี้วัด flow ผู้รับไม่ต้องสมัคร
+            var first = aj.filter(function (j) { return !j.redo_of && (j.status === 'delivered' || (j.cancel_reason === 'failed' && j.fail_fault === 'recipient')); });
+            var ok = first.filter(function (j) { return j.status === 'delivered'; }).length;
+            var rv = aj.filter(function (j) { return j.review_at; }).sort(function (x, y) { return String(y.review_at).localeCompare(String(x.review_at)); });
+            return { first_try_pct: first.length ? Math.round(ok / first.length * 100) : null, first_n: first.length,
+              sender_calls: aj.filter(function (j) { return contactLog(j).some(function (c) { return c.k === 'sender'; }); }).length,
+              no_code: aj.filter(function (j) { return j.handover === 'photo'; }).length,
+              owed: aj.reduce(function (t, j) { return t + (owedLive(j) ? Number(j.sender_owed) : 0); }, 0),
+              owed_n: aj.filter(owedLive).length,
+              reviews: { n: rv.length, avg: rv.length ? Math.round(rv.reduce(function (t, j) { return t + Number(j.review_stars); }, 0) / rv.length * 10) / 10 : null,
+                latest: rv.slice(0, 3).map(function (j) { return { id: j.id, stars: Number(j.review_stars), text: j.review_text, tags: j.review_tags ? j.review_tags.split('|') : [] }; }) } };
+          })(),
+          cash: (function () { // เงินสดวันนี้: เก็บตอนฝาก (paid_at) + เก็บปลายทาง (ส่งสำเร็จ) + ยอดค้างที่ผู้สั่งมาจ่าย − คืนแล้ว
             var dep = aj.filter(function (j) { return j.pay_method !== 'cod' && j.paid_at && dayKey(j.paid_at) === today; });
             var cod = aj.filter(function (j) { return j.pay_method === 'cod' && j.status === 'delivered' && dayKey(j.delivered_at) === today; });
             var refunded = aj.filter(function (j) { return j.refunded_at && dayKey(j.refunded_at) === today; });
-            var c = { deposit: sum(dep, 'total'), cod: sum(cod, 'total'), refunded: sum(refunded, 'refund_amount'),
+            var owp = aj.filter(function (j) { return j.owed_paid_at && dayKey(j.owed_paid_at) === today; });
+            var c = { deposit: sum(dep, 'total') + sum(owp, 'sender_owed'), cod: sum(cod, 'total'), refunded: sum(refunded, 'refund_amount'),
               refund_due: aj.filter(function (j) { return todoOf(j).refund; }).reduce(function (t, j) { return t + Number(j.refund_amount); }, 0) };
             c.collected = c.deposit + c.cod; c.in_hand = c.collected - c.refunded; return c; })(),
         };
@@ -3501,7 +3686,7 @@ function createLogic(store) {
           if (as) myJobs[j.id] = as;
         });
         var OTHER = {
-          job_create: { recipient: 'มีคำสั่งส่งของถึงคุณ' },
+          job_create: { recipient: 'มีของส่งถึงเบอร์ของคุณ' },
           job_confirm: { sender: 'แอดมินยืนยันคำสั่งแล้ว', recipient: 'แอดมินยืนยันคำสั่งที่ส่งถึงคุณ' },
           job_reject: { sender: 'แอดมินปฏิเสธคำสั่ง' },
           job_pickup: { sender: 'ไรเดอร์รับของที่จุดรับฝากแล้ว', recipient: 'ไรเดอร์รับของแล้ว' },
@@ -3510,7 +3695,8 @@ function createLogic(store) {
           job_cancel: { sender: 'คำสั่งถูกยกเลิก', recipient: 'คำสั่งที่ส่งถึงคุณถูกยกเลิก' },
           cod_expire: { sender: 'ยกเลิกอัตโนมัติ: ผู้รับไม่ตอบรับภายใน 24 ชม.', recipient: 'คำขอเก็บเงินปลายทางหมดเวลา' },
           cod_accept: { sender: 'ผู้รับยอมรับชำระปลายทาง' }, cod_decline: { sender: 'ผู้รับปฏิเสธชำระปลายทาง' }, cod_withdraw: { sender: 'ผู้รับถอนการยอมรับชำระ' },
-          job_fail: { sender: 'ส่งไม่สำเร็จ', recipient: 'ส่งไม่สำเร็จ' }, job_refuse: { sender: 'ผู้รับไม่รับของ' }, job_arrive: { recipient: 'ไรเดอร์ถึงจุดส่งแล้ว' },
+          job_fail: { sender: 'ส่งไม่สำเร็จ', recipient: 'ส่งไม่สำเร็จ' }, job_refuse: { sender: 'ผู้รับไม่รับของ' }, job_arrive: { sender: 'ไรเดอร์ถึงจุดส่งแล้ว', recipient: 'ไรเดอร์ถึงจุดส่งแล้ว' },
+          job_contact: { sender: 'ไรเดอร์กำลังติดต่อผู้รับ' }, review: { sender: 'ผู้รับรีวิวการส่ง' }, owed_paid: { sender: 'บันทึกว่าจ่ายยอดค้างแล้ว' },
         };
         var mine = store.list('Logs').map(function (l, i) { l._i = i; return l; }).filter(function (l) {
           if (l.user_id === me.id) return true;
@@ -3525,7 +3711,7 @@ function createLogic(store) {
             : { sent: js.filter(function (j) { return j.sender_id === me.id; }).length, received: js.filter(function (j) { return j.recipient_id === me.id && j.status === 'delivered'; }).length,
                 points: pb.balance, points_earned: pb.earned, points_used: pb.used,
                 busy: js.some(function (j) { return isActive(j) && (j.sender_id === me.id || j.recipient_id === me.id); }),
-                owed: js.some(function (j) { var t = todoOf(j); return j.sender_id === me.id && (t.refund || t.ret); }) },
+                owed: js.some(function (j) { var t = todoOf(j); return j.sender_id === me.id && (t.refund || t.ret); }) || owedOf(me.id, js) > 0, owed_amount: owedOf(me.id, js) },
           logs: mine.map(function (l) {
             var other = l.user_id !== me.id && l.user_id !== '' ;
             var lab = other && OTHER[l.action] && myJobs[l.target] ? OTHER[l.action][myJobs[l.target]] : '';
@@ -3557,7 +3743,7 @@ function createLogic(store) {
       case 'create':
         return { job: v(createJob(me, a)) };
       case 'act':
-        return { job: viewJob(act(me, a.id, a.action, a.code, a.photos, a.note), me, allUsers()) };
+        return { job: viewJob(act(me, a.id, a.action, a.code, a.photos, a.note, a), me, allUsers()) };
       case 'hide': {
         var hj = getJob(a.id), hf = hiddenFields(hj, me);
         if (!hf.length) fail('ไม่พบคำสั่งนี้');
@@ -3707,7 +3893,8 @@ var BOT = {
     pay_method: { label: 'วิธีจ่าย / ปลายทาง' },
     price: { label: 'ค่าบริการ' },
     points: { label: 'Point' },
-    refuse_rule: { label: 'กติกาไม่รับของ' },
+    refuse_rule: { label: 'ผู้รับไม่มารับ / ไม่รับสาย' },
+    notify: { label: 'แจ้งผู้รับ / ลิงก์ติดตาม' },
     hours: { label: 'เวลาให้บริการ' },
     dropoff_point: { label: 'จุดรับฝาก' },
     how_order: { label: 'วิธีสั่ง' },
@@ -3717,7 +3904,7 @@ var BOT = {
     change_dest: { label: 'เปลี่ยนจุดส่ง', handoff: true },
     damaged: { label: 'ของเสียหาย', handoff: true },
     money: { label: 'คืนเงิน / เงินผิด', handoff: true },
-    appeal: { label: 'โต้แย้งโทษ', handoff: true },
+    appeal: { label: 'ร้องเรียน / โต้แย้ง', handoff: true },
     admin: { label: 'ขอคุยกับแอดมิน', handoff: true },
   },
   // ประโยคที่ใช้สอน (แอดมินสอนเพิ่มได้จากหน้าภาพรวม)
@@ -3734,8 +3921,10 @@ var BOT = {
       'เรทราคา', 'ส่งเอกสารกี่บาท', 'คิดราคายังไง'],
     points: ['มีกี่ point', 'point ใช้ยังไง', 'แต้มเหลือเท่าไร', 'สะสมแต้มยังไง', 'ใช้แต้มลดได้กี่บาท', 'point ได้จากอะไร', 'เช็คแต้ม', 'แต้มหายไปไหน',
       'แลกแต้มเป็นส่วนลด', 'point หมดอายุไหม', 'ได้แต้มกี่แต้ม'],
-    refuse_rule: ['ไม่รับของได้ไหม', 'ถ้าไม่รับของจะโดนหักไหม', 'ปฏิเสธรับของได้ไหม', 'ไม่อยากรับแล้วทำไง', 'ถ้าไม่อยู่ตอนส่งจะเป็นยังไง', 'โดนหักแต้มเพราะอะไร',
-      'ปฏิเสธบ่อยจะโดนแบนไหม', 'โดนระงับปลายทางคืออะไร', 'ไม่จ่ายปลายทางได้ไหม', 'ถ้าติดต่อไม่ได้จะเกิดอะไร'],
+    refuse_rule: ['ไม่รับของได้ไหม', 'ถ้าผู้รับไม่รับสายทำยังไง', 'ผู้รับไม่มารับของจะเป็นยังไง', 'ไรเดอร์โทรหาผู้รับไม่ติด', 'ถ้าผู้รับไม่อยู่ตอนส่งจะเป็นยังไง', 'ผู้รับไม่จ่ายปลายทางทำไง',
+      'ส่งไม่สำเร็จแล้วของอยู่ไหน', 'ขอส่งใหม่ได้ไหม', 'ไม่จ่ายปลายทางได้ไหม', 'ถ้าติดต่อผู้รับไม่ได้จะเกิดอะไร', 'ค้างชำระคืออะไร', 'ทำไมเลือกปลายทางไม่ได้'],
+    notify: ['ต้องบอกผู้รับยังไง', 'ผู้รับต้องสมัครไหม', 'ส่งลิงก์ให้ผู้รับยังไง', 'แชร์รหัสให้ผู้รับ', 'คนรับไม่มีแอปรับของได้ไหม', 'ลิงก์ติดตามคืออะไร', 'ผู้รับจะรู้ได้ยังไงว่าของมา',
+      'ส่งให้คนที่ไม่ได้สมัครได้ไหม', 'แจ้งเพื่อนว่าส่งของไปยังไง', 'ผู้รับดูสถานะได้ไหม'],
     hours: ['ร้านเปิดกี่โมง', 'ปิดกี่โมง', 'เวลาทำการ', 'เปิดวันเสาร์ไหม', 'ตอนนี้ร้านเปิดอยู่ไหม', 'วันหยุดเปิดไหม', 'ส่งได้ถึงกี่โมง', 'เปิดทุกวันไหม',
       'กลางคืนส่งได้ไหม', 'เปิดให้บริการช่วงไหน', 'เปิดให้บริการกี่โมง', 'เวลาให้บริการ'],
     dropoff_point: ['จุดรับฝากอยู่ไหน', 'เอาของไปวางที่ไหน', 'ฝากของตรงไหน', 'ไปส่งของที่ไหน', 'จุดรับของอยู่ตึกไหน', 'ต้องเอาของไปให้ร้านที่ไหน', 'ตึกวิศวะอยู่ไหน',
@@ -3765,7 +3954,8 @@ var BOT = {
     ['จ่ายแบบไหนได้บ้าง', 'pay_method'], ['ให้คนรับจ่ายแทนได้ไหม', 'pay_method'], ['โอนเงินได้มั้ย', 'pay_method'],
     ['ค่าส่งกี่บาท', 'price'], ['ส่งด่วนราคาเท่าไหร่', 'price'], ['ส่งอาหารแพงกว่าไหม', 'price'],
     ['point มีเท่าไร', 'points'], ['แต้มใช้ยังไง', 'points'], ['สะสมพอยต์ยังไง', 'points'],
-    ['ไม่รับของจะโดนอะไรไหม', 'refuse_rule'], ['ถ้าไม่อยู่ตอนร้านมาส่ง', 'refuse_rule'], ['ปฏิเสธของได้ไหมครับ', 'refuse_rule'],
+    ['ไม่รับของจะโดนอะไรไหม', 'refuse_rule'], ['ถ้าคนรับไม่รับโทรศัพท์', 'refuse_rule'], ['ปฏิเสธของได้ไหมครับ', 'refuse_rule'],
+    ['เพื่อนไม่ได้สมัครแอปรับของได้มั้ย', 'notify'], ['บอกคนรับยังไงดี', 'notify'], ['ลิงก์ให้ผู้รับดูอยู่ไหน', 'notify'],
     ['ร้านเปิดกี่โมงครับ', 'hours'], ['วันอาทิตย์เปิดไหม', 'hours'], ['ปิดร้านกี่โมง', 'hours'],
     ['เอาของไปฝากที่ไหน', 'dropoff_point'], ['จุดรับฝากอยู่ตรงไหน', 'dropoff_point'], ['ร้านตั้งอยู่ที่ไหนครับ', 'dropoff_point'],
     ['อยากส่งของให้เพื่อนทำยังไง', 'how_order'], ['สั่งส่งของยังไงครับ', 'how_order'], ['เริ่มใช้งานยังไง', 'how_order'],
@@ -4172,7 +4362,7 @@ function createLocalStore() {
 
   function handleAuthError(e) {
     if (/ตั้งรหัสผ่านใหม่ก่อน/.test(e.message) && me) { me.must_change = true; go('force-pw'); return true; }
-    if (/ถูกระงับ/.test(e.message)) {
+    if (/ถูกระงับ|อุปกรณ์อื่น/.test(e.message)) {
       setToken(null); me = null; state.authNotice = { text: e.message, kind: 'bad' }; state.view = 'auth'; render('login'); return true;
     }
     if (/เข้าสู่ระบบ/.test(e.message)) { setToken(null); me = null; go('auth'); return true; }
@@ -4576,7 +4766,8 @@ function createLocalStore() {
   function viewNew() {
     call('recipients').then(function (d) {
       function opts(arr, ph) { return '<option value="">' + ph + '</option>' + arr.map(function (x) { return '<option>' + esc(x) + '</option>'; }).join(''); }
-      var recips = d.users.map(function (u) { return '<option value="' + esc(u.id) + '">' + esc(u.name) + ' (@' + esc(u.username) + ')</option>'; }).join('');
+      var recent = (d.recent || []).map(function (r, i) { return '<button type="button" class="rchip" data-rc="' + i + '">' + esc(r.name) + '</button>'; }).join('');
+      var owed = Number(d.owed || 0);
       var modes = Object.keys(CONFIG.MODES).map(function (k) {
         var m = CONFIG.MODES[k];
         var noUrg = k === 'urgent' && !d.service.urgent_ok;
@@ -4596,15 +4787,23 @@ function createLocalStore() {
         '<input type="file" id="photoin" accept="image/*" multiple hidden></div>' +
         '<label class="field"><span>จุดส่งของ<b class="req" aria-hidden="true">*</b></span><select name="dropoff_zone" required>' + zoneOptions('เลือกจุดส่ง') + '</select></label><div id="distbox"></div>' +
         '<label class="field"><span><span data-lbl>รายละเอียดจุดส่ง</span> <em>(ไม่บังคับ)</em></span><input type="text" name="dropoff_detail" maxlength="200" placeholder="เช่น ล็อบบี้ชั้น 1"></label>' +
-        '<label class="field"><span>ผู้รับปลายทาง<b class="req" aria-hidden="true">*</b></span><select name="recipient_id" required><option value="">เลือกผู้รับ</option>' + recips + '</select></label>' +
+        '<div class="rcpbox"><div class="rcphead"><b>ผู้รับ</b><span>ไม่ต้องมีบัญชี ' + esc(CONFIG.APP_NAME) + '</span></div>' +
+        '<label class="field"><span>ชื่อผู้รับ<b class="req" aria-hidden="true">*</b></span><input type="text" name="recipient_name" required maxlength="40" placeholder="ชื่อเล่นหรือชื่อจริง ที่ไรเดอร์ใช้เรียก"></label>' +
+        '<label class="field"><span>เบอร์โทรผู้รับ<b class="req" aria-hidden="true">*</b></span><input type="tel" name="recipient_phone" required inputmode="numeric" maxlength="12" placeholder="0xx-xxx-xxxx"></label>' +
+        (recent ? '<div class="rchips"><small>เคยส่งให้</small>' + recent + '</div>' : '') +
+        '<label class="check"><input type="checkbox" name="recipient_consent" required><span>ผู้รับยินยอมให้ไรเดอร์โทรหาเบอร์นี้เรื่องการส่งของ</span></label>' +
+        '<p class="hint">หลังสั่งแล้ว คุณแชร์รหัสรับของกับลิงก์ติดตามให้ผู้รับเอง ระบบไม่ส่งข้อความหาผู้รับ</p></div>' +
         '<div class="field"><span class="lbl">แบบการส่ง<b class="req" aria-hidden="true">*</b></span><div class="choice" id="modes">' + modes + '</div></div>' +
         '<label class="field" id="dlwrap" hidden><span>ต้องถึงก่อนกี่โมง <em>(ไม่บังคับ)</em></span>' +
         '<input type="time" name="deadline"><small class="hint" id="dlhint"></small></label>' +
         '<label class="field"><span>หมายเหตุถึงแอดมิน <em>(ไม่บังคับ)</em></span><textarea name="note" maxlength="500" placeholder="เช่น ของแตกง่าย ถือแนวตั้ง"></textarea></label>' +
         '<h2>วิธีชำระค่าบริการ</h2><div class="paypick" id="paypick">' + Object.keys(CONFIG.PAY_METHODS).map(function (k) {
-          var m = CONFIG.PAY_METHODS[k];
-          return '<label class="' + (k === 'sender' ? 'on' : '') + '"><input type="radio" name="pay_method" value="' + k + '"' + (k === 'sender' ? ' checked' : '') + '><i></i><span><b>' + m.label + '</b><small>' + m.hint + '</small></span></label>';
-        }).join('') + '</div><div class="error" id="payerr"></div>' +
+          var m = CONFIG.PAY_METHODS[k], off = k === 'cod' && owed > 0;
+          return '<label class="' + (k === 'sender' ? 'on' : '') + (off ? ' dis' : '') + '"><input type="radio" name="pay_method" value="' + k + '"' + (k === 'sender' ? ' checked' : '') + (off ? ' disabled' : '') + '><i></i><span><b>' + m.label + '</b><small>' +
+            (off ? 'ใช้ไม่ได้ชั่วคราว: คุณค้างชำระ ' + baht(owed) + ' (จ่ายที่จุดรับฝาก)' : m.hint) + '</small></span></label>';
+        }).join('') + '</div>' +
+        '<div class="codagree" id="codbox" hidden><label class="check"><input type="checkbox" name="cod_agreed"><span><b>ผู้รับตกลงจ่ายค่าส่งเป็นเงินสดตอนรับของแล้ว</b></span></label>' +
+        '<small>ถ้าผู้รับไม่มารับหรือไม่จ่าย ของจะกลับไปที่จุดรับฝาก และคุณต้องจ่ายค่าส่งรอบนี้ตอนมารับคืนหรือสั่งส่งใหม่</small></div><div class="error" id="payerr"></div>' +
         '<h2>สรุปค่าบริการ</h2><div class="card" id="quote"></div>' +
         '<div id="err" class="error"></div><button class="btn" id="submit"' + (d.service.open ? '' : ' disabled') + '>' + (d.service.open ? 'ยืนยันคำสั่ง' : 'นอกเวลาให้บริการ') + '</button></form>', { back: true, nav: 'u-home' });
       if (svc) {
@@ -4622,25 +4821,37 @@ function createLocalStore() {
         var cod = f.pay_method.value === 'cod';
         var disc = usePts && !cod ? maxD : 0;
         lastTotal = sub - disc;
-        var rec = recipMap[f.recipient_id.value];
-        $('payerr').textContent = ''; // สถานะการถูกระงับรับปลายทางแจ้งตอนกดสั่ง (ไม่เปิดเผยข้อมูลของคนอื่นล่วงหน้า)
-        $('payerr').style.display = $('payerr').textContent ? 'block' : 'none';
+        $('codbox').hidden = !cod;
+        $('payerr').textContent = '';
+        $('payerr').style.display = 'none';
         Array.prototype.forEach.call($('paypick').querySelectorAll('label'), function (l) { l.classList.toggle('on', l.querySelector('input').checked); });
         $('quote').innerHTML = '<div class="sum3"><div><span>ค่าบริการส่ง' + esc(CONFIG.MODES[f.mode.value].label) + '</span>' + baht(base) + '</div>' +
           '<div><span>ตามระยะ' + (z ? ' (' + CONFIG.TIERS[ti].label + ')' : ' (เลือกจุดส่งก่อน)') + '</span>' + baht(dist) + '</div>' +
           (extra ? '<div><span>ประเภทของ (' + esc(f.item_type.value) + ')</span>' + baht(extra) + '</div>' : '') +
-          (cod ? '<div class="ptuse off"><span>Point ใช้ได้เฉพาะคนที่จ่าย<small>ผู้รับเลือกใช้ Point ของตัวเองได้ตอนกดยอมรับชำระ</small></span></div>'
+          (cod ? '<div class="ptuse off"><span>Point ใช้ได้เฉพาะคนที่จ่าย<small>ถ้าผู้รับมีบัญชี ' + esc(CONFIG.APP_NAME) + ' (เบอร์ตรง) ใช้ Point ของตัวเองลดได้</small></span></div>'
             : '<label class="ptuse' + (maxD ? '' : ' off') + '"><span>' + (maxD ? 'ใช้ ' + maxD * U.PER_BAHT + ' Point ลด ' + baht(maxD) : 'Point ของคุณ ' + balance + (balance ? ' ยังไม่พอใช้ลด' : '')) +
               '<small>' + (U.PER_BAHT * 5) + ' Point = ฿5 · ลดได้ไม่เกินครึ่งหนึ่งของค่าบริการ</small></span><input type="checkbox" id="usepts"' + (usePts && maxD ? ' checked' : '') + (maxD ? '' : ' disabled') + '><i class="tog"></i></label>') +
           (disc ? '<div><span>ส่วนลดจาก Point</span>−' + baht(disc) + '</div>' : '') +
           '<div class="tot"><span>' + (cod ? 'ค่าบริการ (ผู้รับชำระ)' : 'ยอดชำระ') + '</span><b>' + baht(lastTotal) + '</b></div><p class="paynote">' +
-          (cod ? 'ผู้รับจ่ายเงินสดตอนรับของ · ยอดจริงอาจน้อยกว่านี้ถ้าผู้รับใช้ Point · Point จากคำสั่งนี้เข้าบัญชีผู้รับ' : 'ชำระเงินสดตอนไรเดอร์รับของที่จุดรับฝาก') + '</p></div>';
+          (cod ? 'ผู้รับจ่ายเงินสดให้ไรเดอร์ตอนรับของ · Point จากคำสั่งนี้เข้าบัญชีผู้รับถ้าผู้รับมีบัญชี' : 'ชำระเงินสดตอนไรเดอร์รับของที่จุดรับฝาก') + '</p></div>';
         $('submit').textContent = cod ? 'ยืนยันคำสั่ง · เก็บเงินปลายทาง' : 'ยืนยันคำสั่ง · ' + baht(lastTotal);
       }
       $('quote').addEventListener('change', function (e) { if (e.target.id === 'usepts') { usePts = e.target.checked; quote(); } });
-      var recipMap = {}; d.users.forEach(function (x) { recipMap[x.id] = x; });
-      ['mode', 'dropoff_zone', 'item_type', 'pay_method', 'recipient_id'].forEach(function (n) { var el = $('f')[n]; (el.length && !el.tagName ? Array.prototype.slice.call(el) : [el]).forEach(function (x) { x.addEventListener('change', quote); }); });
+      ['mode', 'dropoff_zone', 'item_type', 'pay_method'].forEach(function (n) { var el = $('f')[n]; (el.length && !el.tagName ? Array.prototype.slice.call(el) : [el]).forEach(function (x) { x.addEventListener('change', quote); }); });
       quote();
+      // ผู้รับที่เคยส่งให้: กดแล้วเติมชื่อ/เบอร์
+      Array.prototype.forEach.call(app.querySelectorAll('[data-rc]'), function (b) {
+        b.addEventListener('click', function () {
+          var r = d.recent[Number(b.getAttribute('data-rc'))], f = $('f');
+          f.recipient_name.value = r.name; f.recipient_phone.value = fmtPhone(r.phone);
+          Array.prototype.forEach.call(app.querySelectorAll('[data-rc]'), function (x) { x.classList.toggle('on', x === b); });
+          fieldError(f.recipient_phone, '');
+        });
+      });
+      $('f').recipient_phone.addEventListener('blur', function () {
+        var v = this.value.replace(/\D/g, '');
+        fieldError(this, v && !/^0\d{8,9}$/.test(v) ? 'เบอร์โทรต้องเป็นตัวเลข 9–10 หลัก ขึ้นต้นด้วย 0' : '');
+      });
       call('quote', { mode: 'normal', dropoff_zone: '', item_type: '' }).then(function (q) { balance = q.balance; quote(); }).catch(function () {});
 
       // ---------- แนบรูปของ ----------
@@ -4738,6 +4949,10 @@ function createLocalStore() {
           fieldError($('photos'), 'กรุณาแนบรูปของอย่างน้อย ' + CONFIG.PHOTO_MIN + ' รูป');
           $('photos').scrollIntoView({ block: 'center' }); return;
         }
+        var ph = (body.recipient_phone || '').replace(/\D/g, '');
+        if (!/^0\d{8,9}$/.test(ph)) { fieldError(this.recipient_phone, 'เบอร์โทรต้องเป็นตัวเลข 9–10 หลัก ขึ้นต้นด้วย 0'); this.recipient_phone.focus(); return; }
+        if (body.pay_method === 'cod' && !body.cod_agreed) { $('payerr').textContent = 'ติ๊กยืนยันว่าผู้รับตกลงจ่ายเงินปลายทางแล้ว'; $('payerr').style.display = 'block'; $('codbox').scrollIntoView({ block: 'center' }); return; }
+        body.recipient_phone = ph; body.recipient_consent = body.recipient_consent ? 1 : 0; body.cod_agreed = body.cod_agreed ? 1 : 0;
         body.photos = photos; body.use_points = usePts && body.pay_method !== 'cod' ? 1 : 0; body.expect_total = lastTotal; body.service = state.service || '';
         var btn = $('submit');
         btn.disabled = true; btn.textContent = 'กำลังส่งคำสั่ง…'; showError('err', '');
@@ -4784,7 +4999,10 @@ function createLocalStore() {
     } else if (r.kind === 'cancel' || r.kind === 'return') {
       el.innerHTML = '<div class="rwcard">' + step + '<div class="rwic bad">' + icon(r.kind === 'cancel' ? 'x' : 'box') + '</div><strong>' + (r.kind === 'cancel' ? 'แอดมินยกเลิกคำสั่ง ' : 'มารับของคืน ') + esc(r.job_id) + '</strong><p>' + esc(r.detail) + '</p><button class="btn" data-rw="ok">รับทราบ</button><button class="linkbtn" data-rw="job">ดูคำสั่ง</button></div>';
     } else if (r.kind === 'notice') {
-      el.innerHTML = '<div class="rwcard">' + step + '<div class="rwic">' + icon('info') + '</div><strong>ผลการตรวจคำโต้แย้ง ' + esc(r.job_id) + '</strong><p>' + esc(r.detail) + '</p><button class="btn" data-rw="ok">ตกลง</button></div>';
+      var nd = String(r.detail), appealN = /คำโต้แย้ง|บทลงโทษ/.test(nd), failN = /^ส่งไม่สำเร็จ/.test(nd), callN = /^ไรเดอร์ติดต่อผู้รับ/.test(nd);
+      el.innerHTML = '<div class="rwcard">' + step + '<div class="rwic' + (failN || callN ? ' bad' : '') + '">' + icon(callN ? 'phone' : failN ? 'box' : 'info') + '</div><strong>' +
+        (appealN ? 'ผลการตรวจคำโต้แย้ง ' : failN ? 'ส่งไม่สำเร็จ ' : callN ? 'ช่วยตามผู้รับ ' : 'แจ้งเรื่องคำสั่ง ') + esc(r.job_id) + '</strong><p>' + esc(failN ? nd.replace(/^ส่งไม่สำเร็จ:\s*/, '') : nd) + '</p>' +
+        '<button class="btn" data-rw="ok">' + (appealN ? 'ตกลง' : 'รับทราบ') + '</button>' + (appealN ? '' : '<button class="linkbtn" data-rw="job">ดูคำสั่ง</button>') + '</div>';
     } else {
       el.innerHTML = '<div class="rwcard"><div class="rwic pt">' + icon('gift') + '</div>' +
         '<div class="rwamt">+' + esc(r.amount) + ' <span>Point</span></div>' +
@@ -4911,20 +5129,20 @@ function createLocalStore() {
         var bal = d.points.balance, maxB = Math.floor(bal / CONFIG.POINT_USE.PER_BAHT);
         var active = d.sent.filter(function (j) { return !closed(j); });
         var incoming = d.incoming.filter(function (j) { return !closed(j); });
-        var toAccept = incoming.filter(function (j) { return j.status === 'pending' && j.cod_status === 'waiting'; });
+        var owedJobs = d.sent.filter(function (j) { return Number(j.owed) > 0; }), owedSum = owedJobs.reduce(function (t, j) { return t + Number(j.owed); }, 0);
         app.innerHTML = shell('', '<div class="hero"><b>ส่งของในมหาวิทยาลัย ถึงมือผู้รับ</b><span>ฝากของที่จุดรับฝาก' + esc(CONFIG.DROP_POINT_PLACE.replace(/\s*\(.*\)/, '')) +
-            ' · ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม. · จ่ายตอนฝาก หรือให้ผู้รับจ่ายปลายทาง</span><em>ใช้ Point ลดค่าบริการได้</em><span class="heropg">' + BIRD + '</span><i class="tape"></i></div>' +
+            ' · ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม. · ผู้รับไม่ต้องสมัครแอป</span><em>ใช้ Point ลดค่าบริการได้</em><span class="heropg">' + BIRD + '</span><i class="tape"></i></div>' +
           svcBanner(d.service) +
           '<h2>เลือกบริการ</h2><div class="svcgrid' + (d.service.open ? '' : ' off') + '">' + CONFIG.SERVICES.map(function (s) {
             return '<button type="button" class="svc" data-svc="' + s.key + '"' + (d.service.open ? '' : ' disabled') + '><i>' + svcIcon(s.icon) + '</i><b>' + esc(s.label) + '</b><small>' + esc(s.hint) + '</small><em>เริ่ม ' + baht(startPrice(s)) + '</em></button>';
           }).join('') + '</div>' +
           '<a href="#" class="card ptbar" data-page="points">' + icon('gift') + '<span>Point ของฉัน <b>' + bal + '</b>' + (maxB ? ' · ใช้ลดได้สูงสุด ' + baht(maxB) : ' · สะสมเมื่อคำสั่งสำเร็จ') + '</span>' + icon('next') + '</a>' +
           '<div id="err" class="error"></div>' +
-          (toAccept.length ? '<a href="#" class="card remind" data-job="' + esc(toAccept[0].id) + '"><span class="ri">' + icon('coin') + '</span><span><b>มีคำสั่งรอคุณยอมรับชำระ ' + toAccept.length + ' รายการ</b><small>' +
-            esc(toAccept[0].sender_name) + ' ส่งของถึงคุณแบบเก็บเงินปลายทาง ' + baht(toAccept[0].total) + '</small></span>' + icon('next') + '</a>' : '') +
+          (owedSum ? '<a href="#" class="card remind" data-job="' + esc(owedJobs[0].id) + '"><span class="ri">' + icon('coin') + '</span><span><b>ค้างชำระค่าส่ง ' + baht(owedSum) + '</b><small>' +
+            'จ่ายเงินสดที่จุดรับฝาก · ระหว่างนี้เลือกเก็บเงินปลายทางไม่ได้</small></span>' + icon('next') + '</a>' : '') +
           '<h2>คำสั่งที่กำลังดำเนินการ <span class="count">' + active.length + '</span>' + (d.sent.length ? '<button class="h2link" data-go="u-orders">ดูทั้งหมด</button>' : '') + '</h2>' +
           (active.length ? '<div class="stack">' + active.slice().sort(function (a, b) { return (sentRank(a) - sentRank(b)) || String(a.due_at).localeCompare(String(b.due_at)); }).slice(0, 3).map(ordCard).join('') + '</div>' : '<p class="empty">ยังไม่มีคำสั่ง เลือกบริการด้านบนเพื่อเริ่มสั่ง</p>') +
-          (incoming.length ? '<h2>ของที่กำลังมาถึงคุณ <span class="count">' + incoming.length + '</span><button class="h2link" data-go="u-incoming">ดูทั้งหมด</button></h2>' + '<div class="stack">' + incoming.slice().sort(function (a, b) { return (INC_ORDER[a.status] - INC_ORDER[b.status]) || String(a.due_at).localeCompare(String(b.due_at)); }).slice(0, 2).map(function (j) { return incCard(j, 'active'); }).join('') + '</div>' : ''),
+          (incoming.length ? '<h2>ส่งถึงเบอร์ของคุณ <span class="count">' + incoming.length + '</span><button class="h2link" data-go="u-incoming">ดูทั้งหมด</button></h2>' + '<div class="stack">' + incoming.slice().sort(function (a, b) { return (INC_ORDER[a.status] - INC_ORDER[b.status]) || String(a.due_at).localeCompare(String(b.due_at)); }).slice(0, 2).map(function (j) { return incCard(j, 'active'); }).join('') + '</div>' : ''),
           { brand: true });
       }).catch(function (e) { if (!handleAuthError(e)) showError('err', e.message); });
     }
@@ -4952,19 +5170,24 @@ function createLocalStore() {
   }
   // การ์ดคำสั่งฝั่งผู้สั่ง: ถึงใคร · ยกเลิกบอกเหตุผลแทนราคา · งานจบบอกเวลาจบ · ปลายทางรอผู้รับบอกเวลาที่เหลือ
   var SENT_CANCEL = { sender: 'คุณยกเลิกเอง', admin: 'แอดมินยกเลิก', rejected: 'แอดมินปฏิเสธคำสั่ง', cod_declined: 'ผู้รับปฏิเสธชำระปลายทาง', cod_withdrawn: 'ผู้รับถอนการยอมรับ', cod_expired: 'ผู้รับไม่ตอบรับใน 24 ชม.', failed: 'ส่งไม่สำเร็จ' };
+  function failShort(j) { var r = CONFIG.FAIL_REASONS[j.fail_reason]; return r && r.fault === 'recipient' ? (j.fail_reason === 'not_found' ? 'ผู้รับไม่มารับ' : 'ผู้รับไม่รับของ') : 'ส่งไม่สำเร็จ'; }
   var SENT_ORDER = { delivering: 0, picked: 1, confirmed: 2, pending: 3 };
   function sentRank(j) { return SENT_ORDER[j.status] + (j.cod_status === 'waiting' ? 0.5 : 0); }
   function ordCard(j) {
     var codWait = j.status === 'pending' && j.cod_status === 'waiting';
     var st = j.status === 'delivered' ? '<span class="ist ok">สำเร็จ</span>' : j.status === 'cancelled' ? '<span class="ist x">ยกเลิก</span>' :
       codWait ? '<span class="badge st-pending">รอผู้รับยอมรับ</span>' : badge(j.status);
-    var right = j.status === 'cancelled' ? '<span class="ipaid">' + esc(SENT_CANCEL[j.cancel_reason] || 'ยกเลิก') + '</span>' : (j.total ? '<b class="price">' + baht(j.total) + '</b>' : '');
+    var right = j.status === 'cancelled' ? '<span class="ipaid">' + esc(j.cancel_reason === 'failed' ? failShort(j) : SENT_CANCEL[j.cancel_reason] || 'ยกเลิก') + '</span>' : (j.total ? '<b class="price">' + baht(j.total) + '</b>' : '');
     var h = '<a href="#" class="card icard" data-job="' + esc(j.id) + '"><div class="ir1">' + modeTag(j.mode) + '<b>' + esc(j.id) + '</b>' + codTag(j) + st + '</div>' +
       '<div class="ir2"><span>ถึง ' + esc(j.recipient_name) + ' → ' + esc(zoneName(j.dropoff_zone, j.dropoff_detail)) + '</span>' + right + '</div>';
-    if (j.status === 'delivered') h += '<div class="ir3">ส่งถึงเมื่อ ' + fmtTime(j.delivered_at) + (Number(j.late_min) > CONFIG.LATE.GRACE_MIN && !j.late_excused ? ' <span class="latepill">ส่งช้า ' + j.late_min + ' นาที</span>' : '') + '</div>';
-    else if (j.status === 'cancelled') h += '<div class="ir3">ยกเลิกเมื่อ ' + fmtTime(j.cancelled_at || j.created_at) + '</div>';
+    if (j.status === 'delivered') h += '<div class="ir3">ส่งถึงเมื่อ ' + fmtTime(j.delivered_at) + (Number(j.late_min) > CONFIG.LATE.GRACE_MIN && !j.late_excused ? ' <span class="latepill">ส่งช้า ' + j.late_min + ' นาที</span>' : '') + (Number(j.owed) ? ' <span class="latepill">ค้างชำระ ' + baht(j.owed) + '</span>' : '') + '</div>';
+    else if (j.status === 'cancelled') {
+      var atShop = j.picked_at && !j.returned_at && !j.disposed_at && !j.redo_id;
+      h += '<div class="ir3">' + (j.redo_id ? 'ส่งใหม่แล้วใน ' + esc(j.redo_id) : atShop ? '<span class="idrop">ของรอที่จุดรับฝากถึง ' + fmtDate(j.keep_until) + '</span>' : 'ยกเลิกเมื่อ ' + fmtTime(j.cancelled_at || j.created_at)) +
+        (Number(j.owed) ? ' <span class="latepill">ค้างชำระ ' + baht(j.owed) + '</span>' : '') + '</div>';
+    }
     else {
-      h += '<div class="ir3">' + (j.status === 'confirmed' ? '<span class="idrop">นำของมาฝากที่จุดรับฝากได้เลย</span> · ต้องถึง ' + fmtTime(j.due_at) : esc(j.item_type) + ' · ต้องถึง ' + fmtTime(j.due_at) + (codWait ? '' : ' · ' + timeLeft(j.due_at))) +
+      h += '<div class="ir3">' + (j.status === 'confirmed' && !j.redo_of ? '<span class="idrop">นำของมาฝากที่จุดรับฝากได้เลย</span> · ต้องถึง ' + fmtTime(j.due_at) : esc(j.item_type) + ' · ต้องถึง ' + fmtTime(j.due_at) + (codWait ? '' : ' · ' + timeLeft(j.due_at))) +
         (j.overdue_min ? ' <span class="latepill">เลยกำหนด ' + j.overdue_min + ' นาที</span>' : j.near_due ? ' <span class="latepill warn">ใกล้กำหนด</span>' : '') + '</div>';
       if (codWait) {
         var left = Math.max(0, Math.ceil((new Date(j.created_at).getTime() + CONFIG.COD_WAIT_HOURS * 3600000 - Date.now()) / 3600000));
@@ -5044,21 +5267,17 @@ function createLocalStore() {
     if (j.status === 'cancelled') return '<span class="ipaid">' + esc(CANCEL_SHORT[j.cancel_reason] || 'ยกเลิก') + '</span>';
     if (!isCod(j)) return '<span class="ipaid">ผู้สั่งเป็นคนจ่าย</span>';
     if (j.status === 'delivered') return '<span class="ipaid">จ่ายแล้ว ' + baht(j.total) + '</span>';
-    return '<span class="ipay">ต้องจ่าย ' + baht(j.cod_status === 'waiting' ? j.subtotal : j.total) + '</span>';
+    return '<span class="ipay">ต้องจ่าย ' + baht(j.total) + '</span>';
   }
   function codLeft(j) { return Math.max(0, Math.ceil((new Date(j.created_at).getTime() + CONFIG.COD_WAIT_HOURS * 3600000 - Date.now()) / 3600000)); }
   function incCard(j, kind) {
-    var st = kind === 'todo' ? '<span class="ist me">รอคุณยอมรับ</span>' : j.status === 'delivered' ? '<span class="ist ok">ได้รับแล้ว</span>' : j.status === 'cancelled' ? '<span class="ist x">ยกเลิก</span>' :
+    var st = j.status === 'delivered' ? '<span class="ist ok">ได้รับแล้ว</span>' : j.status === 'cancelled' ? '<span class="ist x">ยกเลิก</span>' :
       '<span class="badge st-' + esc(j.status) + '">' + esc(CONFIG.STATUS[j.status]) + '</span>';
-    var h = '<a href="#" class="card icard' + (kind === 'todo' ? ' todo' : '') + '" data-job="' + esc(j.id) + '"><div class="ir1">' + modeTag(j.mode) + '<b>' + esc(j.id) + '</b>' + codTag(j) + st + '</div>' +
+    var h = '<a href="#" class="card icard" data-job="' + esc(j.id) + '"><div class="ir1">' + modeTag(j.mode) + '<b>' + esc(j.id) + '</b>' + codTag(j) + st + '</div>' +
       '<div class="ir2"><span>จาก ' + esc(j.sender_name) + ' → ' + esc(zoneName(j.dropoff_zone, j.dropoff_detail)) + '</span>' + incPay(j) + '</div>';
-    if (kind === 'todo') {
-      var left = Math.max(0, Math.ceil((new Date(j.created_at).getTime() + CONFIG.COD_WAIT_HOURS * 3600000 - Date.now()) / 3600000));
-      h += '<div class="idue">ยอมรับภายใน ' + left + ' ชม. ไม่งั้นคำสั่งจะถูกยกเลิกอัตโนมัติ</div>' +
-        '<div class="ibtns"><button type="button" class="btn ghost small" data-decline="' + esc(j.id) + '">ปฏิเสธ</button><button type="button" class="btn small" data-job="' + esc(j.id) + '">ดูและยอมรับ</button></div>';
-    } else if (kind === 'active') {
+    if (kind === 'active') {
       h += '<div class="ir3">' + esc(j.item_type) + ' · ต้องถึง ' + fmtTime(j.due_at) + ' · ' + timeLeft(j.due_at) + (j.overdue_min ? ' <span class="latepill">เลยกำหนด ' + j.overdue_min + ' นาที</span>' : '') + '</div>';
-      if (j.status === 'delivering' && j.code) h += '<div class="icode"><span>รหัสรับของ<small>บอกไรเดอร์หลังได้รับของแล้วเท่านั้น</small></span><b>' + esc(j.code) + '</b></div>';
+      if (j.code) h += '<div class="icode"><span>รหัสรับของ<small>บอกไรเดอร์หลังได้รับของแล้วเท่านั้น</small></span><b>' + esc(j.code) + '</b></div>';
     } else h += '<div class="ir3">' + (j.status === 'delivered' ? 'ได้รับเมื่อ ' + fmtTime(j.delivered_at) : fmtTime(j.cancelled_at || j.created_at)) + '</div>';
     return h + '</a>';
   }
@@ -5066,30 +5285,20 @@ function createLocalStore() {
     function load() {
       return call('jobs').then(function (d) {
         me = d.me;
-        var todo = d.incoming.filter(function (j) { return j.status === 'pending' && j.cod_status === 'waiting'; });
-        var active = d.incoming.filter(function (j) { return !closed(j) && todo.indexOf(j) < 0; }).sort(function (a, b) {
+        var active = d.incoming.filter(function (j) { return !closed(j); }).sort(function (a, b) {
           return (INC_ORDER[a.status] - INC_ORDER[b.status]) || String(a.due_at).localeCompare(String(b.due_at)); });
         var done = d.incoming.filter(closed), vis = done.filter(function (j) { return !j.hidden; }).sort(byClosedDesc), nHid = done.length - vis.length;
         var body;
-        if (!d.incoming.length) body = '<div class="incempty">' + icon('inbox') + '<b>ยังไม่มีของที่ส่งถึงคุณ</b><span>เมื่อมีคนส่งของถึงคุณ จะแสดงที่หน้านี้</span>' +
-          '<ol><li>ได้แจ้งเตือนเมื่อมีคนส่งของถึงคุณ</li><li>ถ้าเป็นเก็บเงินปลายทาง ต้องกดยอมรับภายใน ' + CONFIG.COD_WAIT_HOURS + ' ชม.</li><li>ตอนได้รับของ บอกรหัส 4 หลักกับไรเดอร์</li></ol></div>';
-        else body = (todo.length ? '<h2>ต้องทำ <span class="count">' + todo.length + '</span></h2><div class="stack">' + todo.map(function (j) { return incCard(j, 'todo'); }).join('') + '</div>' : '') +
-          '<h2>กำลังมาถึงคุณ <span class="count">' + active.length + '</span></h2>' + (active.length ? '<div class="stack">' + active.map(function (j) { return incCard(j, 'active'); }).join('') + '</div>' : '<p class="empty">ยังไม่มีของที่กำลังส่งมาถึงคุณ</p>') +
+        if (!d.incoming.length) body = '<div class="incempty">' + icon('inbox') + '<b>ยังไม่มีของที่ส่งถึงเบอร์ของคุณ</b><span>เมื่อมีคนส่งของถึงเบอร์ ' + esc(fmtPhone(me.phone || '')) + ' จะแสดงที่หน้านี้</span>' +
+          '<ol><li>ผู้รับไม่ต้องมีบัญชี ผู้สั่งส่งรหัสให้ทาง LINE หรือ SMS</li><li>ถ้าเบอร์ตรงกับบัญชีนี้ คุณเห็นรหัสและสถานะที่นี่ด้วย</li><li>ตอนได้รับของ บอกรหัส 4 หลักกับไรเดอร์</li></ol></div>';
+        else body = '<h2>กำลังมาถึงคุณ <span class="count">' + active.length + '</span></h2>' + (active.length ? '<div class="stack">' + active.map(function (j) { return incCard(j, 'active'); }).join('') + '</div>' : '<p class="empty">ยังไม่มีของที่กำลังส่งมาถึงคุณ</p>') +
           (done.length ? '<h2>ประวัติ <span class="count">' + vis.length + '</span>' + (vis.length > HIST_PREVIEW || nHid ? '<button class="h2link" data-hist="incoming">ดูทั้งหมด</button>' : '') + '</h2>' +
             (vis.length ? '<div class="stack">' + vis.slice(0, HIST_PREVIEW).map(function (j) { return incCard(j, 'done'); }).join('') + '</div>' : '<p class="empty">ไม่มีรายการที่แสดง (ซ่อนไว้ ' + nHid + ' รายการ)</p>') : '');
         app.innerHTML = shell('ของที่จะได้รับ', '<div id="err" class="error"></div>' + body);
-        app.querySelectorAll('[data-decline]').forEach(function (bt) {
-          bt.addEventListener('click', function (e) {
-            e.preventDefault(); e.stopPropagation();
-            if (!bt.dataset.armed) { bt.dataset.armed = '1'; bt.textContent = 'กดอีกครั้งเพื่อปฏิเสธ'; return; }
-            bt.disabled = true;
-            call('act', { id: bt.getAttribute('data-decline'), action: 'cod_decline' }).then(load).catch(function (er) { bt.disabled = false; showError('err', er.message); });
-          });
-        });
       }).catch(function (e) { if (!handleAuthError(e)) showError('err', e.message); });
     }
     load();
-    every(8000, function () { if (!typing() && !app.querySelector('[data-decline][data-armed]')) load(); });
+    every(8000, function () { if (!typing()) load(); });
   }
 
   // ---------- Point ของฉัน ----------
@@ -5125,11 +5334,8 @@ function createLocalStore() {
         '<tr><td>ได้เมื่อคำสั่งสำเร็จ งานปกติ / งานด่วน</td><td>' + P.BASE.normal + ' / ' + P.BASE.urgent + '</td></tr>' +
         '<tr><td>บวกตามระยะส่ง<small>ใกล้ ≤' + T[0].max + ' ม. · กลาง ≤' + T[1].max + ' ม. · ไกล >' + T[1].max + ' ม.</small></td><td>+' + P.DIST.join(' / +') + '</td></tr>' +
         '<tr><td>ใช้ลดค่าบริการ<small>ลดได้ไม่เกินครึ่งหนึ่งของค่าบริการ</small></td><td>' + (U.PER_BAHT * 5) + ' Point = ฿5</td></tr>' +
-        '<tr><td>ชดเชยเมื่อส่งช้าเกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที</td><td>+' + CONFIG.LATE.COMP_POINTS + '</td></tr>' +
-        '<tr><td>ปฏิเสธรับของปลายทางหลังไรเดอร์ออกส่ง<small>ความผิดผู้รับ · ไม่ติดลบ</small></td><td>−' + CONFIG.REFUSE.PENALTY + '</td></tr></table>' +
-        '<p class="ratenote">คนที่จ่ายเงินเป็นคนใช้และได้ Point · จ่ายตอนฝาก = ผู้สั่ง · เก็บเงินปลายทาง = ผู้รับ · ยกเลิกคำสั่งแล้วคืน Point ให้คนที่ใช้</p></div>' +
-        (d.refusals && d.refusals.recent ? '<div class="card lateban ' + (d.refusals.ban_until ? 'red' : 'warn') + '">' + icon('warn') + '<span><b>ปฏิเสธรับของ ' + d.refusals.recent + ' ครั้งใน ' + CONFIG.REFUSE.WINDOW_DAYS + ' วัน</b>' +
-          (d.refusals.ban_until ? 'รับของแบบเก็บเงินปลายทางไม่ได้ถึง ' + fmtDate(d.refusals.ban_until) : 'ครบ ' + CONFIG.REFUSE.LIMIT + ' ครั้งจะรับของแบบเก็บเงินปลายทางไม่ได้ ' + CONFIG.REFUSE.BAN_DAYS + ' วัน') + '</span></div>' : '') +
+        '<tr><td>ชดเชยเมื่อส่งช้าเกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที</td><td>+' + CONFIG.LATE.COMP_POINTS + '</td></tr></table>' +
+        '<p class="ratenote">คนที่จ่ายเงินเป็นคนใช้และได้ Point · จ่ายตอนฝาก = ผู้สั่ง · เก็บเงินปลายทาง = ผู้รับที่มีบัญชี ' + esc(CONFIG.APP_NAME) + ' (เบอร์ตรง) ถ้าผู้รับไม่มีบัญชีจะไม่มีใครได้ Point · ส่งไม่สำเร็จไม่ได้ Point · ยกเลิกคำสั่งแล้วคืน Point ให้คนที่ใช้</p></div>' +
         '<h2>ประวัติ Point <span class="count">' + d.items.length + '</span>' + (d.items.length > PT_SHOW ? '<button class="h2link" data-page="points-all">ดูทั้งหมด</button>' : '') + '</h2>' +
         (d.items.length ? '<div class="card crlist">' + d.items.slice(0, PT_SHOW).map(ptRow).join('') + '</div>' +
           (d.items.length > PT_SHOW ? '<p class="morenote">แสดง ' + PT_SHOW + ' รายการล่าสุด · อีก ' + (d.items.length - PT_SHOW) + ' รายการดูได้ที่ "ดูทั้งหมด"</p>' : '') : '<p class="empty">ยังไม่มี Point ได้ Point เมื่อคำสั่งสำเร็จ</p>');
@@ -5139,12 +5345,12 @@ function createLocalStore() {
   // ===================== v2: หลังร้าน (แอดมิน) =====================
   // การ์ดคำสั่งที่ยกเลิกแล้วของแอดมิน: เหตุผลแทนราคา + ป้ายงานที่ยังต้องทำ
   function adminCancelWhy(j) {
-    if (j.cancel_reason === 'failed') { var FR = CONFIG.FAIL_REASONS[j.fail_reason] || {}; return FR.by === 'recipient' ? 'ผู้รับไม่รับของ' : 'ส่งไม่สำเร็จ' + (CONFIG.FAULT_LABEL[j.fail_fault] ? ' · ' + CONFIG.FAULT_LABEL[j.fail_fault] : ''); }
+    if (j.cancel_reason === 'failed') { var FR = CONFIG.FAIL_REASONS[j.fail_reason] || {}; return FR.by === 'recipient' ? 'ผู้รับไม่รับของ' : j.redo_id ? 'ส่งใหม่แล้ว ' + j.redo_id : 'ส่งไม่สำเร็จ' + (CONFIG.FAULT_LABEL[j.fail_fault] ? ' · ' + CONFIG.FAULT_LABEL[j.fail_fault] : ''); }
     return { sender: 'ผู้สั่งยกเลิก', admin: 'แอดมินยกเลิก', rejected: 'แอดมินปฏิเสธคำสั่ง', cod_declined: 'ผู้รับปฏิเสธชำระ', cod_withdrawn: 'ผู้รับถอนการยอมรับ', cod_expired: 'ผู้รับไม่ตอบใน 24 ชม.' }[j.cancel_reason] || 'ยกเลิก';
   }
   function todoFlags(t, j) {
     if (!t || !t.any) return '';
-    return '<div class="flags">' + (t.refund ? '<span class="flag r">ต้องคืนเงิน ' + baht(j.refund_amount) + '</span>' : '') + (t.appeal ? '<span class="flag b">รอตรวจโต้แย้ง</span>' : '') +
+    return '<div class="flags">' + (t.refund ? '<span class="flag r">ต้องคืนเงิน ' + baht(j.refund_amount) + '</span>' : '') + (t.appeal ? '<span class="flag b">รอตรวจโต้แย้ง</span>' : '') + (t.owed ? '<span class="flag r">ผู้สั่งค้างชำระ ' + baht(j.owed) + '</span>' : '') +
       (t.ret ? '<span class="flag ' + (t.overdue ? 'r' : 'y') + '">' + (t.overdue ? 'เกินกำหนดรับของคืนแล้ว' : 'รอผู้สั่งมารับของคืน · เหลือ ' + t.days_left + ' วัน') + '</span>' : '') + '</div>';
   }
   function adminClosedCard(j) {
@@ -5220,7 +5426,7 @@ function createLocalStore() {
         $('rres').innerHTML = '<dl class="info" style="margin-top:12px"><dt>ชื่อโปรไฟล์</dt><dd>' + esc(u.name) + '</dd>' +
           '<dt>ชื่อผู้ใช้</dt><dd>@' + esc(u.username) + '</dd><dt>เบอร์โทร</dt><dd>' + esc(fmtPhone(u.phone)) + '</dd>' +
           '<dt>คำสั่ง</dt><dd>สั่ง ' + r.sent + ' · รับ ' + r.received + (r.active ? ' · ยังไม่จบ ' + r.active : '') + '</dd>' +
-          '<dt>ปฏิเสธรับของ</dt><dd' + (r.refusals ? ' class="badtext"' : '') + '>' + r.refusals + ' ครั้ง / ' + CONFIG.REFUSE.WINDOW_DAYS + ' วัน</dd>' +
+          '<dt>ค้างชำระ</dt><dd' + (r.owed ? ' class="badtext"' : '') + '>' + (r.owed ? baht(r.owed) + ' (' + r.owed_n + ' คำสั่ง · จ่ายที่จุดรับฝาก)' : 'ไม่มี') + '</dd>' +
           '<dt>สถานะ</dt><dd>' + (off ? '<span class="badtext">ถูกระงับ</span>' + (r.status_note ? ' · ' + esc(r.status_note) : '') : r.locked ? 'ถูกล็อกชั่วคราว (เหลือ ' + r.locked + ' นาที)' : 'ใช้งานได้') + '</dd></dl>' +
           '<button class="btn ghost" id="doreset" style="margin-top:12px">รีเซ็ตรหัสผ่าน</button>' +
           (off ? '<button class="btn" id="doenable" style="margin-top:8px">ยกเลิกการระงับ</button>'
@@ -5257,12 +5463,12 @@ function createLocalStore() {
         f('normal', 'ส่งปกติ', p.normal) + f('urgent', 'ส่งด่วน', p.urgent) + f('d0', 'ระยะใกล้ (บวกเพิ่ม)', p.dist[0]) + f('d1', 'ระยะกลาง (บวกเพิ่ม)', p.dist[1]) + f('d2', 'ระยะไกล (บวกเพิ่ม)', p.dist[2]) +
         f('extra', 'อาหาร · กล่องใหญ่ · เปราะบาง', p.extra, 'บวกเพิ่มต่อคำสั่ง') + '</div>' +
         '<div class="card"><strong>Point</strong>' + f('pt_normal', 'ได้ต่อคำสั่งปกติ', p.pt_normal) + f('pt_urgent', 'ได้ต่อคำสั่งด่วน', p.pt_urgent) +
-        f('per_baht', 'ใช้ลด: กี่ Point ต่อ ฿1', p.per_baht, 'ตอนนี้ ' + p.per_baht * 5 + ' Point = ฿5') + f('comp', 'ชดเชยส่งช้า', p.comp) + f('penalty', 'หักเมื่อปฏิเสธรับของ (ปลายทาง)', p.penalty) + '</div>' +
+        f('per_baht', 'ใช้ลด: กี่ Point ต่อ ฿1', p.per_baht, 'ตอนนี้ ' + p.per_baht * 5 + ' Point = ฿5') + f('comp', 'ชดเชยส่งช้า', p.comp) + '</div>' +
         '<div id="err" class="error"></div><button class="btn">บันทึก</button><p class="hint" style="margin-top:8px">ราคามีผลกับคำสั่งใหม่ คำสั่งเดิมใช้ราคาตอนสั่ง · Point มีผลกับคำสั่งที่สำเร็จหลังบันทึก</p></form>', { back: true, nav: 'profile' });
       $('prf').addEventListener('submit', function (e) {
         e.preventDefault(); var F = this, b = F.querySelector('.btn'); b.disabled = true; showError('err', '');
         var v = function (k) { return Number(F[k].value); };
-        call('set_pricing', { normal: v('normal'), urgent: v('urgent'), dist: [v('d0'), v('d1'), v('d2')], extra: v('extra'), pt_normal: v('pt_normal'), pt_urgent: v('pt_urgent'), per_baht: v('per_baht'), comp: v('comp'), penalty: v('penalty') })
+        call('set_pricing', { normal: v('normal'), urgent: v('urgent'), dist: [v('d0'), v('d1'), v('d2')], extra: v('extra'), pt_normal: v('pt_normal'), pt_urgent: v('pt_urgent'), per_baht: v('per_baht'), comp: v('comp'), penalty: p.penalty })
           .then(function (r) { applyPricingClient(r.pricing); b.disabled = false; b.textContent = 'บันทึกแล้ว'; setTimeout(function () { b.textContent = 'บันทึก'; }, 1800); })
           .catch(function (err) { b.disabled = false; if (!handleAuthError(err)) showError('err', err.message); });
       });
@@ -5295,6 +5501,7 @@ function createLocalStore() {
         (d.pending_slow ? '<div class="card lateban red" style="margin-top:12px">' + icon('warn') + '<span><b>งานด่วนรอยืนยันเกิน ' + CONFIG.LATE.PENDING_WARN_MIN + ' นาที ' + d.pending_slow + ' รายการ</b>ไปที่หน้าคำสั่ง แท็บรอยืนยัน</span></div>' : '') +
         '<h2>คุณภาพการส่ง</h2><div class="stats">' + stat(d.ontime_pct === null ? '–' : d.ontime_pct + '%', 'ส่งทันกำหนด') + stat(d.late_count, 'ส่งช้าเกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที') +
           stat(d.failed, 'ส่งไม่สำเร็จ') + stat(d.fail_by.recipient + ' / ' + d.fail_by.sender + ' / ' + d.fail_by.shop, 'สาเหตุ ผู้รับ / ผู้สั่ง / TheungMue') + '</div>' +
+        flowBox(d.flow) +
         '<h2>รายรับและ Point</h2><div class="stats">' + stat(baht(d.revenue_all), 'รายรับทั้งหมด') + stat(baht(d.sender_revenue) + ' / ' + baht(d.cod_revenue), 'จ่ายตอนฝาก / ปลายทาง') + stat(baht(d.discount_all), 'ส่วนลดจาก Point') + stat(d.points_issued + ' / ' + d.points_used, 'Point ที่ให้ / ที่ใช้') + '</div>' +
         '<h2>ลูกค้าและบริการ</h2><div class="stats">' + stat(d.users, 'ผู้ใช้') + stat(d.by_mode.normal + ' / ' + d.by_mode.urgent, 'คำสั่งปกติ / ด่วน') + '</div>' +
         '<div class="card dlcard"><strong>ดาวน์โหลดรายงาน (CSV)</strong><p class="sub">เปิดได้ใน Excel / Google Sheets</p><div class="btnrow"><button type="button" class="btn ghost small" id="csvjobs">คำสั่งทั้งหมด</button><button type="button" class="btn ghost small" id="csvdays">สรุปรายวัน</button></div></div>');
@@ -5334,6 +5541,16 @@ function createLocalStore() {
         e.addEventListener('mouseenter', function () { pick(e.getAttribute('data-mix')); });
       });
     }
+    function flowBox(f) {
+      if (!f) return '';
+      var R = f.reviews;
+      return '<h2>การส่งถึงผู้รับ</h2><div class="stats">' + stat(f.first_try_pct === null ? '–' : f.first_try_pct + '%', 'ส่งได้ในรอบแรก' + (f.first_n ? ' (' + f.first_n + ' งาน)' : '')) +
+        stat(f.sender_calls, 'ต้องโทรตามผู้สั่ง') + stat(f.no_code, 'ส่งแบบไม่มีรหัส') + stat(f.owed ? baht(f.owed) + ' · ' + f.owed_n : '0', 'ผู้สั่งค้างชำระ (บาท · งาน)') + '</div>' +
+        '<div class="card reviewsum"><div class="row between"><strong>รีวิวจากผู้รับ</strong>' + (R.n ? '<span>' + stars(R.avg) + ' <b>' + R.avg + '</b> <small class="sub">จาก ' + R.n + ' รีวิว</small></span>' : '') + '</div>' +
+        (R.latest.length ? R.latest.map(function (x) { return '<a href="#" class="revrow" data-job="' + esc(x.id) + '">' + stars(x.stars) + '<span>' + (x.text ? '"' + esc(x.text) + '"' : esc(x.tags.join(' · ') || 'ไม่มีความเห็น')) + '</span><small>' + esc(x.id) + '</small></a>'; }).join('')
+          : '<p class="sub" style="margin:6px 0 0">ยังไม่มีรีวิว ผู้รับรีวิวได้จากลิงก์ติดตามหลังได้รับของ</p>') + '</div>';
+    }
+    function stat(n, label) { return '<div class="stat"><b>' + n + '</b><span>' + label + '</span></div>'; }
     function cashBox(c) {
       return '<h2>เงินสดวันนี้</h2><div class="cashgrid"><div><b>' + baht(c.collected) + '</b><span>เก็บแล้ว (ฝาก ' + baht(c.deposit) + ' · ปลายทาง ' + baht(c.cod) + ')</span></div>' +
         '<div><b>' + baht(c.refund_due) + '</b><span>ต้องคืนผู้สั่ง (ค้าง)</span></div><div><b>' + baht(c.refunded) + '</b><span>คืนแล้ววันนี้</span></div>' +
@@ -5375,14 +5592,29 @@ function createLocalStore() {
     if (Number(j.price_dist)) rows.push(['ตามระยะ', j.price_dist]);
     if (Number(j.price_item)) rows.push(['ประเภทของ (' + j.item_type + ')', j.price_item]);
     var cod = isCod(j), waiting = cod && j.cod_status === 'waiting';
-    var payNote = j.paid_at ? icon('check') + 'ชำระแล้ว ' + fmtTime(j.paid_at) + (cod ? ' (เก็บจากผู้รับ)' : '')
-      : j.status === 'cancelled' ? 'ไม่มีการเก็บเงิน'
+    var owedTxt = Number(j.sender_owed) ? (j.owed_paid_at ? icon('check') + 'ผู้สั่งชำระแล้ว ' + fmtTime(j.owed_paid_at) : 'ผู้สั่งค้างชำระ ' + baht(j.sender_owed)) : '';
+    var payNote = !cod && j.redo_of && owedTxt ? 'ส่งใหม่ · ผู้สั่งจ่ายทีหลัง · ' + owedTxt
+      : j.paid_at ? icon('check') + 'ชำระแล้ว ' + fmtTime(j.paid_at) + (cod ? ' (เก็บจากผู้รับ)' : '')
+      : j.status === 'cancelled' ? (cod && owedTxt ? 'ผู้รับไม่ได้จ่าย · ' + owedTxt : 'ไม่มีการเก็บเงิน')
       : cod ? 'ผู้รับชำระเงินสดตอนได้รับของ' : 'ชำระเงินสดตอนไรเดอร์รับของที่จุดรับฝาก';
     return '<div class="sum3">' + rows.map(function (r) { return '<div><span>' + esc(r[0]) + '</span>' + baht(r[1]) + '</div>'; }).join('') +
       (Number(j.discount) ? '<div><span>ส่วนลดจาก ' + j.points_used + ' Point' + (cod ? ' ของผู้รับ' : '') + '</span>−' + baht(j.discount) + '</div>'
         : waiting ? '<div><span>ส่วนลดจาก Point ของผู้รับ</span><span class="muted">รอผู้รับเลือก</span></div>' : '') +
       '<div class="tot"><span>' + (cod ? 'ผู้รับชำระ (เงินสด)' : 'ยอดชำระ (เงินสด)') + '</span><b>' + baht(j.total) + '</b></div>' +
       '<p class="paynote">' + payNote + '</p></div>';
+  }
+  function pageUrl() { return window.TM_PAGE_URL || (location.protocol === 'file:' ? location.href.split(/[?#]/)[0] : location.origin + location.pathname); }
+  function trackUrl(t) { return t ? pageUrl() + '?t=' + encodeURIComponent(t) : ''; }
+  function shareText(j) {
+    return 'มีของส่งถึงคุณผ่าน ' + CONFIG.APP_NAME + ' (จาก ' + j.sender_name + ')\n' +
+      'ของ: ' + j.item_type + '\nส่งที่: ' + zoneFull(j.dropoff_zone, j.dropoff_detail) + '\n' +
+      'รหัสรับของ: ' + j.code + ' (บอกไรเดอร์ตอนได้รับของเท่านั้น)' +
+      (isCod(j) ? '\nชำระเงินสดปลายทาง ' + baht(j.total) : '') +
+      (j.track_token && (!IS_GAS || window.TM_PAGE_URL) ? '\nติดตามสถานะ: ' + trackUrl(j.track_token) : '');
+  }
+  function copyFallback(t) {
+    var ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta);
   }
   function codTag(j) { return isCod(j) ? '<span class="codtag">เก็บเงินปลายทาง</span>' : ''; }
   function ban(cls, ic, title, text) { return '<div class="card lateban ' + cls + '">' + icon(ic) + '<span><b>' + title + '</b>' + text + '</span></div>'; }
@@ -5411,132 +5643,148 @@ function createLocalStore() {
         (job.status === 'cancelled' ? '' : '<div class="jobroute">' + routeBox(job.dropoff_zone, { open: admin && (job.status === 'picked' || job.status === 'delivering'), nav: admin && (job.status === 'picked' || job.status === 'delivering') }) + '</div>') +
         (admin && (job.sender_phone || job.recipient_phone) ? '<div class="phones">' + phoneLink('ผู้สั่ง', job.sender_phone) + phoneLink('ผู้รับ', job.recipient_phone) + '</div>' : '') +
         '</div>';
-      var cod = isCod(job), waitingCod = cod && job.status === 'pending' && job.cod_status === 'waiting';
-      // ---- เก็บเงินปลายทาง: แจ้งแต่ละฝ่าย
-      if (waitingCod && isSender) h += ban('warn', 'clock', 'รอ ' + esc(job.recipient_name) + ' ยอมรับชำระค่าส่ง', 'เมื่อผู้รับยอมรับ แอดมินจึงยืนยันคำสั่ง ยังไม่ต้องนำของมาฝาก');
-      if (isSender && job.status === 'pending' && !waitingCod) h += '<div class="card nextcard"><strong>ขั้นต่อไป: รอแอดมินยืนยัน</strong><p>ยังไม่ต้องนำของมา เมื่อแอดมินยืนยันจะแจ้งให้นำของมาฝาก</p>' +
+      var cod = isCod(job), open = !closed(job), R = CONFIG.REFUSE, cl = job.contacts || [];
+      var calls = cl.filter(function (c) { return c.k === 'call'; }), sndCalls = cl.filter(function (c) { return c.k === 'sender'; });
+      var waitEnd = sndCalls.length ? new Date(new Date(sndCalls[0].t).getTime() + R.WAIT_MIN * 60000) : null;
+      // ---- ผู้สั่ง: แจ้งผู้รับ (รหัส + ลิงก์ติดตาม) ผู้รับไม่ต้องมีบัญชี
+      if (isSender && open && job.code) {
+        h += '<div class="card sharecard"><div class="row between"><strong>แจ้งผู้รับ</strong><span class="sub">' + esc(job.recipient_name) + (job.recipient_phone ? ' · ' + esc(fmtPhone(job.recipient_phone)) : '') + '</span></div>' +
+          '<p class="sub" style="margin:4px 0 8px">ส่งรหัสรับของและลิงก์ติดตามให้ผู้รับทาง LINE หรือ SMS ผู้รับไม่ต้องสมัครแอป</p>' +
+          '<div class="code">' + esc(job.code) + '</div><p class="sub" style="text-align:center;margin:0 0 10px">รหัสรับของ · ผู้รับบอกไรเดอร์ตอนได้รับของ</p>' +
+          '<div class="sharemsg" id="sharemsg">' + esc(shareText(job)).replace(/\n/g, '<br>') + '</div>' +
+          '<div class="btnrow"><button type="button" class="btn small" id="shareline">ส่งทาง LINE</button><button type="button" class="btn ghost small" id="sharecopy">คัดลอกข้อความ</button></div>' +
+          '<p class="hint" style="margin:8px 0 0">ถ้าผู้รับไม่มีรหัส ไรเดอร์ถ่ายรูปตอนส่งและบันทึกชื่อคนรับแทน</p></div>';
+      }
+      // ---- ผู้สั่ง: ไรเดอร์ติดต่อผู้รับไม่ได้
+      if (isSender && job.status === 'delivering' && job.arrived_at && calls.length) {
+        h += sndCalls.length ? ban('red', 'phone', 'ไรเดอร์ติดต่อผู้รับไม่ได้', 'ช่วยตาม ' + esc(job.recipient_name) + ' ให้มารับที่ ' + esc(zoneName(job.dropoff_zone, job.dropoff_detail)) + ' ภายใน ' + fmtClock(waitEnd.toISOString()) + ' น. ถ้าไม่มา ของจะกลับไปเก็บที่จุดรับฝาก ' + R.HOLD_DAYS + ' วัน')
+          : ban('warn', 'phone', 'ไรเดอร์ถึงแล้ว กำลังโทรหาผู้รับ', 'โทรแล้ว ' + calls.length + '/' + R.CALLS + ' ครั้ง ยังไม่รับสาย · ถ้าคุณติดต่อผู้รับได้ ช่วยบอกให้ออกมารับ');
+      }
+      if (isSender && job.owed) h += ban('warn', 'coin', 'ค้างชำระค่าส่ง ' + baht(job.owed), (job.status === 'cancelled' ? 'จ่ายเงินสดที่จุดรับฝากตอนมารับของคืน' : 'จ่ายเงินสดที่จุดรับฝาก') + ' · ระหว่างค้างชำระเลือกเก็บเงินปลายทางไม่ได้');
+      if (admin && job.owed) h += '<div class="card owedcard"><span><b>ผู้สั่งค้างชำระ ' + baht(job.owed) + '</b><small>' + (job.redo_of ? 'ส่งใหม่แบบจ่ายทีหลัง' : 'ผู้รับไม่จ่ายค่าส่งปลายทาง') + '</small></span>' +
+        '<button type="button" class="btn small" data-do="owed_paid" data-confirm="กดอีกครั้งเพื่อยืนยันรับเงิน ' + baht(job.owed) + '">รับเงินแล้ว</button></div>';
+      if (isSender && job.status === 'pending') h += '<div class="card nextcard"><strong>ขั้นต่อไป: รอแอดมินยืนยัน</strong><p>ยังไม่ต้องนำของมา เมื่อแอดมินยืนยันจะแจ้งให้นำของมาฝาก</p>' +
         '<ol><li>แอดมินยืนยันคำสั่ง</li><li>นำของมาฝากที่จุดรับฝาก' + (cod ? '' : ' + จ่ายเงินสด ' + baht(job.total)) + '</li><li>ไรเดอร์นำส่งถึงมือผู้รับ</li></ol></div>';
-      if (isSender && job.status === 'confirmed') h += '<div class="card dropcard"><strong>นำของมาฝากที่จุดรับฝากได้เลย</strong><p>' + esc(CONFIG.DROP_POINT) + ' · ' + esc(CONFIG.DROP_POINT_PLACE) + '</p>' +
+      if (isSender && job.status === 'confirmed' && !job.redo_of) h += '<div class="card dropcard"><strong>นำของมาฝากที่จุดรับฝากได้เลย</strong><p>' + esc(CONFIG.DROP_POINT) + ' · ' + esc(CONFIG.DROP_POINT_PLACE) + '</p>' +
         '<p>เปิด ' + BOT.SHOP_HOURS.open + '–' + BOT.SHOP_HOURS.close + ' น. · ' + (cod ? 'ไม่ต้องจ่าย ผู้รับจ่ายตอนได้รับของ' : 'เตรียมเงินสด <b>' + baht(job.total) + '</b> จ่ายไรเดอร์ตอนฝาก') + '</p>' +
         '<p class="sub">ฝากก่อน ' + BOT.SHOP_HOURS.close + ' น. เพื่อให้ส่งทันกำหนด</p>' +
         '<div class="btnrow"><a class="btn ghost small" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + CONFIG.DROP_POINT_LL.join(',') + '">ดูเส้นทาง</a><a href="#" class="btn ghost small" data-chat="' + esc(job.id) + '" data-room="sender">แชทกับแอดมิน</a></div></div>';
-      if (waitingCod && admin) h += ban('warn', 'clock', 'รอผู้รับยอมรับชำระปลายทาง', 'ยืนยันคำสั่งได้หลังผู้รับกดยอมรับ');
-      if (waitingCod && isRecipient) {
-        h += '<div class="card paycard" id="codcard"><span class="codtag">เก็บเงินปลายทาง</span><p>' + esc(job.sender_name) + ' ส่งของถึงคุณ และขอให้คุณชำระค่าส่ง</p>' +
-          '<div class="amt" id="codamt">' + baht(job.subtotal) + '</div><p class="sub" style="margin:0">ชำระเงินสดกับไรเดอร์ตอนได้รับของ</p>' +
-          '<p class="coddue">ตอบภายใน ' + codLeft(job) + ' ชม. ไม่งั้นคำสั่งจะถูกยกเลิกอัตโนมัติ</p>' +
-          '<div class="sum3" style="text-align:left;margin-top:10px"><div><span>ค่าบริการ + ระยะ</span>' + baht(job.subtotal) + '</div>' +
-          '<label class="ptuse" id="codpts"></label></div>' +
-          '<button class="btn" id="codok">ยอมรับชำระ</button><button class="btn danger" data-do="cod_decline" data-confirm="กดอีกครั้งเพื่อยืนยันปฏิเสธ (คำสั่งจะถูกยกเลิก)">ปฏิเสธ ไม่ชำระ</button>' +
-          '<p class="hint" style="margin:8px 0 0">ถ้าคำสั่งสำเร็จ คุณได้ Point เพราะคุณเป็นคนจ่าย · ปฏิเสธตอนนี้ไม่มีผลกับ Point ของคุณ</p></div>';
-      }
-      if (cod && isRecipient && job.cod_status === 'accepted' && !closed(job)) {
-        h += '<div class="card payline">' + icon('coin') + '<span><b>ต้องชำระ ' + baht(job.total) + ' เงินสดเมื่อรับของ</b>' + (Number(job.points_used) ? 'ใช้ ' + job.points_used + ' Point ของคุณลดไป ' + baht(job.discount) : 'เก็บเงินปลายทาง') + '</span>' +
-          ((job.status === 'pending' || job.status === 'confirmed') ? '<button class="linkbtn" data-do="cod_withdraw" data-confirm="กดอีกครั้งเพื่อถอนการยอมรับ (คำสั่งจะถูกยกเลิก)">ถอนการยอมรับ</button>' : '') + '</div>';
+      if (isSender && job.status === 'confirmed' && job.redo_of) h += ban('info', 'info', 'ส่งใหม่จากคำสั่ง ' + esc(job.redo_of), 'ของอยู่ที่จุดรับฝากแล้ว ไม่ต้องนำมาใหม่ ไรเดอร์จะออกส่งรอบใหม่');
+      if (admin && job.status === 'pending' && cod) h += ban('info', 'coin', 'เก็บเงินปลายทาง ' + baht(job.total), 'ผู้สั่งยืนยันแล้วว่าผู้รับตกลงจ่าย ถ้าผู้รับไม่จ่าย ผู้สั่งจ่ายแทน');
+      // ---- ผู้รับที่มีบัญชี (เบอร์ตรง)
+      if (isRecipient && !isSender && open) {
+        if (job.code) h += '<div class="card codecard"><strong>รหัสรับของของคุณ</strong><div class="code">' + esc(job.code) +
+          '</div><p class="sub" style="text-align:center;margin:0">บอกรหัสนี้กับไรเดอร์เมื่อได้รับของแล้วเท่านั้น</p></div>';
+        if (cod) {
+          var usePts = job.payer === me.id && Number(job.points_used) > 0;
+          h += '<div class="card payline">' + icon('coin') + '<span><b>ชำระ ' + baht(job.total) + ' เงินสดเมื่อรับของ</b>' + (usePts ? 'ใช้ ' + job.points_used + ' Point ของคุณลดไป ' + baht(job.discount) : 'ใช้ Point ของคุณลดค่าส่งได้') + '</span>' +
+            '<label class="ptsw"><input type="checkbox" id="codpts"' + (usePts ? ' checked' : '') + '><i class="tog"></i></label></div>';
+        }
       }
       // ---- ส่งช้า
       if (job.status === 'delivered' && Number(job.late_min) > 0) {
         var payerMe = job.payer === me.id;
         h += job.late_excused ? ban('info', 'info', 'ส่งหลังกำหนด ' + job.late_min + ' นาที · ไม่นับว่าส่งช้า', 'ไรเดอร์ถึงจุดส่งก่อนกำหนดแล้ว (' + fmtClock(job.arrived_at) + ') แต่ผู้รับไม่อยู่')
           : Number(job.late_min) <= CONFIG.LATE.GRACE_MIN ? ban('warn', 'clock', 'ส่งช้า ' + job.late_min + ' นาที', 'ช้าไม่เกิน ' + CONFIG.LATE.GRACE_MIN + ' นาที ไม่มีการชดเชย')
-          : ban('red', 'gift', 'ส่งช้า ' + job.late_min + ' นาที', payerMe ? 'ขออภัยที่ส่งช้า คุณได้รับ Point ชดเชย +' + job.comp_points + ' แล้ว' : 'ชดเชย ' + job.comp_points + ' Point ให้คนที่จ่ายแล้ว');
+          : ban('red', 'gift', 'ส่งช้า ' + job.late_min + ' นาที', payerMe ? 'ขออภัยที่ส่งช้า คุณได้รับ Point ชดเชย +' + job.comp_points + ' แล้ว' : job.payer ? 'ชดเชย ' + job.comp_points + ' Point ให้คนที่จ่ายแล้ว' : 'ผู้รับไม่มีบัญชี จึงไม่มี Point ชดเชย');
       }
-      if (isSender || admin || (cod && isRecipient && !waitingCod)) h += '<div class="card"><strong>สรุปค่าบริการ</strong>' + priceTable(job) + '</div>';
-      if (isRecipient && job.code && job.status === 'delivering') {
-        h += '<div class="card codecard"><strong>รหัสรับของของคุณ</strong><div class="code">' + esc(job.code) +
-          '</div><p class="sub" style="text-align:center;margin:0">บอกรหัสนี้กับไรเดอร์เมื่อได้รับของแล้วเท่านั้น</p></div>';
-      }
+      if (job.status === 'delivered' && job.handover === 'photo' && (isSender || admin)) h += ban('info', 'info', 'ส่งถึงมือโดยไม่มีรหัส', 'ไรเดอร์ถ่ายรูปตอนส่ง และบันทึกชื่อคนรับ: ' + esc(job.handover_name));
+      if (isSender || admin || (cod && isRecipient)) h += '<div class="card"><strong>สรุปค่าบริการ</strong>' + priceTable(job) + '</div>';
       if (job.status === 'cancelled') {
         var why = { sender: 'ผู้สั่งยกเลิกคำสั่ง', rejected: 'แอดมินปฏิเสธคำสั่ง', admin: 'แอดมินยกเลิกคำสั่ง', cod_declined: 'ผู้รับปฏิเสธชำระปลายทาง', cod_withdrawn: 'ผู้รับถอนการยอมรับชำระ', cod_expired: 'ผู้รับไม่ตอบรับเก็บเงินปลายทางภายใน 24 ชม.',
           failed: 'ส่งไม่สำเร็จ' }[job.cancel_reason] || 'ยกเลิกแล้ว';
-        if (job.cancel_reason === 'failed') {
+        var failed = job.cancel_reason === 'failed', userFault = failed && ['recipient', 'sender'].indexOf(job.fail_fault) >= 0;
+        var atShop = job.picked_at && !job.returned_at && !job.disposed_at && !job.redo_id;
+        if (failed) {
           var FR = CONFIG.FAIL_REASONS[job.fail_reason] || {};
-          h += '<div class="card failcard"><strong>' + (FR.by === 'recipient' ? 'ผู้รับไม่รับของ' : 'ส่งไม่สำเร็จ') + '</strong><dl class="info">' +
+          h += '<div class="card failcard"><strong>ส่งไม่สำเร็จ</strong><dl class="info">' +
             '<dt>เหตุผล</dt><dd>' + esc(FR.label || job.fail_reason) + '</dd>' + (job.fail_note ? '<dt>รายละเอียด</dt><dd>' + esc(job.fail_note) + '</dd>' : '') +
             '<dt>สาเหตุจาก</dt><dd>' + esc(CONFIG.FAULT_LABEL[job.fail_fault] || '–') + '</dd>' +
-            (job.penalty_user ? '<dt>บทลงโทษ</dt><dd>' + (job.appeal_result === 'revoked' ? 'ยกเลิกแล้ว (คืน Point)' : Number(job.penalty_points) ? 'หัก ' + job.penalty_points + ' Point ผู้รับ' : 'นับการปฏิเสธ 1 ครั้ง (ไม่มี Point ให้หัก)') + '</dd>' : '') + '</dl>' +
+            (job.penalty_user ? '<dt>บทลงโทษ</dt><dd>' + (job.appeal_result === 'revoked' ? 'ยกเลิกแล้ว (คืน Point)' : Number(job.penalty_points) ? 'หัก ' + job.penalty_points + ' Point ผู้รับ' : 'นับการปฏิเสธ 1 ครั้ง') + ' <small class="muted">(ระบบเดิม)</small></dd>' : '') + '</dl>' +
+            (isSender && userFault ? '<p class="sub" style="margin:8px 0 0">คำสั่งนี้ไม่ได้ Point · ไม่มีบทลงโทษ' + (Number(job.sender_owed) ? ' · ค่าส่งรอบนี้ ' + baht(job.sender_owed) + ' ผู้สั่งเป็นคนจ่าย' : '') + '</p>' : '') +
             (evidence.fail && evidence.fail.length ? '<div class="photorow small">' + evidence.fail.map(function (p, k) { return '<button type="button" class="ph" data-view="fail:' + k + '"><img src="' + p + '" alt="รูปหลักฐาน ' + (k + 1) + '"></button>'; }).join('') + '</div>' : '') + '</div>';
-          if (me.id === job.penalty_user && job.fail_fault === 'recipient') {
-            h += job.appeal_result ? ban(job.appeal_result === 'revoked' ? 'info' : 'warn', 'info', job.appeal_result === 'revoked' ? 'แอดมินยกเลิกบทลงโทษแล้ว' : 'แอดมินตรวจคำโต้แย้งแล้ว คงบทลงโทษเดิม', 'ตรวจเมื่อ ' + fmtTime(job.appeal_done_at))
-              : job.appeal_at ? ban('info', 'clock', 'ยื่นโต้แย้งแล้ว รอแอดมินตรวจ', '"' + esc(job.appeal_text) + '"')
-              : '<form class="card" id="appealf"><strong>ไม่เห็นด้วยกับเหตุผลนี้?</strong><p class="sub" style="margin:4px 0 8px">เขียนสิ่งที่เกิดขึ้นจริง แอดมินจะตรวจจากรูปและเวลาที่บันทึกไว้</p>' +
-                '<label class="field"><span>เหตุผลที่โต้แย้ง<b class="req">*</b></span><textarea name="note" maxlength="500" required placeholder="เช่น ของที่มาไม่ใช่ชีทที่ตกลงไว้"></textarea></label><button class="btn ghost">ยื่นโต้แย้ง</button></form>';
-          }
           if (admin && job.appeal_at && !job.appeal_result) {
-            h += '<div class="card appealcard"><strong>คำโต้แย้งจาก ' + esc(job.recipient_name) + '</strong><p>"' + esc(job.appeal_text) + '"</p><p class="sub">ยื่นเมื่อ ' + fmtTime(job.appeal_at) + ' · ตรวจกับรูปและไทม์ไลน์ด้านล่าง</p>' +
+            h += '<div class="card appealcard"><strong>คำโต้แย้งจาก ' + esc(job.recipient_name) + ' (ระบบเดิม)</strong><p>"' + esc(job.appeal_text) + '"</p><p class="sub">ยื่นเมื่อ ' + fmtTime(job.appeal_at) + '</p>' +
               '<div class="btnrow"><button class="btn ghost" data-do="appeal_kept">คงบทลงโทษ</button><button class="btn" data-do="appeal_revoked" data-confirm="กดอีกครั้งเพื่อยกเลิกบทลงโทษ">ยกเลิกบทลงโทษ</button></div></div>';
           }
         }
-        h += '<div class="card returncard' + (job.returned_at ? ' done' : '') + '"><strong>' + why + '</strong>' +
+        var owedNow = Number(job.owed) || 0;
+        h += '<div class="card returncard' + (job.returned_at || job.redo_id ? ' done' : '') + '"><strong>' + why + '</strong>' +
           (job.cancel_note ? '<p class="nfnote"><b>เหตุผล:</b> ' + esc(job.cancel_note) + '</p>' : '') +
-          (Number(job.points_used) ? '<p>คืน ' + job.points_used + ' Point ให้' + (job.payer === job.recipient_id ? 'ผู้รับ' : 'ผู้สั่ง') + 'แล้ว</p>' : '') +
-          (cod && isSender ? '<p>คุณไม่ต้องจ่ายค่าส่ง</p>' : '') +
+          (Number(job.points_used) ? '<p>คืน ' + job.points_used + ' Point ให้' + (job.payer && job.payer === job.recipient_id ? 'ผู้รับ' : 'ผู้สั่ง') + 'แล้ว</p>' : '') +
+          (cod && isSender && !Number(job.sender_owed) ? '<p>คุณไม่ต้องจ่ายค่าส่ง</p>' : '') +
           (admin && job.todo && job.todo.refund ? '<div class="refundbox"><b>คืนเงินค่าส่ง ' + baht(job.refund_amount) + ' ให้ผู้สั่ง</b><span>ยังไม่ได้คืน</span><button type="button" class="btn small" data-do="refunded" data-confirm="กดอีกครั้งเพื่อยืนยันว่าคืนเงินแล้ว">คืนเงิน ' + baht(job.refund_amount) + ' แล้ว</button></div>' :
           Number(job.refund_amount) && (isSender || admin) ? '<p class="refund"><b>' + (job.refunded_at ? 'คืนเงินค่าส่ง ' + baht(job.refund_amount) + ' แล้ว' : 'คืนเงินค่าส่ง ' + baht(job.refund_amount) + (job.disposed_at ? (isSender ? ' · ติดต่อแอดมินเพื่อรับเงินคืน' : '') : isSender ? ' ให้คุณตอนมารับของคืนที่จุดรับฝาก' : ' ให้ผู้สั่งตอนมารับของคืน')) + '</b>' +
             (job.refunded_at ? '' : '<span>' + (job.cancel_reason === 'failed' ? 'ส่งไม่สำเร็จเพราะ ' + esc(CONFIG.APP_NAME) : 'แอดมินยกเลิกหลังรับของและเก็บเงินแล้ว') + ' จึงคืนค่าส่งเต็มจำนวน</span>') + '</p>' : '') +
-          (job.picked_at ? '<p>' + (job.disposed_at ? 'ไม่มีผู้มารับของคืนตามกำหนด แอดมินจัดการของแล้ว ' + fmtTime(job.disposed_at) + (Number(job.refund_amount) && !job.refunded_at && isSender ? ' · ติดต่อแอดมินเพื่อรับเงินคืน' : '') : job.returned_at ? 'ผู้สั่งรับของคืนแล้ว ' + fmtTime(job.returned_at)
-              : (isSender ? 'กรุณามารับของคืนที่จุดรับฝาก' : 'ของอยู่ที่จุดรับฝาก รอผู้สั่งมารับคืน') + ' · เก็บไว้ถึง ' + fmtDate(job.keep_until || new Date(new Date(job.cancelled_at).getTime() + CONFIG.REFUSE.HOLD_DAYS * 86400000).toISOString())) + '</p>' +
+          (job.picked_at ? (job.redo_id ? '<p>ส่งใหม่แล้วในคำสั่ง <a href="#" data-job="' + esc(job.redo_id) + '">' + esc(job.redo_id) + '</a></p>' :
+            '<p>' + (job.disposed_at ? 'ไม่มีผู้มารับของคืนตามกำหนด แอดมินจัดการของแล้ว ' + fmtTime(job.disposed_at) + (Number(job.refund_amount) && !job.refunded_at && isSender ? ' · ติดต่อแอดมินเพื่อรับเงินคืน' : '') : job.returned_at ? 'ผู้สั่งรับของคืนแล้ว ' + fmtTime(job.returned_at)
+              : (isSender ? 'ของรอที่จุดรับฝาก ส่งใหม่หรือมารับคืนได้' : 'ของอยู่ที่จุดรับฝาก รอผู้สั่งมารับคืนหรือส่งใหม่') + ' · เก็บไว้ถึง ' + fmtDate(job.keep_until || new Date(new Date(job.cancelled_at).getTime() + R.HOLD_DAYS * 86400000).toISOString())) + '</p>' +
             (admin && job.todo && job.todo.ret ? '<p class="' + (job.todo.overdue ? 'overdue' : 'sub') + '">' + (job.todo.overdue ? 'เกินกำหนดรับคืนแล้ว' : 'เหลือ ' + job.todo.days_left + ' วัน') + (job.remind_at ? ' · แจ้งผู้สั่งล่าสุด ' + fmtTime(job.remind_at) : '') + '</p>' +
-              '<div class="btnrow"><button type="button" class="btn ghost small" data-do="remind_return">แจ้งผู้สั่งอีกครั้ง</button><button type="button" class="btn ghost small" data-do="extend_keep">ขยาย ' + CONFIG.REFUSE.HOLD_DAYS + ' วัน</button></div>' +
+              '<div class="btnrow"><button type="button" class="btn ghost small" data-do="remind_return">แจ้งผู้สั่งอีกครั้ง</button><button type="button" class="btn ghost small" data-do="extend_keep">ขยาย ' + R.HOLD_DAYS + ' วัน</button></div>' +
               '<details class="dispose"><summary>บันทึกว่าจัดการของแล้ว (ไม่มีคนมารับ)</summary><form id="dispf"><label class="field"><span>จัดการอย่างไร<b class="req">*</b></span><input type="text" name="note" maxlength="300" required placeholder="เช่น ส่งคืนสำนักงานคณะ / ทิ้งตามระเบียบ"></label><button class="btn danger">บันทึก</button></form></details>' : '') +
             (job.disposed_at && admin ? '<p class="sub">วิธีจัดการ: ' + esc(job.dispose_note) + '</p>' : '') +
-            ((isSender || admin) && !job.returned_at && !job.disposed_at ? '<button class="btn" data-do="returned">' + (Number(job.refund_amount) ? (isSender ? 'ได้รับของและเงินคืนแล้ว' : 'คืนของและเงินให้ผู้สั่งแล้ว') : 'ยืนยันรับของคืนแล้ว') + '</button>' : '') : '') + '</div>';
+            (atShop && admin ? '<button class="btn" data-do="returned">' + (owedNow ? 'คืนของและรับค่าส่งที่ค้าง ' + baht(owedNow) + ' แล้ว' : Number(job.refund_amount) ? 'คืนของและเงินให้ผู้สั่งแล้ว' : 'ยืนยันคืนของให้ผู้สั่งแล้ว') + '</button>' : '') +
+            (atShop && isSender && !admin ? (owedNow ? '<p class="sub">มารับคืนเอง: จ่ายค่าส่งที่ค้าง ' + baht(owedNow) + ' ที่จุดรับฝาก แอดมินจะบันทึกให้</p>' : '<button class="btn" data-do="returned">' + (Number(job.refund_amount) ? 'ได้รับของและเงินคืนแล้ว' : 'มารับคืนเองแล้ว') + '</button>') : '')) : '') + '</div>';
+        if (isSender && userFault && atShop) {
+          var phoneGone = !job.recipient_phone;
+          h += '<form class="card redocard" id="redof"><strong>ส่งใหม่ ราคาเดิม ' + baht(job.subtotal) + '</strong><p class="sub" style="margin:2px 0 8px">ของอยู่ที่จุดรับฝากแล้ว ไม่ต้องนำมาใหม่ · แก้ชื่อหรือเบอร์ผู้รับได้</p>' +
+            '<label class="field"><span>ชื่อผู้รับ</span><input type="text" name="rname" maxlength="60" value="' + esc(job.recipient_name) + '"></label>' +
+            '<label class="field"><span>เบอร์ผู้รับ' + (phoneGone ? '<b class="req">*</b>' : '') + '</span><input type="tel" name="rphone" inputmode="numeric" maxlength="12" value="' + esc(job.recipient_phone || '') + '" placeholder="08xxxxxxxx"></label>' +
+            '<div class="paypick"><label class="on"><input type="radio" name="pay" value="later" checked><i></i><span><b>ผู้สั่งจ่าย</b><small>จ่ายเงินสดที่จุดรับฝาก</small></span></label>' +
+            '<label' + (owedNow ? ' class="off"' : '') + '><input type="radio" name="pay" value="cod"' + (owedNow ? ' disabled' : '') + '><i></i><span><b>เก็บเงินปลายทาง</b><small>' + (owedNow ? 'มียอดค้างชำระ เลือกไม่ได้' : 'ผู้รับจ่ายตอนได้รับของ') + '</small></span></label></div>' +
+            '<label class="check" id="redoagree" hidden><input type="checkbox" name="agree"><span>ผู้รับตกลงจ่ายปลายทางแล้ว ถ้าผู้รับไม่จ่าย ฉันจ่ายแทน</span></label>' +
+            '<button class="btn">ส่งใหม่ ' + baht(job.subtotal) + '</button></form>';
+        }
       }
+      if (job.redo_of && (isSender || admin)) h += '<p class="sub" style="margin:8px 2px">ส่งใหม่จากคำสั่ง <a href="#" data-job="' + esc(job.redo_of) + '">' + esc(job.redo_of) + '</a></p>';
       if (job.status === 'delivered' && job.payer === me.id && Number(job.points_earned)) h += '<div class="pointhint got">' + icon('gift') + '<span>คำสั่งนี้สำเร็จ คุณได้รับ <b>' + job.points_earned + ' Point</b>' + (cod ? ' เพราะคุณเป็นคนจ่าย' : '') + '</span></div>';
+      if (job.status === 'delivered' && job.review_at && (isSender || admin)) h += '<div class="card reviewcard"><strong>รีวิวจากผู้รับ</strong><div>' + stars(job.review_stars) + '</div>' +
+        (job.review_tags ? '<div class="rtags">' + job.review_tags.split('|').map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '') + (job.review_text ? '<p>"' + esc(job.review_text) + '"</p>' : '') + '</div>';
       h += '<div id="err" class="error"></div><div class="stack" style="margin-top:12px">';
       // ---- ปุ่มของผู้สั่ง
       if (isSender && (job.status === 'pending' || job.status === 'confirmed')) h += '<button class="btn danger" data-do="cancel" data-confirm="กดอีกครั้งเพื่อยืนยันยกเลิกคำสั่ง">ยกเลิกคำสั่ง</button>';
-      if (isRecipient && job.status === 'delivering') {
-        var penaltyNote = cod && !job.free_refuse;
-        h += '<a href="#" class="btn ghost" data-chat="' + esc(job.id) + '" data-room="recipient">ขอเลื่อนเวลา / เปลี่ยนจุดส่ง (แชทกับแอดมิน)</a>' +
-          '<details class="refuse"><summary class="btn danger">ไม่รับของ</summary><form id="refusef"><b>ไม่รับของเพราะอะไร</b><p class="sub" style="margin:2px 0 6px">ไรเดอร์ออกนำส่งแล้ว' + (cod ? ' เหตุผลมีผลต่อ Point ของคุณ' : '') + '</p>' +
-          Object.keys(CONFIG.FAIL_REASONS).filter(function (k) { var r = CONFIG.FAIL_REASONS[k]; return (r.by === 'recipient' || r.by === 'both') && (k !== 'cannot_pay' || cod) && (k !== 'late' || job.free_refuse || (!cod && job.overdue_min > CONFIG.LATE.COD_FREE_MIN)); }).map(function (k) {
-            var r = CONFIG.FAIL_REASONS[k], bad = r.fault === 'recipient' && cod;
-            return '<label class="rsn"><input type="radio" name="reason" value="' + k + '"><i></i><span>' + esc(r.label) + '</span><small class="' + (bad ? 'bad' : 'ok') + '">' + (bad ? 'หัก ' + CONFIG.REFUSE.PENALTY + ' Point' : 'ไม่หัก Point') + '</small></label>';
-          }).join('') +
-          (penaltyNote ? '<div class="minib warn">' + icon('warn') + 'ถ้าแค่ไม่อยู่ตอนนี้ ใช้ "ขอเลื่อนเวลา" แทน จะไม่ถูกหัก Point</div>' : '') +
-          '<label class="field" style="margin-top:8px"><span>รายละเอียด <em>(ไม่บังคับ)</em></span><input type="text" name="note" maxlength="300"></label>' +
-          '<button class="btn danger solid">ยืนยันไม่รับของ</button></form></details>';
-      }
       // ---- ขั้นตอนของร้าน
       if (admin) {
         if (job.status === 'pending') {
-          h += '<div class="card astep"><b>คำสั่งใหม่</b><p class="sub">ตรวจรายละเอียดและรูปของ แล้วยืนยันคำสั่ง ลูกค้าจะเห็นสถานะ "รอรับของ"</p><button class="btn" data-do="confirm"' + (waitingCod ? ' disabled' : '') + '>' + (waitingCod ? 'รอผู้รับยอมรับชำระก่อน' : 'ยืนยันคำสั่ง') + '</button>' +
+          h += '<div class="card astep"><b>คำสั่งใหม่</b><p class="sub">ตรวจรายละเอียดและรูปของ แล้วยืนยันคำสั่ง ลูกค้าจะเห็นสถานะ "รอรับของ"</p><button class="btn" data-do="confirm">ยืนยันคำสั่ง</button>' +
             '<form id="rejf" class="rejf"><label class="field"><span>เหตุผลที่ปฏิเสธ<b class="req">*</b></span><input type="text" name="note" maxlength="300" required placeholder="เช่น ของมีขนาดใหญ่เกินกว่าที่รับส่งได้"></label><button class="btn danger">ปฏิเสธคำสั่ง</button></form></div>';
         }
         if (job.status === 'confirmed') {
-          h += '<form class="card astep" id="pickupf"><b>รับของที่จุดรับฝาก</b><p class="sub">ตรวจของให้ตรงกับรูป' + (cod ? ' (ไม่ต้องเก็บเงินผู้สั่ง เก็บเงินปลายทาง ' + baht(job.total) + ')' : ' เก็บเงินสด ' + baht(job.total)) + ' แล้วถ่ายรูปของตอนรับ</p>' +
+          var later = !cod && Number(job.sender_owed) > 0;
+          h += '<form class="card astep" id="pickupf"><b>' + (job.redo_of ? 'หยิบของจากจุดรับฝาก (ส่งใหม่)' : 'รับของที่จุดรับฝาก') + '</b><p class="sub">ตรวจของให้ตรงกับรูป' + (cod ? ' (ไม่ต้องเก็บเงินผู้สั่ง เก็บเงินปลายทาง ' + baht(job.total) + ')' : later ? ' (ไม่ต้องเก็บเงินตอนนี้ ผู้สั่งจ่ายทีหลัง ' + baht(job.sender_owed) + ')' : ' เก็บเงินสด ' + baht(job.total)) + ' แล้วถ่ายรูปของ</p>' +
             proofField('pk', 'รูปตอนรับของ', 'อย่างน้อย ' + CONFIG.PROOF_MIN + ' รูป มากสุด ' + CONFIG.PROOF_MAX + ' รูป') +
-            '<button class="btn">' + (cod ? 'รับของแล้ว (เก็บเงินปลายทาง ' + baht(job.total) + ')' : 'รับของและเก็บเงิน ' + baht(job.total) + ' แล้ว') + '</button></form>';
+            '<button class="btn">' + (cod ? 'รับของแล้ว (เก็บเงินปลายทาง ' + baht(job.total) + ')' : later ? 'หยิบของแล้ว (ผู้สั่งจ่ายทีหลัง)' : 'รับของและเก็บเงิน ' + baht(job.total) + ' แล้ว') + '</button></form>';
         }
-        if (job.status === 'picked') h += '<div class="card astep"><b>ออกนำส่ง</b><p class="sub">กดเมื่อถือของออกจากจุดรับฝาก ลูกค้าจะเห็นสถานะ "กำลังนำส่ง"</p><button class="btn" data-do="start">เริ่มนำส่ง</button></div>';
+        if (job.status === 'picked') h += '<div class="card astep"><b>ออกนำส่ง</b><p class="sub">กดเมื่อถือของออกจากจุดรับฝาก ผู้สั่งจะเห็นสถานะ "กำลังนำส่ง"</p><button class="btn" data-do="start">เริ่มนำส่ง</button></div>';
         if (job.status === 'delivering') {
-          var rf = job.recipient_refusals || {}, R = CONFIG.REFUSE, cl = job.contacts || [];
-          if (rf.total) h += ban('warn', 'warn', 'ผู้รับคนนี้เคยปฏิเสธรับของ ' + rf.total + ' ครั้ง', 'แนะนำให้โทรยืนยันก่อนเดินไปส่ง');
-          if (!job.arrived_at) h += '<div class="card astep"><b>ถึงจุดส่งแล้ว?</b><p class="sub">กดเมื่อไปถึงจุดส่ง ระบบใช้เวลานี้เป็นหลักฐาน (ถึงก่อนกำหนดแต่ผู้รับไม่อยู่ จะไม่นับว่าส่งช้า)</p><button class="btn ghost" data-do="arrive">ถึงจุดส่งแล้ว</button></div>';
+          if (!job.arrived_at) h += '<div class="card astep"><b>ถึงจุดส่งแล้ว?</b><p class="sub">กดเมื่อไปถึงจุดส่ง ระบบใช้เวลานี้เป็นหลักฐาน (ถึงก่อนกำหนดแต่ผู้รับไม่อยู่ จะไม่นับว่าส่งช้า)</p>' +
+            '<div class="phones">' + phoneLink('ผู้รับ ' + job.recipient_name, job.recipient_phone) + '</div><button class="btn ghost" data-do="arrive">ถึงจุดส่งแล้ว</button></div>';
           else {
-            var calls = cl.filter(function (c) { return c.k === 'call'; }), chats = cl.filter(function (c) { return c.k === 'chat'; });
-            var waited = Math.floor((Date.now() - new Date(job.arrived_at).getTime()) / 60000);
-            var nextCall = calls.length ? new Date(new Date(calls[calls.length - 1].t).getTime() + R.CALL_GAP_MIN * 60000) : null;
-            h += '<div class="card astep"><b>ถึงจุดส่ง ' + fmtClock(job.arrived_at) + ' · รอแล้ว ' + waited + ' นาที</b><p class="sub">ถ้าไม่พบผู้รับ บันทึกการติดต่อให้ครบก่อน: โทร ' + R.CALLS + ' ครั้ง (ห่างกัน ' + R.CALL_GAP_MIN + ' นาที) แชท 1 ครั้ง และรอ ' + R.WAIT_MIN + ' นาที</p>' +
-              '<div class="clog">' + cl.map(function (c) { return '<div><span>' + (c.k === 'call' ? 'โทรหาผู้รับ ไม่รับสาย' : 'ส่งแชทแจ้งถึงจุดส่ง') + '</span><b>' + fmtClock(c.t) + '</b></div>'; }).join('') +
+            var nextCall = calls.length ? new Date(new Date(calls[calls.length - 1].t).getTime() + R.CALL_GAP_MIN * 60000) : null, callWait = nextCall && nextCall > new Date();
+            var waited = sndCalls.length ? Math.floor((Date.now() - new Date(sndCalls[0].t).getTime()) / 60000) : 0;
+            h += '<div class="card astep"><b>ถึงจุดส่ง ' + fmtClock(job.arrived_at) + '</b><p class="sub">ผู้รับไม่ออกมา: โทรหาผู้รับ ' + R.CALLS + ' ครั้ง (ห่างกัน ' + R.CALL_GAP_MIN + ' นาที) → โทรหาผู้สั่งให้ช่วยตาม → รอ ' + R.WAIT_MIN + ' นาที · โทรจากเบอร์ของคุณเอง</p>' +
+              '<div class="phones">' + phoneLink('ผู้รับ', job.recipient_phone) + phoneLink('ผู้สั่ง', job.sender_phone) + '</div>' +
+              '<div class="clog">' + cl.map(function (c) { return '<div><span>' + (c.k === 'call' ? 'โทรหาผู้รับ ไม่รับสาย' : c.k === 'sender' ? 'โทรหาผู้สั่งให้ช่วยตาม' : 'ส่งแชทแจ้งถึงจุดส่ง') + '</span><b>' + fmtClock(c.t) + '</b></div>'; }).join('') +
               (cl.length ? '' : '<div class="muted">ยังไม่มีการบันทึก</div>') + '</div>' +
-              '<div class="btnrow"><button class="btn ghost small" data-do="contact_call"' + (nextCall && nextCall > new Date() ? ' disabled' : '') + '>' + (nextCall && nextCall > new Date() ? 'โทรได้อีกครั้ง ' + fmtClock(nextCall.toISOString()) : 'บันทึก: โทรแล้วไม่รับสาย') + '</button>' +
-              '<button class="btn ghost small" data-do="contact_chat"' + (chats.length ? ' disabled' : '') + '>' + (chats.length ? 'ส่งแชทแล้ว' : 'ส่งแชทแจ้งถึงแล้ว') + '</button></div></div>';
+              '<div class="btnrow"><button class="btn ghost small" data-do="contact_call"' + (callWait ? ' disabled' : '') + '>' + (callWait ? 'โทรได้อีกครั้ง ' + fmtClock(nextCall.toISOString()) : 'โทรผู้รับไม่รับสาย (' + Math.min(calls.length, R.CALLS) + '/' + R.CALLS + ')') + '</button>' +
+              '<button class="btn ghost small" data-do="contact_sender"' + (calls.length < R.CALLS || sndCalls.length ? ' disabled' : '') + '>' + (sndCalls.length ? 'โทรผู้สั่งแล้ว' : 'โทรหาผู้สั่งแล้ว') + '</button></div>' +
+              (waitEnd ? '<p class="' + (waited >= R.WAIT_MIN ? 'okline' : 'sub') + '" style="margin:8px 0 0">' + (waited >= R.WAIT_MIN ? 'รอครบ ' + R.WAIT_MIN + ' นาทีแล้ว บันทึก "ติดต่อผู้รับไม่ได้" ได้' : 'รอผู้รับถึง ' + fmtClock(waitEnd.toISOString()) + ' น. (' + waited + '/' + R.WAIT_MIN + ' นาที)') + '</p>' : '') + '</div>';
           }
           var lockLeft = job.code_lock_until ? new Date(job.code_lock_until).getTime() - Date.now() : 0;
           h += '<form class="card astep" id="deliver"><b>ส่งถึงมือผู้รับ</b>' +
             proofField('dv', 'รูปตอนส่งถึงผู้รับ', 'ถ่ายให้เห็นของตอนส่งมอบ อย่างน้อย ' + CONFIG.PROOF_MIN + ' รูป') +
-            (lockLeft > 0 ? '<div class="lockbox">' + icon('lock') + '<span><b>ล็อกการใส่รหัสอีกประมาณ ' + Math.ceil(lockLeft / 60000) + ' นาที</b>ใส่รหัสผิดครบ ' + CONFIG.CODE_MAX_TRIES + ' ครั้ง ติดต่อผู้รับเพื่อตรวจรหัสอีกครั้ง</span></div>'
+            '<div class="seg2"><label><input type="radio" name="ho" value="code" checked><span>ผู้รับบอกรหัส</span></label><label><input type="radio" name="ho" value="photo"><span>ผู้รับไม่มีรหัส</span></label></div>' +
+            '<div id="hocode">' + (lockLeft > 0 ? '<div class="lockbox">' + icon('lock') + '<span><b>ล็อกการใส่รหัสอีกประมาณ ' + Math.ceil(lockLeft / 60000) + ' นาที</b>ใส่รหัสผิดครบ ' + CONFIG.CODE_MAX_TRIES + ' ครั้ง เลือก "ผู้รับไม่มีรหัส" ได้</span></div>'
               : '<label class="field" style="margin-bottom:10px"><span>รหัสรับของจากผู้รับ<b class="req" aria-hidden="true">*</b></span><input class="code-input" id="code" inputmode="numeric" minlength="4" maxlength="4" placeholder="0000" required autocomplete="off">' +
-                (Number(job.code_fails) > 0 ? '<small class="codeleft">ใส่ผิดแล้ว ' + job.code_fails + ' ครั้ง · เหลืออีก ' + (CONFIG.CODE_MAX_TRIES - Number(job.code_fails)) + ' ครั้ง</small>' : '') + '</label>') +
+                (Number(job.code_fails) > 0 ? '<small class="codeleft">ใส่ผิดแล้ว ' + job.code_fails + ' ครั้ง · เหลืออีก ' + (CONFIG.CODE_MAX_TRIES - Number(job.code_fails)) + ' ครั้ง</small>' : '') + '</label>') + '</div>' +
+            '<div id="hophoto" hidden><label class="field"><span>ชื่อคนที่รับของ<b class="req">*</b></span><input type="text" id="hname" maxlength="60" placeholder="ชื่อที่ผู้รับบอก"></label><p class="hint" style="margin:-4px 0 10px">ถ่ายรูปให้เห็นผู้รับกับของตอนส่งมอบ</p></div>' +
             (cod ? '<label class="codchk"><input type="checkbox" id="codcol"><span>เก็บเงินสด <b>' + baht(job.total) + '</b> จากผู้รับแล้ว</span></label>' : '') +
-            '<button class="btn"' + (lockLeft > 0 ? ' disabled' : '') + '>ยืนยันส่งถึงมือผู้รับ</button></form>';
+            '<button class="btn" id="dvbtn"' + (lockLeft > 0 ? ' disabled' : '') + '>ยืนยันส่งถึงมือผู้รับ</button></form>';
           // ---- ส่งไม่สำเร็จ
           h += '<details class="acancel failbox"><summary>ส่งไม่สำเร็จ</summary><form id="failf"><b>ส่งไม่สำเร็จเพราะอะไร</b>' +
             ['recipient', 'item', 'sender', 'shop'].map(function (g) {
               var keys = Object.keys(CONFIG.FAIL_REASONS).filter(function (k) { var r = CONFIG.FAIL_REASONS[k]; return r.by !== 'recipient' && (g === 'item' ? r.verdict : r.fault === g && !r.verdict); });
-              var head = { recipient: ['ผู้รับ', cod ? 'หัก Point ผู้รับ' : 'บันทึกที่ผู้รับ', 'bad'], item: ['ของมีปัญหา', 'เทียบรูป 3 ช่วง', 'ok'], sender: ['ผู้สั่ง', 'บันทึกที่ผู้สั่ง', 'snd'], shop: ['TheungMue', 'ไม่หักใคร', 'shop'] }[g];
+              var head = { recipient: ['ผู้รับ', cod ? 'ผู้สั่งจ่ายค่าส่งแทน · ส่งใหม่ได้' : 'ไม่มีบทลงโทษ · ส่งใหม่ได้', 'bad'], item: ['ของมีปัญหา', 'เทียบรูป 3 ช่วง', 'ok'], sender: ['ผู้สั่ง', 'บันทึกที่ผู้สั่ง', 'snd'], shop: ['TheungMue', 'ไม่คิดค่าส่ง', 'shop'] }[g];
               return '<div class="grp">' + head[0] + ' <em class="g-' + head[2] + '">' + head[1] + '</em></div>' + keys.map(function (k) {
                 return '<label class="rsn"><input type="radio" name="reason" value="' + k + '"><i></i><span>' + esc(CONFIG.FAIL_REASONS[k].label) + '</span>' + (k === 'not_found' ? '<small>ต้องติดต่อครบก่อน</small>' : '') + '</label>';
               }).join('');
@@ -5560,7 +5808,6 @@ function createLocalStore() {
       h += '</div>';
       // ---- ไทม์ไลน์
       var steps = [[cod ? 'สั่งบริการ · เก็บเงินปลายทาง' : 'สั่งบริการ · ' + baht(job.total) + (Number(job.points_used) ? ' (ใช้ ' + job.points_used + ' Point)' : ''), job.created_at]];
-      if (cod && (job.cod_status === 'accepted' || job.status !== 'cancelled')) steps.push(['ผู้รับยอมรับชำระ' + (job.cod_status === 'accepted' ? ' ' + baht(job.total) : ''), job.cod_status === 'accepted' ? job.cod_at : '']);
       if (job.status === 'cancelled') {
         if (job.confirmed_at) steps.push(['แอดมินยืนยันคำสั่ง', job.confirmed_at]);
         if (job.picked_at) steps.push(['ไรเดอร์รับของที่จุดรับฝาก', job.picked_at, 'pickup']);
@@ -5568,8 +5815,8 @@ function createLocalStore() {
         if (job.arrived_at) steps.push(['ถึงจุดส่ง', job.arrived_at]);
         steps.push([{ rejected: 'แอดมินปฏิเสธคำสั่ง', admin: 'แอดมินยกเลิกคำสั่ง', cod_declined: 'ผู้รับปฏิเสธชำระ', cod_withdrawn: 'ผู้รับถอนการยอมรับ', cod_expired: 'ยกเลิกอัตโนมัติ: ผู้รับไม่ตอบรับใน 24 ชม.', failed: 'ส่งไม่สำเร็จ' }[job.cancel_reason] || 'ยกเลิกคำสั่ง', job.cancelled_at]);
       } else {
-        steps = steps.concat([['แอดมินยืนยันคำสั่ง', job.confirmed_at], [cod ? 'ไรเดอร์รับของที่จุดรับฝาก' : 'ไรเดอร์รับของที่จุดรับฝาก · ชำระเงินแล้ว', job.picked_at, 'pickup'], ['กำลังนำส่ง', job.delivering_at]]
-          .concat(job.arrived_at ? [['ถึงจุดส่ง', job.arrived_at]] : []).concat([[cod ? 'ส่งถึงมือ · เก็บเงิน ' + baht(job.total) : 'ส่งถึงมือผู้รับ', job.delivered_at, 'delivery']]));
+        steps = steps.concat([['แอดมินยืนยันคำสั่ง', job.confirmed_at], [cod || job.redo_of ? 'ไรเดอร์รับของที่จุดรับฝาก' : 'ไรเดอร์รับของที่จุดรับฝาก · ชำระเงินแล้ว', job.picked_at, 'pickup'], ['กำลังนำส่ง', job.delivering_at]]
+          .concat(job.arrived_at ? [['ถึงจุดส่ง', job.arrived_at]] : []).concat([[(job.handover === 'photo' ? 'ส่งถึงมือ ' + job.handover_name + ' (ไม่มีรหัส)' : 'ส่งถึงมือผู้รับ') + (cod ? ' · เก็บเงิน ' + baht(job.total) : ''), job.delivered_at, 'delivery']]));
       }
       var cur = steps.filter(function (s) { return s[1]; }).length - 1;
       h += '<h2>สถานะคำสั่ง</h2><ol class="tl">' + steps.map(function (s, i) {
@@ -5585,30 +5832,48 @@ function createLocalStore() {
       }
       if ($('deliver')) {
         bindPicker($('dvgrid'), $('dvin'), proof.delivery, CONFIG.PROOF_MAX, 'ถ่ายรูปตอนส่ง');
-        $('deliver').addEventListener('submit', function (e) { e.preventDefault(); doAct('deliver', $('code') ? $('code').value.replace(/\D/g, '') : '', proof.delivery, $('codcol') && $('codcol').checked ? 'cod_collected' : ''); });
+        var dvLocked = $('dvbtn').disabled;
+        $('deliver').addEventListener('change', function (e) {
+          if (e.target.name !== 'ho') return;
+          var ph = e.target.value === 'photo';
+          $('hocode').hidden = ph; $('hophoto').hidden = !ph;
+          if ($('code')) $('code').required = !ph;
+          $('dvbtn').disabled = dvLocked && !ph;
+        });
+        $('deliver').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var ph = this.ho.value === 'photo', col = $('codcol') && $('codcol').checked ? 'cod_collected' : '';
+          if (ph && !$('hname').value.trim()) return showError('err', 'ใส่ชื่อคนที่รับของ');
+          doAct('deliver', ph ? '' : ($('code') ? $('code').value.replace(/\D/g, '') : ''), proof.delivery, col, ph ? { handover: 'photo', handover_name: $('hname').value.trim() } : null);
+        });
       }
       if ($('rejf')) $('rejf').addEventListener('submit', function (e) { e.preventDefault(); doAct('reject', null, null, this.note.value.trim()); });
-      if ($('codcard')) {
-        var cUse = true, cTot = 0;
-        var cDraw = function () {
-          var sub = Number(job.subtotal), U = CONFIG.POINT_USE, maxD = Math.max(0, Math.min(Math.floor(myBal / U.PER_BAHT), Math.floor(sub * U.MAX_RATIO))), disc = cUse ? maxD : 0;
-          cTot = sub - disc;
-          $('codpts').className = 'ptuse' + (maxD ? '' : ' off');
-          $('codpts').innerHTML = '<span>' + (maxD ? 'ใช้ ' + maxD * U.PER_BAHT + ' Point ของคุณ ลด ' + baht(maxD) : 'Point ของคุณ ' + myBal + (myBal ? ' ยังไม่พอใช้ลด' : '')) + '<small>คุณมี ' + myBal + ' Point · ลดได้ไม่เกินครึ่งหนึ่ง</small></span>' +
-            '<input type="checkbox" id="codusepts"' + (cUse && maxD ? ' checked' : '') + (maxD ? '' : ' disabled') + '><i class="tog"></i>';
-          $('codamt').textContent = baht(cTot); $('codok').textContent = 'ยอมรับชำระ ' + baht(cTot);
-        };
-        var myBal = 0; cDraw();
-        call('points').then(function (pd) { myBal = pd.balance; cDraw(); }).catch(function () {});
-        $('codcard').addEventListener('change', function (e) { if (e.target.id === 'codusepts') { cUse = e.target.checked; cDraw(); } });
-        $('codok').addEventListener('click', function () { doAct('cod_accept', cTot, null, cUse ? 'use_points' : ''); });
+      if ($('codpts')) $('codpts').addEventListener('change', function () { doAct('cod_points', null, null, this.checked ? 'use_points' : ''); });
+      if ($('sharecopy')) {
+        var stx = shareText(job);
+        $('sharecopy').addEventListener('click', function () {
+          var b = this, done = function () { b.textContent = 'คัดลอกแล้ว'; setTimeout(function () { b.textContent = 'คัดลอกข้อความ'; }, 1800); };
+          if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(stx).then(done, function () { copyFallback(stx); done(); }); else { copyFallback(stx); done(); }
+        });
+        $('shareline').addEventListener('click', function () { window.open('https://line.me/R/msg/text/?' + encodeURIComponent(stx), '_blank', 'noopener'); });
       }
-      if ($('refusef')) $('refusef').addEventListener('submit', function (e) {
-        e.preventDefault(); var r = this.reason.value; if (!r) return showError('err', 'เลือกเหตุผลที่ไม่รับของ');
-        var b = this.querySelector('.btn'); if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'กดอีกครั้งเพื่อยืนยัน' + (CONFIG.FAIL_REASONS[r].fault === 'recipient' && isCod(job) ? ' (หัก ' + CONFIG.REFUSE.PENALTY + ' Point)' : ''); return; }
-        doAct('refuse', r, null, this.note.value.trim());
-      });
-      if ($('appealf')) $('appealf').addEventListener('submit', function (e) { e.preventDefault(); doAct('appeal', null, null, this.note.value.trim()); });
+      if ($('redof')) {
+        $('redof').addEventListener('change', function (e) {
+          if (e.target.name !== 'pay') return;
+          $('redoagree').hidden = e.target.value !== 'cod';
+          Array.prototype.forEach.call(this.querySelectorAll('.paypick label'), function (l) { l.classList.toggle('on', l.querySelector('input').checked); });
+        });
+        $('redof').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var f = this, pay = f.pay.value, nm = f.rname.value.trim(), ph = f.rphone.value.replace(/\D/g, '');
+          if (!nm) return showError('err', 'ใส่ชื่อผู้รับ');
+          if (!/^0\d{8,9}$/.test(ph)) return showError('err', 'เบอร์ผู้รับไม่ถูกต้อง (ตัวเลข 9–10 หลัก ขึ้นต้นด้วย 0)');
+          if (pay === 'cod' && !f.agree.checked) return showError('err', 'ยืนยันว่าผู้รับตกลงจ่ายปลายทางแล้ว');
+          var ex = { pay: pay, cod_agreed: pay === 'cod' && f.agree.checked ? 1 : 0 };
+          if (nm !== job.recipient_name || ph !== (job.recipient_phone || '')) { ex.recipient_name = nm; ex.recipient_phone = ph; ex.recipient_consent = 1; }
+          doAct('redeliver', null, null, '', ex);
+        });
+      }
       if ($('failf')) {
         bindPicker($('flgrid'), $('flin'), proof.fail, CONFIG.PROOF_MAX, 'ถ่ายรูปหลักฐาน');
         $('failf').addEventListener('change', function (e) { if (e.target.name === 'reason') $('verdict').hidden = !CONFIG.FAIL_REASONS[e.target.value].verdict; });
@@ -5623,17 +5888,20 @@ function createLocalStore() {
       loadChatButtons();
     }
     function lockKey(j) { var l = j.code_lock_until ? new Date(j.code_lock_until).getTime() - Date.now() : 0; return l > 0 ? '|L' + Math.ceil(l / 60000) : '|U'; }
-    function doAct(action, code, pics, note) {
-      if (action === 'contact_call' || action === 'contact_chat') { code = action.slice(8); action = 'contact'; }
+    function doAct(action, code, pics, note, extra) {
+      if (action === 'contact_call' || action === 'contact_sender') { code = action.slice(8); action = 'contact'; }
       if (action === 'appeal_kept' || action === 'appeal_revoked') { code = action.slice(7); action = 'appeal_decide'; }
       showError('err', '');
       var btns = document.querySelectorAll('#main .btn');
       Array.prototype.forEach.call(btns, function (b) { b.disabled = true; });
-      call('act', { id: id, action: action, code: code, photos: pics || [], note: note || '' }).then(function (r) {
+      var body = { id: id, action: action, code: code, photos: pics || [], note: note || '' };
+      if (extra) for (var k in extra) body[k] = extra[k];
+      call('act', body).then(function (r) {
+        if (action === 'redeliver') { navOpen('job', r.job.id); return; }
         job = r.job; lastKey = ''; main(); window.scrollTo(0, 0);
         if (Array.isArray(pics)) pics.length = 0;
         if (action === 'fail') proof.fail.length = 0;
-        if (action === 'deliver' || action === 'refuse' || action === 'fail' || action === 'appeal_decide') checkRewards();
+        if (action === 'deliver' || action === 'fail' || action === 'appeal_decide') checkRewards();
         loadPhotos();
       }).catch(function (e) {
         Array.prototype.forEach.call(btns, function (b) { b.disabled = false; });
@@ -5666,7 +5934,7 @@ function createLocalStore() {
             if (k.length === 2) openViewer(evidence[k[0]], Number(k[1])); else openViewer(photos, Number(k[0]));
           });
         }
-        var busy = (typing() && /^(code|note)$/.test(document.activeElement.id || document.activeElement.name)) || !!document.querySelector('#main details[open]') || (document.activeElement && document.activeElement.type === 'radio');
+        var busy = (typing() && /^(code|note|hname|rname|rphone)$/.test(document.activeElement.id || document.activeElement.name)) || !!document.querySelector('#main details[open]') || (document.activeElement && document.activeElement.type === 'radio');
         if (key !== lastKey && !busy) { lastKey = key; main(); }
       }).catch(function (e) {
         if (handleAuthError(e)) return;
@@ -5680,8 +5948,9 @@ function createLocalStore() {
         var rooms = d.rooms.filter(function (r) { return r.job_id === job.id; });
         if (me.role === 'admin') {
           var have = rooms.map(function (r) { return r.channel; });
-          ['sender', 'recipient'].forEach(function (c) { if (have.indexOf(c) < 0) rooms.push({ job_id: job.id, channel: c, with_name: c === 'sender' ? job.sender_name : job.recipient_name, with_role: c === 'sender' ? 'ผู้สั่ง' : 'ผู้รับ', as: 'admin', last_text: '', unread: 0 }); });
-        } else if (!rooms.length) rooms.push({ job_id: job.id, channel: me.id === job.sender_id ? 'sender' : 'recipient', with_name: 'แอดมิน ' + CONFIG.APP_NAME, as: 'user', last_text: '', unread: 0 });
+          ['sender'].forEach(function (c) { if (have.indexOf(c) < 0) rooms.push({ job_id: job.id, channel: c, with_name: c === 'sender' ? job.sender_name : job.recipient_name, with_role: c === 'sender' ? 'ผู้สั่ง' : 'ผู้รับ', as: 'admin', last_text: '', unread: 0 }); });
+        } else if (me.id !== job.sender_id) { el.innerHTML = ''; return; }
+        else if (!rooms.length) rooms.push({ job_id: job.id, channel: 'sender', with_name: 'แอดมิน ' + CONFIG.APP_NAME, as: 'user', last_text: '', unread: 0 });
         el.innerHTML = '<h2>แชท</h2>' + rooms.map(function (r) {
           return '<a href="#" class="chatbtn" data-chat="' + esc(r.job_id) + '" data-room="' + r.channel + '"><span class="chatico">' + icon('chat') + '</span>' +
             '<span class="cbt"><b>' + (r.as === 'admin' ? 'คุยกับ' + r.with_role + ' · ' + esc(r.with_name) : 'แชทกับแอดมิน') + '</b>' +
@@ -6024,7 +6293,7 @@ function createLocalStore() {
         '<span class="chtitle">' + title() + '</span></div>' +
         '<div class="jobstrip">' + (closed(job) ? badge(job.status) : modeTag(job.mode)) + '<span>' + esc(job.id) + ' · ส่งถึง ' + esc(zoneName(job.dropoff_zone, job.dropoff_detail)) + '</span>' +
         '<a href="#" data-job="' + esc(job.id) + '">ดูคำสั่ง</a></div>' +
-        (isCourier ? '<div class="chattabs" id="chattabs"><button type="button" data-ch="sender" class="' + (channel === 'sender' ? 'on' : '') + '">คุยกับผู้สั่ง<small>' + esc(job.sender_name) + '</small><i></i></button>' +
+        (isCourier && channel === 'recipient' ? '<div class="chattabs" id="chattabs"><button type="button" data-ch="sender" class="' + (channel === 'sender' ? 'on' : '') + '">คุยกับผู้สั่ง<small>' + esc(job.sender_name) + '</small><i></i></button>' +
           '<button type="button" data-ch="recipient" class="' + (channel === 'recipient' ? 'on' : '') + '">คุยกับผู้รับ<small>' + esc(job.recipient_name) + '</small><i></i></button></div>' : '') +
         '</header><div class="chat chatfull" id="chat"></div>' +
         '<div class="composer" id="chatform"' + (closed(job) ? ' hidden' : '') + '><div class="presets" id="presets"></div>' +
@@ -6702,8 +6971,87 @@ function createLocalStore() {
   } catch (e) {}
   markActive();
 
+  // ---------- หน้าติดตามสาธารณะ (ผู้รับไม่ต้องมีบัญชี) ----------
+  function trackToken() {
+    var t = window.TM_TRACK || ''; try { if (!t) t = new URLSearchParams(location.search).get('t') || ''; } catch (e) {}
+    return String(t).replace(/[^A-Za-z0-9]/g, '').slice(0, 40);
+  }
+  function viewTrack(t) {
+    var d = null, pick = { stars: 0, tags: [] }, sent = false, timer = null;
+    document.body.className = 'role-track';
+    if (fab) fab.hidden = true;
+    function stepList() {
+      var s = [['สั่งส่งของ', d.created_at], ['ไรเดอร์รับของที่จุดรับฝาก', d.picked_at], ['กำลังนำส่ง', d.delivering_at]];
+      if (d.arrived_at) s.push(['ไรเดอร์ถึงจุดส่ง', d.arrived_at]);
+      if (d.failed) s.push(['ส่งไม่สำเร็จ · ของกลับไปที่จุดรับฝาก', d.cancelled_at]);
+      else if (d.status === 'cancelled') s.push(['คำสั่งถูกยกเลิก', d.cancelled_at]);
+      else s.push(['ได้รับของแล้ว', d.delivered_at]);
+      var cur = s.filter(function (x) { return x[1]; }).length - 1;
+      return '<ol class="tl">' + s.map(function (x, i) { return '<li class="' + (i === cur && d.status !== 'delivered' && d.status !== 'cancelled' ? 'on' : x[1] ? 'done' : '') + '"><b>' + esc(x[0]) + '</b><small>' + (x[1] ? fmtTime(x[1]) : 'รอดำเนินการ') + '</small></li>'; }).join('') + '</ol>';
+    }
+    function reviewBox() {
+      if (d.status !== 'delivered') return '';
+      if (d.review) return '<div class="card reviewcard"><strong>ขอบคุณสำหรับรีวิว</strong><div>' + stars(d.review.stars) + '</div>' +
+        (d.review.tags.length ? '<div class="rtags">' + d.review.tags.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '') + (d.review.text ? '<p>"' + esc(d.review.text) + '"</p>' : '') + '</div>';
+      return '<form class="card reviewcard" id="revf"><strong>ให้คะแนนการส่งครั้งนี้</strong><p class="sub" style="margin:2px 0 8px">ไม่ต้องเข้าสู่ระบบ รีวิวได้ครั้งเดียว</p>' +
+        '<div class="starpick" role="radiogroup" aria-label="จำนวนดาว">' + [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" data-star="' + n + '" aria-label="' + n + ' ดาว" class="' + (n <= pick.stars ? 'on' : '') + '"><svg viewBox="0 0 24 24">' + STAR + '</svg></button>'; }).join('') + '</div>' +
+        '<div class="rtags pick">' + d.review_tags.map(function (x) { return '<button type="button" data-tag="' + esc(x) + '" class="' + (pick.tags.indexOf(x) >= 0 ? 'on' : '') + '">' + esc(x) + '</button>'; }).join('') + '</div>' +
+        '<label class="field"><span>ความเห็น <em>(ไม่บังคับ)</em></span><textarea name="text" maxlength="300" placeholder="บอกเราว่าเป็นอย่างไร"></textarea></label>' +
+        '<button class="btn"' + (sent ? ' disabled' : '') + '>ส่งรีวิว</button></form>';
+    }
+    function draw() {
+      var open = d.status !== 'delivered' && d.status !== 'cancelled', where = zoneFull(d.dropoff_zone, d.dropoff_detail);
+      var keepTxt = document.activeElement && document.activeElement.name === 'text' ? document.activeElement.value : null;
+      app.innerHTML = '<header class="topbar"><div class="row gap"><span class="brand">' + esc(CONFIG.APP_NAME) + '</span></div><span class="rolechip">ติดตามพัสดุ</span></header>' +
+        '<div class="trackpage">' +
+        (d.status === 'delivering' ? '<div class="dlvban"><i class="tape"></i><b>' + (d.arrived_at ? 'ไรเดอร์ถึงจุดส่งแล้ว' : 'กำลังนำส่งถึงคุณ') + '</b><span>' + (d.arrived_at ? 'ออกมารับของที่ ' : 'ไรเดอร์กำลังเดินไปที่ ') + esc(where) + '</span></div>' : '') +
+        '<div class="card"><div class="row between"><div class="row gap">' + modeTag(d.mode) + '<strong>' + esc(d.item_type) + '</strong></div>' + badge(d.status) + '</div>' +
+        '<dl class="info" style="margin-top:10px"><dt>เลขคำสั่ง</dt><dd>' + esc(d.id) + '</dd><dt>จาก</dt><dd>' + esc(d.sender_name) + '</dd><dt>ถึง</dt><dd>' + esc(d.recipient_name) + '</dd><dt>ส่งที่</dt><dd>' + esc(where) + '</dd>' +
+        (open ? '<dt>ต้องถึงภายใน</dt><dd>' + fmtTime(d.due_at) + '</dd>' : '') + '</dl></div>' +
+        (open && d.code ? '<div class="card codecard"><strong>รหัสรับของ</strong><div class="code">' + esc(d.code) + '</div><p class="sub" style="text-align:center;margin:0">บอกรหัสนี้กับไรเดอร์เมื่อได้รับของแล้วเท่านั้น</p></div>' : '') +
+        (open && d.cod ? '<div class="card payline">' + icon('coin') + '<span><b>เตรียมเงินสด ' + baht(d.amount) + '</b>ชำระค่าส่งปลายทางกับไรเดอร์ตอนได้รับของ</span></div>' : '') +
+        (d.status === 'delivering' && d.called ? ban('warn', 'phone', 'ไรเดอร์โทรหาคุณแล้ว ' + d.called + ' ครั้ง', 'ไรเดอร์โทรจากเบอร์ส่วนตัว กรุณารับสายหรือออกมารับของ') : '') +
+        (d.failed ? ban('red', 'info', 'ส่งไม่สำเร็จ', 'ของกลับไปเก็บที่จุดรับฝาก ' + esc(d.place) + ' ติดต่อ ' + esc(d.sender_name) + ' เพื่อนัดส่งใหม่') : '') +
+        '<div id="err" class="error"></div>' + reviewBox() +
+        '<h2>สถานะ</h2>' + stepList() +
+        '<p class="sub trackfoot">คุณไม่ต้องสมัครแอปเพื่อรับของ · ลิงก์นี้ใช้ได้ถึง ' + CONFIG.TRACK_DAYS + ' วันหลังจบงาน · <a href="' + esc(pageUrl()) + '">เข้าสู่ระบบ ' + esc(CONFIG.APP_NAME) + '</a></p></div>';
+      if (keepTxt !== null && app.querySelector('[name=text]')) { var ta = app.querySelector('[name=text]'); ta.value = keepTxt; ta.focus(); }
+      bindReview();
+    }
+    function bindReview() {
+      var f = $('revf'); if (!f) return;
+      f.addEventListener('click', function (e) {
+        var st = e.target.closest('[data-star]'), tg = e.target.closest('[data-tag]');
+        if (st) { pick.stars = Number(st.getAttribute('data-star')); f.querySelectorAll('[data-star]').forEach(function (b) { b.className = Number(b.getAttribute('data-star')) <= pick.stars ? 'on' : ''; }); }
+        if (tg) { var x = tg.getAttribute('data-tag'), i = pick.tags.indexOf(x); if (i >= 0) pick.tags.splice(i, 1); else pick.tags.push(x); tg.className = i >= 0 ? '' : 'on'; }
+      });
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!pick.stars) return showError('err', 'เลือกจำนวนดาวก่อน');
+        sent = true; f.querySelector('.btn').disabled = true;
+        call('track_review', { t: t, stars: pick.stars, tags: pick.tags, text: f.text.value.trim() }).then(function (r) { d = r; draw(); })
+          .catch(function (er) { sent = false; f.querySelector('.btn').disabled = false; showError('err', er.message); });
+      });
+    }
+    function load() {
+      return call('track', { t: t }).then(function (r) {
+        var key = JSON.stringify(r); if (d && key === JSON.stringify(d)) return;
+        d = r; if (!typing()) draw();
+      }).catch(function (e) {
+        app.innerHTML = '<header class="topbar"><div class="row gap"><span class="brand">' + esc(CONFIG.APP_NAME) + '</span></div><span class="rolechip">ติดตามพัสดุ</span></header>' +
+          '<div class="trackpage"><div class="incempty">' + icon('inbox') + '<b>เปิดลิงก์ติดตามไม่ได้</b><span>' + esc(e.message) + '</span><a class="btn ghost" href="' + esc(pageUrl()) + '">ไปหน้าเข้าสู่ระบบ</a></div></div>';
+        clearInterval(timer);
+      });
+    }
+    load();
+    timer = setInterval(function () { if (!document.hidden && d && d.status !== 'delivered' && d.status !== 'cancelled') load(); }, REMOTE ? 20000 : 8000);
+  }
+
   // เริ่มต้น: ถ้ามี token อยู่แล้ว เข้าหน้าหลักของบทบาทเลย
-  if (getToken()) {
+  var TRACK_T = trackToken();
+  if (TRACK_T) {
+    viewTrack(TRACK_T);
+  } else if (getToken()) {
     call('session').then(function (s) { me = s.me; state.view = home(); render(); })
       .catch(function (e) { if (!handleAuthError(e)) { setToken(null); render(); } });
   } else {

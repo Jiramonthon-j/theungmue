@@ -14,16 +14,17 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job.id; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
     act(id, action, extra) { return this.L.handle(this.tok('admin'), 'act', Object.assign({ id, action, photos: this.ph }, extra || {})).job; },
-    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod' }, f || {}) }); },
-    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_accept', note: pts === false ? '' : 'use_points' }).job; },
+    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod', cod_agreed: 1 }, f || {}) }); },
+    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_points', note: pts === false ? '' : 'use_points' }).job; },
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code, note: 'cod_collected' } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -46,25 +47,25 @@ async function openJob(p, id) { await p.evaluate(id => { const a = document.crea
     o.pend = H.mk({});
     o.conf = H.mk({}); H.to(o.conf, 'confirmed');
     o.codConf = H.cod({ recipient_id: 'U03' }); H.racc(o.codConf, 'u03', false); H.to(o.codConf, 'confirmed');
-    o.pen = H.cod({}); H.racc(o.pen, 'u02', false); H.to(o.pen, 'delivering'); L.handle(H.tok('u02'), 'act', { id: o.pen, action: 'refuse', code: 'changed_mind' });
+    o.pen = H.cod({});
     o.nonCod = H.mk({}); H.to(o.nonCod, 'delivering');
-    o.codw = H.cod({}); H.S.update('Jobs', o.codw, { created_at: ago(5 * 60) });
+    o.codw = H.cod({}); H.to(o.codw, 'delivering');
     o.shop = H.mk({}); H.to(o.shop, 'delivering'); H.act(o.shop, 'arrive'); L.handle(H.tok('admin'), 'act', { id: o.shop, action: 'fail', code: 'item_damaged', note: 'กล่องบุบ', photos: { list: H.ph, verdict: 'shop' } });
     o.shopCod = H.cod({}); H.racc(o.shopCod, 'u02', false); H.to(o.shopCod, 'delivering'); H.act(o.shopCod, 'arrive'); L.handle(H.tok('admin'), 'act', { id: o.shopCod, action: 'fail', code: 'item_damaged', note: 'บุบ', photos: { list: H.ph, verdict: 'shop' } });
     o.chat = H.mk({}); L.handle(H.tok('u01'), 'send', { id: o.chat, text: 'วางของแล้วครับ' });
-    o.sj = L.handle(H.tok('u01'), 'job', { id: o.pen }).job; o.rj = L.handle(H.tok('u02'), 'job', { id: o.pen }).job;
-    o.refuseErr = H.err(() => L.handle(H.tok('u02'), 'act', { id: o.nonCod, action: 'refuse', code: 'cannot_pay' }));
+    H.nf(o.pen); o.sj = L.handle(H.tok('u01'), 'job', { id: o.pen }).job; o.rj = L.handle(H.tok('u02'), 'job', { id: o.pen }).job;
+    o.refuseErr = H.err(() => L.handle(H.tok('u02'), 'act', { id: o.nonCod, action: 'refuse', code: 'changed_mind' }));
     o.shopJob = H.job(o.shop); o.shopCodJob = H.job(o.shopCod);
     H.seen(); return o;
   });
-  await T('UF-01', 'ความเป็นส่วนตัว', 'ผู้สั่งไม่เห็นบทลงโทษของผู้รับ', 'ผู้รับไม่รับของ (ความผิดผู้รับ) แล้วผู้สั่งเปิดคำสั่ง', 'ข้อมูลที่ผู้สั่งได้ไม่มี penalty_/appeal_ · ผู้รับยังเห็นของตัวเอง',
-    async () => { const sk = Object.keys(J.sj).filter(k => /^(penalty_|appeal_)/.test(k)); return [sk.length === 0 && J.rj.penalty_user === J.sj.recipient_id, 'ผู้สั่งได้: ' + (sk.join() || 'ไม่มี') + ' / ผู้รับได้ penalty_user=' + !!J.rj.penalty_user]; });
-  await T('UF-02', 'ไม่รับของ', 'ผู้สั่งจ่ายแล้ว เลือก "ไม่สะดวกจ่ายเงิน" ไม่ได้', 'ผู้รับคำสั่งที่ผู้สั่งจ่าย ส่ง cannot_pay', 'ระบบปฏิเสธ', async () => [/ผู้สั่งจ่ายแล้ว/.test(J.refuseErr), J.refuseErr]);
+  await T('UF-01', 'ไม่มีบทลงโทษ', 'ผู้รับไม่มารับ (ปลายทาง): ไม่ลงโทษใคร ผู้สั่งค้างค่าส่ง', 'ไรเดอร์ติดต่อครบแล้วบันทึก "ติดต่อผู้รับไม่ได้"', 'ไม่มี penalty_ ทั้งสองฝั่ง · ผู้สั่ง owed=10 · ไม่มี Point',
+    async () => { const pk = Object.keys(J.sj).concat(Object.keys(J.rj)).filter(k => /^penalty_/.test(k) && (J.sj[k] || J.rj[k])); return [pk.length === 0 && J.sj.owed === 10 && !Number(J.sj.points_earned), 'penalty=' + (pk.join() || 'ไม่มี') + ' / owed=' + J.sj.owed]; });
+  await T('UF-02', 'ไม่รับของ', 'ผู้รับกด "ไม่รับของ" ในแอปไม่ได้แล้ว', 'ผู้รับเรียก refuse', 'ระบบปฏิเสธ (ระบบใหม่ไม่ใช้ขั้นตอนนี้)', async () => [/ระบบใหม่ไม่ใช้/.test(J.refuseErr), J.refuseErr]);
   await T('UF-03', 'ส่งไม่สำเร็จ', 'TheungMue ผิด คืนเงินผู้สั่งที่จ่ายตอนฝาก · ปลายทางไม่คืน', 'ส่งไม่สำเร็จ ของเสียหาย ตัดสินว่า TheungMue ผิด', 'จ่ายตอนฝาก: refund_amount=10 · ปลายทาง: ไม่มี',
     async () => [J.shopJob.refund_amount === '10' && !J.shopCodJob.refund_amount, 'จ่ายตอนฝาก ' + J.shopJob.refund_amount + ' / ปลายทาง ' + (J.shopCodJob.refund_amount || '-')]);
   let u = await login('u01');
-  await T('UF-04', 'หน้าแรก', 'การ์ดคำสั่งแบบใหม่ · ข้อความแนะนำใหม่', 'ผู้สั่งเปิดหน้าแรก', 'การ์ด "ถึง User U02 → ..." · ข้อความ "ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม. · จ่ายตอนฝาก หรือให้ผู้รับจ่ายปลายทาง"',
-    async () => { const c = await u.locator('main .icard .ir2 > span:first-child').allInnerTexts(); const h = await txt(u, '.hero'); return [c.length >= 1 && c.every(x => x.startsWith('ถึง ')) && h.includes('ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม.') && h.includes('ให้ผู้รับจ่ายปลายทาง') && !h.includes('ภายในวัน'), c[0] + ' / ' + h.slice(0, 60)]; });
+  await T('UF-04', 'หน้าแรก', 'การ์ดคำสั่งแบบใหม่ · ข้อความแนะนำใหม่', 'ผู้สั่งเปิดหน้าแรก', 'การ์ด "ถึง User U02 → ..." · ข้อความ "ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม. · ผู้รับไม่ต้องสมัครแอป"',
+    async () => { const c = await u.locator('main .icard .ir2 > span:first-child').allInnerTexts(); const h = await txt(u, '.hero'); return [c.length >= 1 && c.every(x => x.startsWith('ถึง ')) && h.includes('ส่งปกติภายใน 1 วัน ด่วนภายใน 1–2 ชม.') && h.includes('ผู้รับไม่ต้องสมัครแอป') && !h.includes('ภายในวัน'), c[0] + ' / ' + h.slice(0, 60)]; });
   await openJob(u, J.pend);
   await T('UF-05', 'หน้าคำสั่ง', 'รอยืนยัน: บอกขั้นต่อไป', 'ผู้สั่งเปิดคำสั่งรอยืนยัน', '"ขั้นต่อไป: รอแอดมินยืนยัน" "ยังไม่ต้องนำของมา" + 3 ขั้น', async () => { const t = await txt(u, '.nextcard'); return [t.includes('รอแอดมินยืนยัน') && t.includes('ยังไม่ต้องนำของมา') && t.includes('จ่ายเงินสด ฿10'), t.slice(0, 80)]; });
   await openJob(u, J.conf);
@@ -73,7 +74,8 @@ async function openJob(p, id) { await p.evaluate(id => { const a = document.crea
   await openJob(u, J.codConf);
   await T('UF-07', 'หน้าคำสั่ง', 'รอรับของแบบปลายทาง: ผู้สั่งไม่ต้องจ่าย', 'เปิดคำสั่งปลายทางที่ยืนยันแล้ว', '"ไม่ต้องจ่าย ผู้รับจ่ายตอนได้รับของ"', async () => { const t = await txt(u, '.dropcard'); return [t.includes('ไม่ต้องจ่าย ผู้รับจ่ายตอนได้รับของ'), t.slice(30, 120)]; });
   await openJob(u, J.pen);
-  await T('UF-08', 'ความเป็นส่วนตัว', 'หน้าคำสั่งผู้สั่งไม่มีบรรทัดบทลงโทษ', 'ผู้สั่งเปิดคำสั่งที่ผู้รับไม่รับของ', 'ไม่มีคำว่า "บทลงโทษ" / "นับการปฏิเสธ"', async () => { const t = await txt(u, 'main'); return [!/บทลงโทษ|นับการปฏิเสธ/.test(t), 'มี=' + /บทลงโทษ|นับการปฏิเสธ/.test(t)]; });
+  await T('UF-08', 'ส่งไม่สำเร็จ', 'ผู้สั่งเห็นว่าไม่ได้ Point ไม่มีบทลงโทษ และค้างค่าส่ง', 'ผู้สั่งเปิดคำสั่งที่ผู้รับไม่มารับ', '"ไม่มีบทลงโทษ" · "ค้างชำระค่าส่ง ฿10" · ฟอร์มส่งใหม่ · ไม่มีปุ่มรับคืนเอง (ต้องจ่ายที่จุดรับฝาก)',
+    async () => { const t = await txt(u, 'main'); const redo = await u.locator('#redof').count(); const ret = await u.locator('.returncard [data-do=returned]').count(); return [t.includes('ไม่มีบทลงโทษ') && t.includes('ค้างชำระค่าส่ง ฿10') && redo === 1 && ret === 0, 'ส่งใหม่=' + redo + ' ปุ่มรับคืน=' + ret]; });
   await openJob(u, J.shop);
   const rt = await txt(u, '.returncard'); const bl = await txt(u, '.returncard [data-do=returned]');
   await u.click('.returncard [data-do=returned]'); await W(u, 900);
@@ -93,9 +95,11 @@ async function openJob(p, id) { await p.evaluate(id => { const a = document.crea
   await T('UF-13', 'หน้าแรก', 'การ์ดของที่มาถึงแบบใหม่', 'ผู้รับเปิดหน้าแรก', 'การ์ด "จาก User U01 → ..." บอกยอดเฉพาะที่ผู้รับจ่าย',
     async () => { const c = await r.locator('main .icard .ir2').allInnerTexts(); return [c.length >= 1 && c.every(x => x.startsWith('จาก ')) && c.every(x => /ต้องจ่าย ฿|ผู้สั่งเป็นคนจ่าย/.test(x)), c.map(x => x.replace(/\s+/g, ' ')).join(' / ').slice(0, 120)]; });
   await openJob(r, J.codw);
-  await T('UF-14', 'ปลายทาง', 'หน้าคำสั่งผู้รับบอกเวลาที่เหลือ', 'ผู้รับเปิดคำสั่งปลายทางที่สั่งมา 5 ชม.', '"ตอบภายใน 19 ชม. ไม่งั้นคำสั่งจะถูกยกเลิกอัตโนมัติ"', async () => { const t = await txt(r, '.coddue'); return [t === 'ตอบภายใน 19 ชม. ไม่งั้นคำสั่งจะถูกยกเลิกอัตโนมัติ', t]; });
-  await openJob(r, J.nonCod); await r.click('details.refuse > summary'); await W(r, 300);
-  await T('UF-15', 'ไม่รับของ', 'ผู้สั่งจ่ายแล้ว ไม่มีตัวเลือก "ไม่สะดวกจ่ายเงิน"', 'ผู้รับเปิดฟอร์มไม่รับของ', 'ไม่มีตัวเลือกนี้', async () => { const o = await r.locator('#refusef .rsn span').allInnerTexts(); return [!o.includes('ไม่สะดวกจ่ายเงิน') && o.length >= 1, o.join(' / ')]; });
+  await T('UF-14', 'ปลายทาง', 'ผู้รับที่มีบัญชีเห็นรหัสและยอดที่ต้องจ่าย', 'ผู้รับเปิดคำสั่งปลายทางที่กำลังนำส่ง', 'การ์ดรหัส 4 หลัก · "ชำระ ฿10 เงินสดเมื่อรับของ" · สวิตช์ใช้ Point',
+    async () => { const c = await txt(r, '.codecard .code'); const t = await txt(r, '.payline'); const sw = await r.locator('#codpts').count(); return [/^\d{4}$/.test(c) && t.includes('ชำระ ฿10') && sw === 1, c + ' / ' + t.slice(0, 50)]; });
+  await openJob(r, J.nonCod);
+  await T('UF-15', 'ไม่รับของ', 'ผู้รับไม่มีปุ่ม "ไม่รับของ" และไม่มีห้องแชท', 'ผู้รับเปิดคำสั่งที่กำลังนำส่ง', 'ไม่มีปุ่มไม่รับของ · ไม่มีส่วนแชท (ผู้รับคุยกับไรเดอร์ทางโทรศัพท์)',
+    async () => { await W(r, 600); const a1 = await r.locator('details.refuse').count(); const a2 = await r.locator('#chatwrap .chatbtn').count(); return [a1 === 0 && a2 === 0, 'ไม่รับของ=' + a1 + ' แชท=' + a2]; });
   // คำ
   let a = await ctx.newPage(); await a.goto(URL); await a.getByText('สมัครสมาชิก').first().click(); await W(a, 400);
   const reg = await txt(a, 'main'); await r.click('.tabbar [data-go=profile]'); await W(r, 500); await r.click('[data-page=editprofile]'); await W(r, 600); const ed = await txt(r, 'main');

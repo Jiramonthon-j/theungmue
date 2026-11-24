@@ -14,7 +14,7 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
@@ -22,6 +22,7 @@ const HELP = () => {
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -66,7 +67,7 @@ const txt = async (p, s) => (await p.locator(s).first().innerText()).replace(/\s
   await T('NEW-03', 'สั่งบริการ', 'ยังไม่มี Point ใช้ส่วนลดไม่ได้', 'ดูสวิตช์ใช้ Point', 'สวิตช์ปิดใช้งาน',
     async () => [await u.locator('#usepts').isDisabled(), 'disabled=' + await u.locator('#usepts').isDisabled()]);
   await u.fill('[name=item_detail]', 'ข้าวกล่อง 1 กล่อง'); await u.setInputFiles('#photoin', require('path').resolve(__dirname, 'fixtures/p.jpg')); await W(u, 500);
-  await u.selectOption('[name=recipient_id]', 'U02'); await u.click('#submit'); await W(u, 800);
+  await u.fill('[name=recipient_name]', 'User U02'); await u.fill('[name=recipient_phone]', '0800000002'); await u.check('[name=recipient_consent]', { force: true }); await u.click('#submit'); await W(u, 800);
   const firstId = await E(() => H.S.list('Jobs')[0].id);
   await T('NEW-04', 'สั่งบริการ', 'ยืนยันคำสั่งแล้วได้เลขคำสั่งและสถานะรอยืนยัน', 'กรอกครบแล้วกดยืนยัน', 'เปิดหน้าคำสั่ง TMddmm-01 สถานะ "รอยืนยัน" ยอด ฿30',
     async () => { const j = await E(id => H.job(id), firstId); const b2 = await txt(u, '.badge'); return [/^TM\d{4}-01$/.test(j.id) && j.status === 'pending' && j.total === '30' && b2 === 'รอยืนยัน', j.id + ' / ' + j.status + ' / ฿' + j.total]; });
@@ -86,8 +87,10 @@ const txt = async (p, s) => (await p.locator(s).first().innerText()).replace(/\s
   await T('ORD-04', 'คำสั่งของฉัน', 'ไรเดอร์รับของแล้วผู้สั่งยกเลิกเองไม่ได้', 'ยกเลิกคำสั่งที่ร้านรับของแล้ว', 'ปฏิเสธ ให้แชทกับร้าน', async () => [c2.includes('แชทกับแอดมิน'), c2]);
   const c3 = await E(id => [H.err(() => H.L.handle(H.tok('u01'), 'act', { id, action: 'confirm' })), H.err(() => H.L.handle(H.tok('u03'), 'job', { id }))], firstId);
   await T('ORD-05', 'สิทธิ์', 'ผู้ใช้ทำขั้นตอนของแอดมินไม่ได้ และคนนอกดูคำสั่งไม่ได้', 'u01 กดยืนยันเอง / u03 เปิดคำสั่งของคนอื่น', 'ปฏิเสธทั้งสอง', async () => [c3[0].includes('เฉพาะแอดมิน') && c3[1].includes('ไม่มีสิทธิ์'), c3.join(' / ')]);
-  const c4 = await E(() => { const id = H.mk({}).id; const early = !!H.L.handle(H.tok('u02'), 'job', { id }).job.code; H.to(id, 'delivering'); const s = H.L.handle(H.tok('u01'), 'job', { id }).job, r = H.L.handle(H.tok('u02'), 'job', { id }).job; return [!!s.code, !!r.code, early]; });
-  await T('ORD-06', 'สิทธิ์', 'รหัสรับของเห็นเฉพาะผู้รับ ตอนกำลังนำส่ง', 'ผู้รับเปิดตอนรอยืนยัน / ผู้สั่งและผู้รับเปิดตอนกำลังนำส่ง', 'รอยืนยัน: ผู้รับยังไม่เห็น · กำลังนำส่ง: ผู้สั่งไม่เห็น ผู้รับเห็น', async () => [!c4[2] && !c4[0] && c4[1], 'ก่อนนำส่ง=' + c4[2] + ' / ผู้สั่ง=' + c4[0] + ' / ผู้รับ=' + c4[1]]);
+  const c4 = await E(() => { const id = H.mk({}).id; H.to(id, 'delivering'); const s = H.L.handle(H.tok('u01'), 'job', { id }).job, r = H.L.handle(H.tok('u02'), 'job', { id }).job, a = H.L.handle(H.tok('admin'), 'job', { id }).job;
+    H.S.update('Jobs', id, { status: 'cancelled', cancelled_at: new Date().toISOString(), cancel_reason: 'admin' }); const after = H.L.handle(H.tok('u01'), 'job', { id }).job; return [!!s.code, !!r.code, !!a.code, !!after.code]; });
+  await T('ORD-06', 'สิทธิ์', 'รหัสรับของ: ผู้สั่งเห็นเพื่อส่งต่อ ผู้รับที่มีบัญชีเห็น แอดมินไม่เห็น', 'เปิดคำสั่งที่กำลังนำส่งด้วย 3 บัญชี แล้วเปิดอีกครั้งหลังคำสั่งจบ', 'ผู้สั่งเห็น · ผู้รับเห็น · แอดมินไม่เห็น · คำสั่งจบแล้วไม่มีใครเห็น',
+    async () => [c4[0] && c4[1] && !c4[2] && !c4[3], 'ผู้สั่ง=' + c4[0] + ' / ผู้รับ=' + c4[1] + ' / แอดมิน=' + c4[2] + ' / หลังจบ=' + c4[3]]);
 
   // ===== หลังร้าน =====
   let a = await login('admin');

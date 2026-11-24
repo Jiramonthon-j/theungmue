@@ -14,16 +14,17 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job.id; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
     act(id, action, extra) { return this.L.handle(this.tok('admin'), 'act', Object.assign({ id, action, photos: this.ph }, extra || {})).job; },
-    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod' }, f || {}) }); },
-    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_accept', note: pts === false ? '' : 'use_points' }).job; },
+    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod', cod_agreed: 1 }, f || {}) }); },
+    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_points', note: pts === false ? '' : 'use_points' }).job; },
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code, note: 'cod_collected' } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -44,7 +45,7 @@ async function page(p, go) { await nav(p, 'profile'); await p.click('[data-page=
 const CHECK = () => {
   const W = innerWidth, bad = [];
   if (document.documentElement.scrollWidth > W + 1) bad.push('หน้ากว้างเกินจอ ' + document.documentElement.scrollWidth + '>' + W);
-  const scrollers = el => el.closest('.otabs,.segtabs,.photorow,.presets,.tabs,.chips,.hchips,.svcgrid.scroll,table,pre');
+  const scrollers = el => el.closest('.otabs,.segtabs,.photorow,.presets,.tabs,.chips,.hchips,.svcgrid.scroll,table,pre,.leaflet-container');
   document.querySelectorAll('#app *').forEach(el => {
     if (!el.offsetParent || scrollers(el)) return;
     const r = el.getBoundingClientRect(); if (r.width === 0) return;
@@ -63,6 +64,9 @@ const CHECK = () => {
       o.codw = H.cod({ dropoff_zone: 'อาคาร 22' }); o.conf = H.mk({ f: { mode: 'urgent' } }); H.to(o.conf, 'confirmed');
       o.deli = H.cod({}); H.racc(o.deli, 'u02', false); H.to(o.deli, 'delivering'); o.done = H.mk({}); H.to(o.done, 'delivered');
       o.shop = H.mk({}); H.to(o.shop, 'delivering'); H.act(o.shop, 'arrive'); L.handle(A, 'act', { id: o.shop, action: 'fail', code: 'item_damaged', note: 'กล่องบุบ', photos: { list: H.ph, verdict: 'shop' } });
+      o.fail = H.cod({}); H.nf(o.fail);
+      o.arr = H.mk({}); H.to(o.arr, 'delivering'); H.act(o.arr, 'arrive'); H.act(o.arr, 'contact', { code: 'call' });
+      o.tk = H.job(o.codw).track_token; o.tkd = H.job(o.done).track_token;
       L.handle(H.tok('u01'), 'send', { id: o.conf, text: 'ขอเปลี่ยนเวลาได้ไหมครับ' }); L.handle(H.tok('u02'), 'bot_send', { text: 'ของเสียหาย อยากได้เงินคืน' }); H.seen(); return o; });
     const shots = [];
     const go = async (p, name, fn) => { try { await fn(); } catch (e) { res[w + ' ' + name] = ['เปิดไม่ได้: ' + e.message.slice(0, 60)]; return; } const r = await p.evaluate(CHECK); if (r.length) res[w + ' ' + name] = r; const f = OUT + w + '-' + name + '.png'; await p.screenshot({ path: f, fullPage: true }); shots.push(f); };
@@ -72,6 +76,9 @@ const CHECK = () => {
     await go(u, 'u-orders', () => nav(u, 'u-orders'));
     await go(u, 'u-job-conf', () => openJob(u, J.conf));
     await go(u, 'u-job-shop', () => openJob(u, J.shop));
+    await go(u, 'u-job-share', () => openJob(u, J.codw));
+    await go(u, 'u-job-fail', () => openJob(u, J.fail));
+    await go(u, 'u-job-arr', () => openJob(u, J.arr));
     await go(u, 'u-profile', () => nav(u, 'profile'));
     await go(u, 'u-points', () => page(u, 'points'));
     await go(u, 'u-chats', async () => { await u.reload(); await W(u, 900); await u.click('[data-go=chats]'); await W(u, 700); });
@@ -84,6 +91,11 @@ const CHECK = () => {
     await go(a, 'a-orders', () => nav(a, 'a-orders'));
     await go(a, 'a-job', () => openJob(a, J.deli));
     await go(a, 'a-job-shop', () => openJob(a, J.shop));
+    await go(a, 'a-job-arr', async () => { await openJob(a, J.arr); await a.click('.seg2 label:has([value=photo])'); await W(a, 200); });
+    await go(a, 'a-job-fail', () => openJob(a, J.fail));
+    const t = await ctx.newPage(); t.on('pageerror', e => errs.push('track: ' + e.message));
+    await go(t, 'track', async () => { await t.goto(URL + '?t=' + J.tk); await W(t, 900); });
+    await go(t, 'track-review', async () => { await t.goto(URL + '?t=' + J.tkd); await W(t, 900); });
     await go(a, 'a-home', () => nav(a, 'a-home'));
     await go(a, 'a-ai', async () => { await nav(a, 'a-home'); await a.click('[data-htab=bot]'); await W(a, 900); });
     await go(a, 'a-chats', () => nav(a, 'chats'));

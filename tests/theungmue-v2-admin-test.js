@@ -14,16 +14,17 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job.id; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
     act(id, action, extra) { return this.L.handle(this.tok('admin'), 'act', Object.assign({ id, action, photos: this.ph }, extra || {})).job; },
-    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod' }, f || {}) }); },
-    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_accept', note: pts === false ? '' : 'use_points' }).job; },
+    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod', cod_agreed: 1 }, f || {}) }); },
+    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_points', note: pts === false ? '' : 'use_points' }).job; },
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code, note: 'cod_collected' } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -49,11 +50,11 @@ async function goNav(p, go) { if (!(await p.locator('.tabbar').isVisible().catch
     o.pick = H.mk({}); H.to(o.pick, 'picked');
     o.deli = H.mk({}); H.to(o.deli, 'delivering');
     o.codDone = H.cod({ recipient_id: 'U03' }); H.racc(o.codDone, 'u03', false); H.to(o.codDone, 'delivered');
-    o.ap = H.cod({}); H.racc(o.ap, 'u02', false); H.to(o.ap, 'delivering'); L.handle(H.tok('u02'), 'act', { id: o.ap, action: 'refuse', code: 'changed_mind' }); L.handle(H.tok('u02'), 'act', { id: o.ap, action: 'appeal', note: 'ไม่จริง' });
+    o.ap = H.cod({}); H.nf(o.ap); // ผู้รับไม่มารับ → ผู้สั่งค้างค่าส่ง
     o.shop = H.mk({}); H.to(o.shop, 'delivering'); H.act(o.shop, 'arrive'); L.handle(A, 'act', { id: o.shop, action: 'fail', code: 'item_damaged', note: 'บุบ', photos: { list: H.ph, verdict: 'shop' } });
     o.old = H.mk({}); H.to(o.old, 'picked'); L.handle(A, 'act', { id: o.old, action: 'cancel', note: 'ทดสอบเก่า' }); H.S.update('Jobs', o.old, { cancelled_at: ago(4 * 1440) });
     o.rej = H.mk({}); L.handle(A, 'act', { id: o.rej, action: 'reject', note: 'ของผิดประเภท' });
-    L.handle(H.tok('u01'), 'send', { id: o.pend, text: 'ขอเปลี่ยนเวลาได้ไหม' }); L.handle(H.tok('u02'), 'send', { id: o.deli, text: 'ถึงไหนแล้ว' });
+    L.handle(H.tok('u01'), 'send', { id: o.pend, text: 'ขอเปลี่ยนเวลาได้ไหม' }); L.handle(H.tok('u01'), 'send', { id: o.deli, text: 'ถึงไหนแล้ว' });
     L.handle(H.tok('u02'), 'bot_send', { text: 'ของเสียหาย อยากได้เงินคืน' });
     H.seen(); return o;
   });
@@ -66,9 +67,9 @@ async function goNav(p, go) { if (!(await p.locator('.tabbar').isVisible().catch
   await T('AD-03', 'แชท', 'แท็บ "ในคำสั่ง" มีตัวเลข', 'เปิดแชท', 'ในคำสั่ง 2', async () => { const t = await txt(a, '[data-tab=order]'); return [/ในคำสั่ง\s*2/.test(t), t]; });
   await a.screenshot({ path: SH + 'ad-chat.png' });
   await goNav(a, 'a-orders'); await a.click('.otabs [data-t=cancelled]'); await W(a, 800);
-  await T('AD-04', 'แท็บยกเลิก', 'เหตุผลแทนราคา · ป้ายงานค้าง · งานค้างขึ้นก่อน · ตัวเลขแท็บ = งานค้าง', 'เปิดแท็บยกเลิก', 'ไม่มีราคา · ป้าย ต้องคืนเงิน / รอตรวจโต้แย้ง / เกินกำหนดรับของคืน · การ์ดที่ไม่มีงานค้างอยู่ท้าย · แท็บ 3',
+  await T('AD-04', 'แท็บยกเลิก', 'เหตุผลแทนราคา · ป้ายงานค้าง · งานค้างขึ้นก่อน · ตัวเลขแท็บ = งานค้าง', 'เปิดแท็บยกเลิก', 'ไม่มีราคา · ป้าย ต้องคืนเงิน / ผู้สั่งค้างชำระ / เกินกำหนดรับของคืน · การ์ดที่ไม่มีงานค้างอยู่ท้าย · แท็บ 3',
     async () => { const cards = await a.locator('#app .icard').allInnerTexts(); const t = cards.map(x => x.replace(/\s+/g, ' ')); const tab = await txt(a, '.otabs [data-t=cancelled]');
-      return [t.every(x => !/฿\d+$/.test(x.split('ยกเลิกเมื่อ')[0].trim())) && t.join().includes('ต้องคืนเงิน ฿10') && t.join().includes('รอตรวจโต้แย้ง') && t.join().includes('เกินกำหนดรับของคืนแล้ว') && t[t.length - 1].includes(J.rej) && /3/.test(tab), tab + ' · ' + t.length + ' ใบ']; });
+      return [t.every(x => !/฿\d+$/.test(x.split('ยกเลิกเมื่อ')[0].trim())) && t.join().includes('ต้องคืนเงิน ฿10') && t.join().includes('ผู้สั่งค้างชำระ ฿10') && t.join().includes('เกินกำหนดรับของคืนแล้ว') && t[t.length - 1].includes(J.rej) && /3/.test(tab), tab + ' · ' + t.length + ' ใบ']; });
   await a.screenshot({ path: SH + 'ad-cancelled.png', fullPage: true });
   await openJob(a, J.pend);
   const mapPend = await a.locator('.routebox.open').count();
@@ -116,7 +117,7 @@ async function goNav(p, go) { if (!(await p.locator('.tabbar').isVisible().catch
   await a.screenshot({ path: SH + 'ad-user.png', fullPage: true });
   await a.click('#doenable'); await W(a, 900); const lg2 = await E(() => H.err(() => H.L.handle(null, 'login', { username: 'u02', password: 'demo1234' })));
   await T('AD-11', 'จัดการผู้ใช้', 'ค้นหาด้วยเบอร์ · ระงับ (ใส่เหตุผล) · ยกเลิกระงับ', 'ค้นหา 0800000002 → ระงับบัญชี → ยกเลิกการระงับ', 'เจอ User U02 พร้อมสถิติ · ระงับแล้วเข้าสู่ระบบไม่ได้ · ยกเลิกแล้วเข้าได้',
-    async () => [card.includes('User U02') && card.includes('ปฏิเสธรับของ') && st.includes('ถูกระงับ') && /ถูกระงับ/.test(lg) && lg2 === 'OK', st.slice(0, 60) + ' / ' + lg.slice(0, 30) + ' / ' + lg2]);
+    async () => [card.includes('User U02') && card.includes('ค้างชำระ') && !card.includes('ปฏิเสธรับของ') && st.includes('ถูกระงับ') && /ถูกระงับ/.test(lg) && lg2 === 'OK', st.slice(0, 60) + ' / ' + lg.slice(0, 30) + ' / ' + lg2]);
   // ราคา
   await goNav(a, 'profile'); await a.click('[data-page=pricing]'); await W(a, 700);
   await a.fill('#prf [name=urgent]', '5'); await a.click('#prf .btn'); await W(a, 600); const perr = await txt(a, '#err');

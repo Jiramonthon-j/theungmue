@@ -14,16 +14,17 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job.id; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
     act(id, action, extra) { return this.L.handle(this.tok('admin'), 'act', Object.assign({ id, action, photos: this.ph }, extra || {})).job; },
-    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod' }, f || {}) }); },
-    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_accept', note: pts === false ? '' : 'use_points' }).job; },
+    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod', cod_agreed: 1 }, f || {}) }); },
+    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_points', note: pts === false ? '' : 'use_points' }).job; },
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code, note: 'cod_collected' } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -83,25 +84,30 @@ const HOURS = (pg, o, c) => pg.evaluate(([o, c]) => { const hm = m => new Date(D
   await HOURS(u, 60, 120); await u.click('.tabbar [data-go=u-orders]'); await W(u, 300); await u.click('.tabbar [data-go=u-home]'); await W(u, 600);
   await T('FIX-07', 'เวลาให้บริการ', 'ผู้ใช้เห็นว่าเปิดโหมดทดสอบอยู่', 'เปิดหน้าแรกตอนโหมดทดสอบเปิด', 'แถบ "เปิดรับคำสั่งนอกเวลา (โหมดทดสอบ)" · ปุ่มบริการกดได้',
     async () => { const t = await txt(u, '.svcban'); return [t.includes('โหมดทดสอบ') && (await u.locator('.svc[disabled]').count()) === 0, t]; });
-  // 5 ปลายทางหมดเวลา 24 ชม.
-  const r5 = await E(([a25, a23]) => { const j1 = H.cod(), j2 = H.cod(); H.S.update('Jobs', j1, { created_at: a25 }); H.S.update('Jobs', j2, { created_at: a23 }); H.seen();
-    H.L.handle(H.tok('u03'), 'session', {}); const x1 = H.job(j1), x2 = H.job(j2); const rw = H.S.list('Rewards').filter(r => r.kind === 'expire');
-    return [x1.status, x1.cancel_reason, x2.status, rw.length, rw[0] && rw[0].user_id, j1]; }, [ago(0, 25), ago(0, 23)]);
-  await T('FIX-08', 'ปลายทางหมดเวลา', 'ผู้รับไม่ตอบรับภายใน 24 ชม. ยกเลิกอัตโนมัติ', 'คำสั่งปลายทางอายุ 25 ชม. และ 23 ชม. แล้วมีผู้ใช้ใช้งานระบบ', '25 ชม.: ยกเลิก (cod_expired) แจ้งผู้สั่ง · 23 ชม.: ยังรออยู่',
-    async () => [r5[0] === 'cancelled' && r5[1] === 'cod_expired' && r5[2] === 'pending' && r5[3] === 1 && r5[4] === 'U01', r5.slice(0, 5).join(' / ')]);
+  // 5 ระบบใหม่: ไม่มีการรอผู้รับยอมรับ จึงไม่มียกเลิกอัตโนมัติ 24 ชม. · ส่งไม่สำเร็จแจ้งผู้สั่ง
+  const r5 = await E(([a25]) => { const j1 = H.cod(); H.S.update('Jobs', j1, { created_at: a25 }); H.seen();
+    H.L.handle(H.tok('u03'), 'session', {}); const x1 = H.job(j1); const rw = H.S.list('Rewards').filter(r => r.kind === 'expire');
+    const j2 = H.cod(); H.nf(j2);
+    return [x1.status, x1.cod_status, rw.length, j2, H.job(j2).sender_owed]; }, [ago(0, 25)]);
+  await T('FIX-08', 'ปลายทาง', 'ปลายทางไม่ต้องรอผู้รับยอมรับ จึงไม่ถูกยกเลิกอัตโนมัติ', 'คำสั่งปลายทางอายุ 25 ชม. แล้วมีผู้ใช้ใช้งานระบบ', 'ยังรอยืนยัน · cod_status=accepted · ไม่มีแจ้งยกเลิกอัตโนมัติ',
+    async () => [r5[0] === 'pending' && r5[1] === 'accepted' && r5[2] === 0, r5.slice(0, 3).join(' / ')]);
   let u1 = await login('u01', true); await W(u1, 800);
-  await T('FIX-09', 'ปลายทางหมดเวลา', 'ผู้สั่งเห็น Popup แจ้งยกเลิกอัตโนมัติ', 'ผู้สั่งเข้าสู่ระบบ', 'Popup "คำสั่ง ... ถูกยกเลิกอัตโนมัติ" บอกเหตุผลและให้สั่งใหม่แบบจ่ายตอนฝากของ',
-    async () => { const t = await txt(u1, '.rwpop'); return [t.includes('ถูกยกเลิกอัตโนมัติ') && t.includes('24 ชม.') && t.includes(r5[5]), t.slice(0, 120)]; });
-  await u1.screenshot({ path: SH + 'fix-4-expire.png' });
-  await u1.click('.rwpop [data-rw=job]'); await W(u1, 700);
-  await T('FIX-10', 'ปลายทางหมดเวลา', 'หน้าคำสั่งบอกเหตุผลที่ยกเลิก', 'กด "ดูคำสั่ง"', 'เหตุผล "ผู้รับไม่ตอบรับเก็บเงินปลายทางภายใน 24 ชม."',
-    async () => { const t = await txt(u1, '#main'); return [t.includes('ผู้รับไม่ตอบรับเก็บเงินปลายทางภายใน 24 ชม.'), t.slice(0, 100)]; });
-  // 6 ผลโต้แย้งแบบคงโทษแจ้งเตือนได้ (บั๊กเดิม: แจ้งเตือนที่ไม่มี Point ไม่ถูกบันทึก)
-  const r6 = await E(() => { const id = H.cod({ recipient_id: 'U02' }); H.racc(id, 'u02', false); H.to(id, 'delivering');
-    H.L.handle(H.tok('u02'), 'act', { id, action: 'refuse', code: 'changed_mind' }); H.L.handle(H.tok('u02'), 'act', { id, action: 'appeal', note: 'ไม่ได้เปลี่ยนใจ' });
-    H.act(id, 'appeal_decide', { code: 'kept' }); return H.S.list('Rewards').filter(r => r.kind === 'notice' && r.job_id === id).map(r => r.detail); });
-  await T('FIX-11', 'แจ้งเตือน', 'แอดมินคงโทษหลังโต้แย้ง ผู้รับได้รับแจ้ง', 'ผู้รับปฏิเสธ → ยื่นโต้แย้ง → แอดมินคงโทษ', 'มีแจ้งเตือน "แอดมินตรวจคำโต้แย้งแล้ว คงบทลงโทษเดิม"',
-    async () => [r6.length === 1 && r6[0].includes('คงบทลงโทษเดิม'), r6.join()]);
+  await T('FIX-09', 'ส่งไม่สำเร็จ', 'ผู้สั่งเห็น Popup แจ้งส่งไม่สำเร็จ', 'ผู้รับไม่มารับ แอดมินบันทึกส่งไม่สำเร็จ แล้วผู้สั่งเข้าสู่ระบบ', 'Popup "ส่งไม่สำเร็จ <เลขคำสั่ง>" บอกวันเก็บของ ส่งใหม่ราคาเดิม และค่าส่งที่ค้าง',
+    async () => { const t = await txt(u1, '.rwpop'); return [t.includes('ส่งไม่สำเร็จ ' + r5[3]) && t.includes('จุดรับฝาก') && t.includes('ส่งใหม่') && t.includes('฿' + r5[4]), t.slice(0, 160)]; });
+  await u1.screenshot({ path: SH + 'fix-4-fail.png' });
+  await u1.click('.rwpop [data-rw=job]'); await W(u1, 900);
+  await T('FIX-10', 'ส่งไม่สำเร็จ', 'กดดูคำสั่งแล้วเห็นทางเลือกส่งใหม่', 'กด "ดูคำสั่ง"', 'หน้าคำสั่งมีฟอร์ม "ส่งใหม่ ราคาเดิม ฿10" และแจ้งค้างชำระ',
+    async () => { const t = await txt(u1, '#main'); return [t.includes('ส่งใหม่ ราคาเดิม ฿10') && t.includes('ค้างชำระค่าส่ง ฿10'), t.slice(0, 100)]; });
+  // 6 ไรเดอร์โทรผู้รับครบแล้วโทรผู้สั่ง: แจ้งผู้สั่งครั้งเดียว
+  const r6 = await E(() => { const id = H.mk({}); H.to(id, 'delivering'); H.act(id, 'arrive');
+    const e0 = H.err(() => H.act(id, 'contact', { code: 'sender' }));
+    H.act(id, 'contact', { code: 'call' }); const e1 = H.err(() => H.act(id, 'contact', { code: 'call' }));
+    const cl = JSON.parse(H.job(id).contact_log); cl[0].t = new Date(Date.now() - 6 * 60000).toISOString(); H.S.update('Jobs', id, { contact_log: JSON.stringify(cl) });
+    H.act(id, 'contact', { code: 'call' }); H.act(id, 'contact', { code: 'sender' }); H.act(id, 'contact', { code: 'sender' });
+    const e2 = H.err(() => H.act(id, 'fail', { code: 'not_found', photos: { list: H.ph } }));
+    return [e0, e1, e2, H.S.list('Rewards').filter(r => r.kind === 'notice' && r.job_id === id).map(r => r.detail)]; });
+  await T('FIX-11', 'แจ้งเตือน', 'ไรเดอร์ทำตามขั้นตอนติดต่อ และแจ้งผู้สั่งเมื่อโทรหาผู้สั่ง', 'โทรผู้สั่งก่อนครบ → โทรผู้รับติดกัน → โทรผู้รับครบ 2 → โทรผู้สั่ง 2 ครั้ง → บันทึกติดต่อไม่ได้ทันที', 'ปฏิเสธ 3 ขั้นที่ผิดลำดับ · ผู้สั่งได้แจ้งเตือน "ไรเดอร์ติดต่อผู้รับ" 1 ครั้ง',
+    async () => [/ครบ 2 ครั้งก่อน/.test(r6[0]) && /หลังครั้งก่อน 5 นาที/.test(r6[1]) && /รอ 0\/10 นาที/.test(r6[2]) && r6[3].length === 1 && r6[3][0].startsWith('ไรเดอร์ติดต่อผู้รับ'), r6.slice(0, 3).join(' | ') + ' | แจ้ง ' + r6[3].length]);
   // 7 ลบบัญชีลบแชทน้องถึงด้วย
   const r7 = await E(() => { const t = H.tok('u04'); H.L.handle(t, 'bot_send', { text: 'ร้านเปิดกี่โมง' }); H.L.handle(t, 'bot_rate', { stars: 4, comment: 'ดีมาก' });
     const b0 = [H.S.list('BotMessages').filter(m => m.user_id === 'U04').length, H.S.list('BotRatings').filter(m => m.user_id === 'U04').length];

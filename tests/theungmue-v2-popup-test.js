@@ -14,16 +14,17 @@ const HELP = () => {
   window.H = {
     S: createLocalStore(), get L() { return createLogic(this.S); },
     reset() { localStorage.clear(); sessionStorage.clear(); this.S = createLocalStore(); this.S.insert('Settings', { id: 'service_override', value: 'on' }); }, // ทดสอบได้ทุกเวลา
-    tok(u) { return this.L.handle(null, 'login', { username: u, password: 'demo1234' }).token; },
+    tok(u) { const usr = this.S.list('Users').find(x => x.username === u); const t = 'T' + Math.random().toString(36).slice(2) + Date.now().toString(36); this.S.insert('Sessions', { token: t, user_id: usr.id, created_at: new Date().toISOString(), expires_at: new Date(Date.now() + 864e5).toISOString(), revoked: '' }); return t; }, // ทดสอบ: เปิดเซสชันตรง ไม่ทำให้หน้าเว็บที่ล็อกอินอยู่หลุด
     ph: ['data:image/jpeg;base64,AAAA'],
     mk(o) { o = o || {}; return this.L.handle(this.tok(o.sender || 'u01'), 'create', Object.assign({ item_type: 'เอกสาร / ชีท', item_detail: 'เอกสารทดสอบ', dropoff_zone: 'อาคาร 3', recipient_id: 'U02', mode: 'normal', photos: this.ph }, o.f || {})).job.id; },
     job(id) { return this.S.list('Jobs').find(x => x.id === id); },
     act(id, action, extra) { return this.L.handle(this.tok('admin'), 'act', Object.assign({ id, action, photos: this.ph }, extra || {})).job; },
-    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod' }, f || {}) }); },
-    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_accept', note: pts === false ? '' : 'use_points' }).job; },
+    cod(f) { return this.mk({ f: Object.assign({ pay_method: 'cod', cod_agreed: 1 }, f || {}) }); },
+    racc(id, u, pts) { return this.L.handle(this.tok(u || 'u02'), 'act', { id, action: 'cod_points', note: pts === false ? '' : 'use_points' }).job; },
     to(id, stage) { const seq = ['confirm', 'pickup', 'start', 'deliver']; const n = { confirmed: 1, picked: 2, delivering: 3, delivered: 4 }[stage];
       for (let i = 0; i < n; i++) this.act(id, seq[i], seq[i] === 'deliver' ? { code: this.job(id).code, note: 'cod_collected' } : {}); return id; },
     err(fn) { try { fn(); return 'OK'; } catch (e) { return e.message; } },
+    nf(id) { const ago = m => new Date(Date.now() - m * 60000).toISOString(); if (this.job(id).status !== 'delivering') this.to(id, 'delivering'); this.S.update('Jobs', id, { arrived_at: ago(40), contact_log: JSON.stringify([{ k: 'call', t: ago(35) }, { k: 'call', t: ago(28) }, { k: 'sender', t: ago(20) }]) }); return this.L.handle(this.tok('admin'), 'act', { id, action: 'fail', code: 'not_found', note: '', photos: { list: this.ph } }).job; },
     seen() { this.S.list('Rewards').forEach(x => this.S.update('Rewards', x.id, { seen_at: 'x' })); },
   };
 };
@@ -43,9 +44,9 @@ const SH = require('path').resolve(__dirname, 'shots') + '/'; fs.mkdirSync(SH, {
   await E(() => { // u01: ได้ Point 3 รายการ (สำเร็จ 2 + ชดเชย 1)
     for (let i = 0; i < 2; i++) { const j = H.mk({}); H.to(j, 'delivered'); }
     const l = H.mk({}); H.to(l, 'delivering'); H.S.update('Jobs', l, { due_at: new Date(Date.now() - 20 * 60000).toISOString() }); H.act(l, 'deliver', { code: H.job(l).code });
-    // u03: ถูกหัก + ยกเลิกอัตโนมัติ + ได้ Point 2
-    const p = H.cod({ recipient_id: 'U03' }); H.racc(p, 'u03', false); H.to(p, 'delivering'); H.L.handle(H.tok('u03'), 'act', { id: p, action: 'refuse', code: 'changed_mind' });
-    const x = H.mk({ sender: 'u03', f: { pay_method: 'cod', recipient_id: 'U04' } }); H.S.update('Jobs', x, { created_at: new Date(Date.now() - 25 * 36e5).toISOString() });
+    // u03: ส่งไม่สำเร็จ + แอดมินยกเลิก + ได้ Point 2
+    const p = H.mk({ sender: 'u03', f: { recipient_id: 'U04' } }); H.nf(p); // ผู้รับไม่มารับ → แจ้งผู้สั่ง
+    const x = H.mk({ sender: 'u03', f: { recipient_id: 'U04' } }); H.L.handle(H.tok('admin'), 'act', { id: x, action: 'cancel', note: 'ของเกินขนาด' }); // แอดมินยกเลิก → แจ้งผู้สั่ง
     for (let i = 0; i < 2; i++) { const j = H.mk({ sender: 'u03', f: { recipient_id: 'U04' } }); H.to(j, 'delivered'); }
     // u04: ได้ Point 1 รายการ
     // (u04 เป็นผู้รับเท่านั้น ใช้ u02 แทน)
@@ -61,7 +62,7 @@ const SH = require('path').resolve(__dirname, 'shots') + '/'; fs.mkdirSync(SH, {
   let v = await login('u03', true); await W(v, 800);
   const seq = [];
   for (let i = 0; i < 5 && await v.locator('.rwpop').count(); i++) { seq.push((await txt(v, '.rwpop')).slice(0, 70)); if (i === 0) await v.screenshot({ path: SH + 'pop-2.png' }); await v.locator('.rwpop [data-rw=ok]').click(); await W(v, 600); }
-  await T('POP-02', 'Popup', 'เรื่องที่ต้องรับทราบขึ้นก่อนทีละอัน แล้วตาม Point รวม', 'u03 ถูกหัก + ยกเลิกอัตโนมัติ + ได้ Point 2 รายการ', '3 popup: "เรื่องที่ 1 จาก 2" → "เรื่องที่ 2 จาก 2" → "+N Point ได้รับ Point 2 รายการ"',
+  await T('POP-02', 'Popup', 'เรื่องที่ต้องรับทราบขึ้นก่อนทีละอัน แล้วตาม Point รวม', 'u03 ส่งไม่สำเร็จ (ผู้รับไม่มารับ) + แอดมินยกเลิก + ได้ Point 2 รายการ', '3 popup: "เรื่องที่ 1 จาก 2" → "เรื่องที่ 2 จาก 2" → "+N Point ได้รับ Point 2 รายการ"',
     async () => [seq.length === 3 && seq[0].startsWith('เรื่องที่ 1 จาก 2') && seq[1].startsWith('เรื่องที่ 2 จาก 2') && seq[2].includes('ได้รับ Point 2 รายการ'), seq.join(' → ')]);
   let w = await login('u02', true); await W(w, 800);
   const t3 = await txt(w, '.rwpop'); const r3 = await w.locator('.rwlist').count();

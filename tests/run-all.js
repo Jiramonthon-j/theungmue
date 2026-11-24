@@ -5,7 +5,7 @@ const { execFileSync } = require('child_process');
 const path = require('path');
 const gas = process.argv.includes('--gas');
 const SUITES = ['test', 'cod-test', 'ai-test', 'ai-rating-test', 'ai-day-test', 'point-history-test', 'incoming-test', 'orders-test',
-  'user-fix-test', 'popup-test', 'admin-test', 'drop-point-test', 'fix-test'];
+  'user-fix-test', 'popup-test', 'admin-test', 'drop-point-test', 'fix-test', 'session-test'];
 const env = Object.assign({}, process.env, { NODE_OPTIONS: '--require ' + path.join(__dirname, 'offline.js') });
 if (gas) {
   execFileSync('node', [path.join(__dirname, 'gas/mkbuild.js')], { stdio: 'inherit' });
