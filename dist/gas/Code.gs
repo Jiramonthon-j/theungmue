@@ -1004,6 +1004,12 @@ function createLogic(store) {
     return botModel;
   }
   function tTime(iso) { return new Date(iso).toLocaleTimeString('th-TH', { timeZone: CONFIG.TIMEZONE, hour: '2-digit', minute: '2-digit' }) + ' น.'; }
+  // กำหนดส่ง: บอกวันเสมอ (วันนี้ / พรุ่งนี้ / วันที่) กันสับสนเมื่องานปกติต้องถึงวันถัดไป
+  function tDue(iso) {
+    var k = dayKey(iso), today = dayKey(nowIso()), tmr = dayKey(new Date(Date.now() + 86400000).toISOString());
+    var d = k === today ? 'วันนี้ ' : k === tmr ? 'พรุ่งนี้ ' : new Date(iso).toLocaleDateString('th-TH', { timeZone: CONFIG.TIMEZONE, day: 'numeric', month: 'short' }) + ' ';
+    return d + tTime(iso);
+  }
   function tWhen(iso) {
     var same = dayKey(iso) === dayKey(nowIso());
     return (same ? 'วันนี้ ' : new Date(iso).toLocaleDateString('th-TH', { timeZone: CONFIG.TIMEZONE, day: 'numeric', month: 'short' }) + ' ') + tTime(iso);
@@ -1043,7 +1049,7 @@ function createLogic(store) {
     if (j.arrived_at && !j.delivered_at) rows.push(['ถึงจุดส่ง', tWhen(j.arrived_at)]);
     if (j.delivered_at) rows.push(['ส่งสำเร็จ', tWhen(j.delivered_at)]);
     if (j.cancelled_at) rows.push(['ยกเลิก', tWhen(j.cancelled_at)]);
-    if (isActive(j)) rows.push(['ต้องถึง ' + zoneShort(j), 'ก่อน ' + tTime(j.due_at)]);
+    if (isActive(j)) rows.push(['ต้องถึง ' + zoneShort(j), 'ก่อน ' + tDue(j.due_at)]);
     var st = CONFIG.STATUS[j.status];
     return JSON.stringify({ type: 'order', id: j.id, status: st, st: j.status, as: j.sender_id === uid ? 'ผู้สั่ง' : 'ผู้รับ', rows: rows });
   }
@@ -1055,7 +1061,7 @@ function createLogic(store) {
         pending: 'รอแอดมินยืนยันคำสั่งครับ',
         confirmed: 'แอดมินยืนยันแล้ว รอไรเดอร์รับของที่จุดรับฝาก',
         picked: 'ไรเดอร์รับของแล้ว กำลังเตรียมออกนำส่ง',
-        delivering: j.arrived_at ? 'ไรเดอร์ถึงจุดส่งแล้วเมื่อ ' + tTime(j.arrived_at) + ' กำลังโทรหาผู้รับ (จากเบอร์ส่วนตัว)' : 'กำลังนำส่งครับ ต้องถึงก่อน ' + tTime(j.due_at),
+        delivering: j.arrived_at ? 'ไรเดอร์ถึงจุดส่งแล้วเมื่อ ' + tTime(j.arrived_at) + ' กำลังโทรหาผู้รับ (จากเบอร์ส่วนตัว)' : 'กำลังนำส่งครับ ต้องถึงก่อน ' + tDue(j.due_at),
         delivered: 'ส่งสำเร็จแล้วเมื่อ ' + tWhen(j.delivered_at),
         cancelled: 'คำสั่งนี้ยกเลิกแล้ว (' + (CANCEL_LABEL[j.cancel_reason] || 'ยกเลิก') + ')',
       }[j.status];
@@ -1080,7 +1086,7 @@ function createLogic(store) {
       if (j.status === 'delivered') return { text: Number(j.late_min) > L.GRACE_MIN && !j.late_excused ? j.id + ' ส่งช้า ' + j.late_min + ' นาที คนที่จ่ายได้รับชดเชย ' + (j.comp_points || L.COMP_POINTS) + ' Point แล้ว' : j.id + ' ส่งทันกำหนด' };
       if (!isActive(j)) return { text: j.id + ' ยกเลิกแล้ว' };
       var o = overdueMin(j);
-      if (!o) return { text: j.id + ' ยังไม่เลยกำหนดครับ ต้องถึงก่อน ' + tTime(j.due_at), card: orderCard(j, me.id) };
+      if (!o) return { text: j.id + ' ยังไม่เลยกำหนดครับ ต้องถึงก่อน ' + tDue(j.due_at), card: orderCard(j, me.id) };
       return { text: j.id + ' เลยกำหนดมา ' + o + ' นาที ขออภัยครับ ถ้าส่งช้าเกิน ' + L.GRACE_MIN + ' นาที คนที่จ่าย (ที่มีบัญชี) จะได้ชดเชย ' + L.COMP_POINTS + ' Point อัตโนมัติ', card: orderCard(j, me.id) };
     }
     return null;
